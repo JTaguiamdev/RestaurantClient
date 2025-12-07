@@ -1,9 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_search"
+        android:title="Search"
+        android:icon="@android:drawable/ic_menu_search"
+        app:showAsAction="ifRoom|collapseActionView"
+        app:actionViewClass="androidx.appcompat.widget.SearchView" />
+
+    <item
+        android:id="@+id/action_cart"
+        android:title="Shopping Cart"
+        android:icon="@android:drawable/ic_menu_agenda"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_my_orders"
+        android:title="My Orders"
+        app:showAsAction="never" />
+
     <item
         android:id="@+id/action_profile"
         android:title="Profile"
-        android:icon="@android:drawable/ic_menu_myplaces"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="never" />
+
 </menu>

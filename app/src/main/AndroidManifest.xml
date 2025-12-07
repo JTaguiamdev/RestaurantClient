@@ -13,7 +13,8 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Orderly">
+        android:theme="@style/Theme.Orderly"
+        android:usesCleartextTraffic="true" > <!-- WARNING: Only for development purposes. Not for production! -->
         <activity
             android:name=".MainActivity"
             android:exported="true">
@@ -23,6 +24,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".ui.auth.LoginActivity" />
+        <activity android:name=".ui.product.ProductListActivity" />
+        <activity android:name=".ui.product.ProductDetailActivity" />
+        <activity android:name=".ui.order.MyOrdersActivity" />
+        <activity android:name=".ui.user.UserProfileActivity" />
+        <activity android:name=".ui.cart.ShoppingCartActivity" />
+        <activity android:name=".ui.checkout.CheckoutActivity" />
+
     </application>
 
 </manifest>

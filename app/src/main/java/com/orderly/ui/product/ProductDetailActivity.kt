@@ -33,7 +33,7 @@ class ProductDetailActivity : AppCompatActivity() {
         setupObservers()
         productViewModel.fetchProductDetails(productId)
 
-        binding.buyNowButton.setOnClickListener {
+        binding.addToCartButton.setOnClickListener {
             // FIXME: Hardcoded userId and quantity
             val createOrderRequest = CreateOrderRequest(
                 userId = 1,
