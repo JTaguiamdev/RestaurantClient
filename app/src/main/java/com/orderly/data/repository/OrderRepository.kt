@@ -1,5 +1,6 @@
 package com.orderly.data.repository
 
+import android.util.Log
 import com.orderly.data.Result
 import com.orderly.data.dto.CreateOrderRequest
 import com.orderly.data.dto.OrderResponse
@@ -8,7 +9,7 @@ import javax.inject.Inject
 
 class OrderRepository @Inject constructor(private val apiService: ApiService) {
 
-    suspend fun createOrder(createOrderRequest: CreateOrderRequest): Result<String> {
+    suspend fun createOrder(createOrderRequest: CreateOrderRequest): Result<OrderResponse> {
         return try {
             val response = apiService.createOrder(createOrderRequest)
             if (response.isSuccessful) {
@@ -23,13 +24,20 @@ class OrderRepository @Inject constructor(private val apiService: ApiService) {
 
     suspend fun getUserOrders(username: String): Result<List<OrderResponse>> {
         return try {
+            Log.d("OrderRepository", "Fetching orders for username: $username")
             val response = apiService.getUserOrders(username)
+            Log.d("OrderRepository", "API Response code: ${response.code()}")
             if (response.isSuccessful) {
-                Result.Success(response.body()!!)
+                val orders = response.body()!!
+                Log.d("OrderRepository", "Successfully fetched ${orders.size} orders")
+                Result.Success(orders)
             } else {
-                Result.Error(Exception("Failed to get user orders: ${response.code()}"))
+                val errorMsg = "Failed to get user orders: HTTP ${response.code()}"
+                Log.e("OrderRepository", errorMsg)
+                Result.Error(Exception(errorMsg))
             }
         } catch (e: Exception) {
+            Log.e("OrderRepository", "Exception fetching user orders", e)
             Result.Error(e)
         }
     }

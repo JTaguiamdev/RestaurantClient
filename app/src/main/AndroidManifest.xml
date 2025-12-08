@@ -32,6 +32,10 @@
         <activity android:name=".ui.user.UserProfileActivity" />
         <activity android:name=".ui.cart.ShoppingCartActivity" />
         <activity android:name=".ui.checkout.CheckoutActivity" />
+        <activity android:name=".ui.order.OrderConfirmationActivity" />
+        <activity android:name=".ui.admin.AdminDashboardActivity" />
+        <activity android:name=".ui.admin.UserManagementActivity" />
+        <activity android:name=".ui.admin.CreateUserActivity" />
 
     </application>
 

@@ -17,8 +17,8 @@ class OrderViewModel @Inject constructor(
     private val orderRepository: OrderRepository
 ) : ViewModel() {
 
-    private val _createOrderResult = MutableLiveData<Result<String>>()
-    val createOrderResult: LiveData<Result<String>> = _createOrderResult
+    private val _createOrderResult = MutableLiveData<Result<OrderResponse>>()
+    val createOrderResult: LiveData<Result<OrderResponse>> = _createOrderResult
 
     private val _userOrders = MutableLiveData<Result<List<OrderResponse>>>()
     val userOrders: LiveData<Result<List<OrderResponse>>> = _userOrders

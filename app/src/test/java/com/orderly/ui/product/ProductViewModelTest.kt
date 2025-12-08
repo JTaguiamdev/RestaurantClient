@@ -4,7 +4,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.orderly.data.Result
 import com.orderly.data.dto.ProductResponse
 import com.orderly.data.repository.ProductRepository
-import com.orderly.util.MainCoroutineRule
+import com.orderly.util.MainCoroutineRule // Added import
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
@@ -19,8 +19,8 @@ class ProductViewModelTest {
     @get:Rule
     var instantTaskExecutorRule = InstantTaskExecutorRule()
 
-    @get:Rule
-    var mainCoroutineRule = MainCoroutineRule()
+    @get:Rule // Added back
+    var mainCoroutineRule = MainCoroutineRule() // Added back
 
     private lateinit var productViewModel: ProductViewModel
     private val productRepository: ProductRepository = mock()
@@ -33,7 +33,7 @@ class ProductViewModelTest {
     @Test
     fun `fetchProducts success posts success result`() = runTest {
         // Given
-        val products = listOf(ProductResponse(1, "p1", "d1", 1.0, "", ""))
+        val products = listOf(ProductResponse(1, "p1", "d1", "1.0", ""))
         whenever(productRepository.getAllProducts()).thenReturn(Result.Success(products))
 
         // When
@@ -59,7 +59,7 @@ class ProductViewModelTest {
     @Test
     fun `fetchProductDetails success posts success result`() = runTest {
         // Given
-        val product = ProductResponse(1, "p1", "d1", 1.0, "", "")
+        val product = ProductResponse(1, "p1", "d1", "1.0", "")
         whenever(productRepository.getProductById(1)).thenReturn(Result.Success(product))
 
         // When

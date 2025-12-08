@@ -16,10 +16,7 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
 
-    // The base URL of the API.
-    // This is a placeholder and should be replaced with the actual API URL.
-    // 10.0.2.2 is the special IP address to connect to the host machine's localhost from the Android emulator.
-    private const val BASE_URL = "http://10.0.2.2:8000/"
+    private const val BASE_URL = "https://arrow-server-v1.nicerock-8289607a.southeastasia.azurecontainerapps.io/"
 
     @Provides
     @Singleton

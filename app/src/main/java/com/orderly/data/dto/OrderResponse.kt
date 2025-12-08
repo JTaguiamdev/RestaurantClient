@@ -1,10 +1,12 @@
 package com.orderly.data.dto
 
 data class OrderResponse(
-    val orderId: Int,
-    val userId: Int,
-    val items: List<OrderItemResponse>,
-    val status: String,
-    val createdAt: String,
-    val updatedAt: String
+    val order_id: Int,
+    val user_id: Int,
+    val product_id: Int,
+    val quantity: Int,
+    val total_amount: String, // BigDecimal serialized as String
+    val status: String?,
+    val created_at: String?,
+    val updated_at: String?
 )

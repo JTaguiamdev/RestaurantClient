@@ -1,6 +1,6 @@
 package com.orderly.data.dto
 
 data class OrderItemRequest(
-    val productId: Int,
+    val product_id: Int,
     val quantity: Int
 )

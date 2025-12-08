@@ -25,10 +25,10 @@ class OrderListAdapter(private val onClick: (OrderResponse) -> Unit) :
 
         fun bind(order: OrderResponse) {
             currentOrder = order
-            binding.orderId.text = "Order #${order.orderId}"
-            binding.orderStatus.text = order.status
-            binding.orderDate.text = order.createdAt.substringBefore("T")
-            binding.orderItemCount.text = "${order.items.size} items"
+            binding.orderId.text = "Order #${order.order_id}"
+            binding.orderStatus.text = order.status ?: "Pending"
+            binding.orderDate.text = order.created_at?.substringBefore("T") ?: ""
+            binding.orderItemCount.text = "${order.quantity} items"
         }
     }
 
@@ -45,7 +45,7 @@ class OrderListAdapter(private val onClick: (OrderResponse) -> Unit) :
 
 object OrderDiffCallback : DiffUtil.ItemCallback<OrderResponse>() {
     override fun areItemsTheSame(oldItem: OrderResponse, newItem: OrderResponse): Boolean {
-        return oldItem.orderId == newItem.orderId
+        return oldItem.order_id == newItem.order_id
     }
 
     override fun areContentsTheSame(oldItem: OrderResponse, newItem: OrderResponse): Boolean {
