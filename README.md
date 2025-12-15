@@ -15,9 +15,9 @@ ARROW (Asynchronous Rust Restaurant Order Workflow) Server is a high-performance
 - **Checkout Process:** Seamless and secure checkout flow.
 
 ## Technologies Used
-- **Frontend:** Android (Kotlin, Jetpack Compose/XML - *Please specify which is predominantly used*)
-- **Backend:** (Please specify backend technology, e.g., Spring Boot, Node.js, Python/Django/Flask)
-- **Database:** (Please specify database, e.g., PostgreSQL, MySQL, MongoDB)
+- **Frontend:** Android (Kotlin with XML layouts via ViewBinding – XML is predominant)
+- **Backend:** Rust (ARROW Server)
+- **Database:** MySQL
 - **Dependency Injection:** Hilt
 - **Networking:** Retrofit, OkHttp
 
