@@ -189,10 +189,10 @@ class ProductListActivity : AppCompatActivity() {
         dialog.setOnShowListener {
             dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
                 if (validateProductForm(dialogBinding)) {
-                    val name = dialogBinding.nameInput.text!!.toString().trim()
-                    val description = dialogBinding.descriptionInput.text!!.toString().trim()
-                    val price = dialogBinding.priceInput.text!!.toString().trim()
-                    val image = dialogBinding.imageInput.text!!.toString().trim()
+                    val name = dialogBinding.nameInput.text?.toString()?.trim() ?: ""
+                    val description = dialogBinding.descriptionInput.text?.toString()?.trim() ?: ""
+                    val price = dialogBinding.priceInput.text?.toString()?.trim() ?: ""
+                    val image = dialogBinding.imageInput.text?.toString()?.trim() ?: ""
 
                     if (product == null) {
                         productViewModel.createProduct(name, description, price, image)
