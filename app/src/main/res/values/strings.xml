@@ -63,4 +63,32 @@
     <string name="order_detail_updated_label">Last updated</string>
     <string name="order_detail_unknown_value">Unknown</string>
     <string name="order_detail_error_missing">Unable to load order details. Please try again.</string>
+    
+    <!-- Food Delivery App Strings -->
+    <string name="app_brand_name">Foodgo</string>
+    <string name="app_tagline">Order your favourite food!</string>
+    <string name="search_hint">Search for food…</string>
+    <string name="category_all">All</string>
+    <string name="category_combos">Combos</string>
+    <string name="category_sliders">Sliders</string>
+    <string name="category_classic">Classic</string>
+    <string name="category_burger">Burger</string>
+    <string name="category_pizza">Pizza</string>
+    <string name="nav_home">Home</string>
+    <string name="nav_profile">Profile</string>
+    <string name="nav_add">Add</string>
+    <string name="nav_orders">Orders</string>
+    <string name="nav_favorites">Favorites</string>
+    <string name="product_subtitle_wendys">Wendy\'s Burger</string>
+    <string name="spicy_label">Spicy</string>
+    <string name="spicy_mild">Mild</string>
+    <string name="spicy_hot">Hot</string>
+    <string name="portion_label">Portion</string>
+    <string name="order_now_button">ORDER NOW</string>
+    <string name="success_title">Success !</string>
+    <string name="success_message">Your payment was successful. A receipt for this purchase has been sent to your email.</string>
+    <string name="go_back_button">Go Back</string>
+    <string name="estimated_time">%1$d mins</string>
+    <string name="navigate_back">Navigate back</string>
+    <string name="rating_content_description">Rating</string>
 </resources>

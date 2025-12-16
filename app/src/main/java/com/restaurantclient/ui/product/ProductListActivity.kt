@@ -6,18 +6,19 @@ import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.graphics.ColorUtils
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.PopupMenu
+import androidx.core.graphics.ColorUtils
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.GridLayoutManager
 import com.eightbitlab.com.blurview.BlurView
 import com.eightbitlab.com.blurview.RenderScriptBlur
+import com.google.android.material.chip.Chip
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.restaurantclient.MainActivity
 import com.restaurantclient.R
@@ -30,6 +31,8 @@ import com.restaurantclient.ui.admin.AdminDashboardActivity
 import com.restaurantclient.ui.admin.OrderManagementActivity
 import com.restaurantclient.ui.admin.UserManagementActivity
 import com.restaurantclient.ui.auth.AuthViewModel
+import com.restaurantclient.ui.cart.ShoppingCartActivity
+import com.restaurantclient.ui.user.UserProfileActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -50,6 +53,13 @@ class ProductListActivity : AppCompatActivity() {
     private var isAdminUser: Boolean = false
     private var isFetchLoading: Boolean = false
     private var isMutationLoading: Boolean = false
+    private var allProducts: List<ProductResponse> = emptyList()
+    private var selectedCategory: String = "All"
+
+    companion object {
+        private const val BLUR_RADIUS = 20f
+        private const val BLUR_OVERLAY_ALPHA = 200
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,27 +69,72 @@ class ProductListActivity : AppCompatActivity() {
         authViewModel.loadStoredUserInfo()
         isAdminUser = authViewModel.isAdmin()
 
-        setupToolbar()
+        setupModernUi()
         setupAdminUi()
-        setupGlassEffects()
         setupRecyclerView()
-        setupClickListeners()
         setupObservers()
         observeCartChanges()
         refreshProducts()
     }
     
-    private fun setupToolbar() {
-        setSupportActionBar(binding.toolbar)
-        if (isAdminUser) {
-            supportActionBar?.subtitle = getString(R.string.admin_toolbar_subtitle)
+    private fun setupModernUi() {
+        // Setup search functionality
+        binding.searchInput.setOnEditorActionListener { _, _, _ ->
+            val query = binding.searchInput.text.toString()
+            if (query.isNotEmpty()) {
+                filterProducts(query)
+            }
+            true
+        }
+
+        // Setup category chips
+        binding.categoryChipGroup.setOnCheckedStateChangeListener { group, checkedIds ->
+            if (checkedIds.isNotEmpty()) {
+                val chip = group.findViewById<Chip>(checkedIds[0])
+                selectedCategory = chip?.text.toString()
+                filterByCategory(selectedCategory)
+            }
+        }
+
+        // Setup filter button
+        binding.filterButton.setOnClickListener {
+            Toast.makeText(this, "Filter clicked", Toast.LENGTH_SHORT).show()
+        }
+
+        // Setup profile image click
+        binding.profileImage.setOnClickListener {
+            startActivity(Intent(this, UserProfileActivity::class.java))
+        }
+
+        // Setup bottom navigation
+        binding.navHome.setOnClickListener {
+            // Already on home
+        }
+
+        binding.navProfile.setOnClickListener {
+            startActivity(Intent(this, UserProfileActivity::class.java))
+        }
+
+        binding.fabAdd.setOnClickListener {
+            startActivity(Intent(this, ShoppingCartActivity::class.java))
+        }
+
+        binding.navOrders.setOnClickListener {
+            if (isAdminUser) {
+                startActivity(Intent(this, OrderManagementActivity::class.java))
+            } else {
+                startActivity(Intent(this, com.restaurantclient.ui.order.MyOrdersActivity::class.java))
+            }
+        }
+
+        binding.navFavorites.setOnClickListener {
+            Toast.makeText(this, "Favorites coming soon", Toast.LENGTH_SHORT).show()
         }
     }
 
     private fun setupAdminUi() {
         binding.adminModeBanner.isVisible = isAdminUser
         binding.adminAddProductFab.isVisible = isAdminUser
-        binding.customerGlassBanner.isVisible = !isAdminUser
 
         if (isAdminUser) {
             binding.adminQuickUsersButton.setOnClickListener {
@@ -94,15 +149,19 @@ class ProductListActivity : AppCompatActivity() {
             binding.adminAddProductFab.setOnClickListener {
                 showProductEditor()
             }
-        } else {
-            binding.adminQuickUsersButton.setOnClickListener(null)
-            binding.adminQuickOrdersButton.setOnClickListener(null)
-            binding.adminQuickDashboardButton.setOnClickListener(null)
-            binding.adminAddProductFab.setOnClickListener(null)
-        }
-
-        binding.customerBannerOrdersButton.setOnClickListener {
-            startActivity(Intent(this, com.restaurantclient.ui.order.MyOrdersActivity::class.java))
+            // Configure blur for admin banner
+            val decorView = window.decorView
+            val rootView = decorView.findViewById<android.view.ViewGroup>(android.R.id.content)
+            val windowBackground = decorView.background
+            binding.adminBannerBlurView.setupWith(rootView)
+                .setFrameClearDrawable(windowBackground)
+                .setBlurAlgorithm(RenderScriptBlur(this))
+                .setBlurRadius(BLUR_RADIUS)
+                .setHasFixedTransformationMatrix(true)
+            val overlay = ColorUtils.setAlphaComponent(
+                ContextCompat.getColor(this, R.color.admin_glass_overlay), BLUR_OVERLAY_ALPHA
+            )
+            binding.adminBannerBlurView.setOverlayColor(overlay)
         }
     }
 
@@ -119,17 +178,9 @@ class ProductListActivity : AppCompatActivity() {
             },
             isAdminMode = isAdminUser
         )
+        // Use GridLayoutManager for modern 2-column grid
+        binding.productsRecyclerView.layoutManager = GridLayoutManager(this, 2)
         binding.productsRecyclerView.adapter = productListAdapter
-    }
-
-    private fun setupClickListeners() {
-        binding.myOrdersButton.setOnClickListener {
-            if (isAdminUser) {
-                startActivity(Intent(this, OrderManagementActivity::class.java))
-            } else {
-                startActivity(Intent(this, com.restaurantclient.ui.order.MyOrdersActivity::class.java))
-            }
-        }
     }
 
     private fun refreshProducts() {
@@ -247,7 +298,8 @@ class ProductListActivity : AppCompatActivity() {
             updateLoadingState()
             when (result) {
                 is Result.Success -> {
-                    productListAdapter.submitList(result.data)
+                    allProducts = result.data
+                    filterByCategory(selectedCategory)
                 }
                 is Result.Error -> {
                     Toast.makeText(this, getString(R.string.product_list_error, result.exception.message), Toast.LENGTH_LONG).show()
@@ -271,6 +323,27 @@ class ProductListActivity : AppCompatActivity() {
             isMutationLoading = isLoading
             updateLoadingState()
         }
+    }
+
+    private fun filterByCategory(category: String) {
+        val filteredProducts = if (category == "All") {
+            allProducts
+        } else {
+            // Simple filtering - you can enhance this based on product categories
+            allProducts.filter { product ->
+                product.name.contains(category, ignoreCase = true) ||
+                product.description.contains(category, ignoreCase = true)
+            }
+        }
+        productListAdapter.submitList(filteredProducts)
+    }
+
+    private fun filterProducts(query: String) {
+        val filteredProducts = allProducts.filter { product ->
+            product.name.contains(query, ignoreCase = true) ||
+            product.description.contains(query, ignoreCase = true)
+        }
+        productListAdapter.submitList(filteredProducts)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

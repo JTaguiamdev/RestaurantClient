@@ -45,4 +45,15 @@
     
     <!-- Surface Container colors for Material 3 -->
     <color name="brand_surface_container">@color/brand_surface_variant</color>
+
+    <!-- Food Delivery Chip Styles -->
+    <style name="Widget.App.Chip.Category" parent="Widget.Material3.Chip.Filter">
+        <item name="chipBackgroundColor">@color/chip_background_color</item>
+        <item name="android:textColor">@color/chip_text_color</item>
+        <item name="checkedIconVisible">false</item>
+        <item name="chipStrokeWidth">0dp</item>
+        <item name="chipMinHeight">36dp</item>
+        <item name="android:paddingStart">16dp</item>
+        <item name="android:paddingEnd">16dp</item>
+    </style>
 </resources>
