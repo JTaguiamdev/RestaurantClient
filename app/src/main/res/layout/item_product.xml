@@ -105,7 +105,7 @@
                 android:layout_width="16dp"
                 android:layout_height="16dp"
                 android:src="@drawable/ic_star"
-                android:contentDescription="Rating"
+                android:contentDescription="@string/rating_content_description"
                 app:tint="@color/food_star_orange" />
 
             <TextView

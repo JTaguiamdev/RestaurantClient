@@ -67,7 +67,6 @@ class ProductListActivity : AppCompatActivity() {
         setupModernUi()
         setupAdminUi()
         setupRecyclerView()
-        setupClickListeners()
         setupObservers()
         observeCartChanges()
         refreshProducts()
