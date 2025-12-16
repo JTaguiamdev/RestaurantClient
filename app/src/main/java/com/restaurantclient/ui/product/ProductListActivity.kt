@@ -179,10 +179,6 @@ class ProductListActivity : AppCompatActivity() {
         binding.productsRecyclerView.adapter = productListAdapter
     }
 
-    private fun setupClickListeners() {
-        // This method kept for potential future use
-    }
-
     private fun refreshProducts() {
         isFetchLoading = true
         updateLoadingState()

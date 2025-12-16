@@ -117,7 +117,7 @@ class ProductDetailActivity : AppCompatActivity() {
 
                     // Generate random rating and time for demo
                     val rating = String.format("%.1f", Random.nextDouble(3.5, 5.0))
-                    val time = Random.nextInt(15, 40)
+                    val time = Random.nextInt(MIN_ESTIMATED_TIME, MAX_ESTIMATED_TIME)
                     binding.ratingText.text = rating
                     binding.timeText.text = getString(R.string.estimated_time, time)
                 }
@@ -130,5 +130,9 @@ class ProductDetailActivity : AppCompatActivity() {
 
     companion object {
         const val EXTRA_PRODUCT_ID = "extra_product_id"
+        private const val MIN_ESTIMATED_TIME = 15
+        private const val MAX_ESTIMATED_TIME = 40
+    }
+}
     }
 }

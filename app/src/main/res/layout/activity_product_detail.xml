@@ -263,4 +263,3 @@
         app:cornerRadius="16dp" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
-</ScrollView>
