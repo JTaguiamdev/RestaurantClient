@@ -59,7 +59,12 @@ class ProductRepository @Inject constructor(private val apiService: ApiService) 
         return try {
             val response = apiService.updateProduct(productId, request)
             if (response.isSuccessful) {
-                Result.Success(response.body()!!)
+                val body = response.body()
+                if (body != null) {
+                    Result.Success(body)
+                } else {
+                    Result.Error(Exception("Empty response body"))
+                }
             } else {
                 Result.Error(Exception("Failed to update product: ${response.code()}"))
             }
