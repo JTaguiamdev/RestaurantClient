@@ -61,14 +61,14 @@ class ProductDetailActivity : AppCompatActivity() {
         binding.quantityText.text = quantity.toString()
 
         binding.decrementButton.setOnClickListener {
-            if (quantity > 1) {
+            if (quantity > MIN_QUANTITY) {
                 quantity--
                 binding.quantityText.text = quantity.toString()
             }
         }
 
         binding.incrementButton.setOnClickListener {
-            if (quantity < 99) {
+            if (quantity < MAX_QUANTITY) {
                 quantity++
                 binding.quantityText.text = quantity.toString()
             }
@@ -116,7 +116,7 @@ class ProductDetailActivity : AppCompatActivity() {
                     binding.productPrice.text = "$${product.price}"
 
                     // Generate random rating and time for demo
-                    val rating = String.format("%.1f", Random.nextDouble(3.5, 5.0))
+                    val rating = String.format("%.1f", Random.nextDouble(MIN_RATING, MAX_RATING))
                     val time = Random.nextInt(MIN_ESTIMATED_TIME, MAX_ESTIMATED_TIME)
                     binding.ratingText.text = rating
                     binding.timeText.text = getString(R.string.estimated_time, time)
@@ -132,6 +132,10 @@ class ProductDetailActivity : AppCompatActivity() {
         const val EXTRA_PRODUCT_ID = "extra_product_id"
         private const val MIN_ESTIMATED_TIME = 15
         private const val MAX_ESTIMATED_TIME = 40
+        private const val MIN_QUANTITY = 1
+        private const val MAX_QUANTITY = 99
+        private const val MIN_RATING = 3.5
+        private const val MAX_RATING = 5.0
     }
 }
     }

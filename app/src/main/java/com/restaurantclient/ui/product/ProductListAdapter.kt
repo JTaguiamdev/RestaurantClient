@@ -20,6 +20,11 @@ class ProductListAdapter(
 
     private val favoriteStates = mutableMapOf<String, Boolean>()
 
+    companion object {
+        private const val MIN_RATING = 3.5
+        private const val MAX_RATING = 5.0
+    }
+
     class ProductViewHolder(
         private val binding: ItemProductBinding,
         private val onClick: (ProductResponse) -> Unit,
@@ -49,7 +54,7 @@ class ProductListAdapter(
 
             // Generate random rating for demo
             if (!isAdminMode) {
-                val rating = String.format("%.1f", Random.nextDouble(3.5, 5.0))
+                val rating = String.format("%.1f", Random.nextDouble(MIN_RATING, MAX_RATING))
                 binding.ratingText.text = rating
 
                 // Handle favorite state

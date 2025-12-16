@@ -56,6 +56,11 @@ class ProductListActivity : AppCompatActivity() {
     private var allProducts: List<ProductResponse> = emptyList()
     private var selectedCategory: String = "All"
 
+    companion object {
+        private const val BLUR_RADIUS = 20f
+        private const val BLUR_OVERLAY_ALPHA = 200
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityProductListBinding.inflate(layoutInflater)
@@ -151,10 +156,10 @@ class ProductListActivity : AppCompatActivity() {
             binding.adminBannerBlurView.setupWith(rootView)
                 .setFrameClearDrawable(windowBackground)
                 .setBlurAlgorithm(RenderScriptBlur(this))
-                .setBlurRadius(20f)
+                .setBlurRadius(BLUR_RADIUS)
                 .setHasFixedTransformationMatrix(true)
             val overlay = ColorUtils.setAlphaComponent(
-                ContextCompat.getColor(this, R.color.admin_glass_overlay), 200
+                ContextCompat.getColor(this, R.color.admin_glass_overlay), BLUR_OVERLAY_ALPHA
             )
             binding.adminBannerBlurView.setOverlayColor(overlay)
         }
