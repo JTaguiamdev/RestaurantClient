@@ -37,4 +37,9 @@
     <color name="food_card_shadow">#1A000000</color>
     <color name="food_text_secondary">#6B7280</color>
     <color name="food_button_dark">#111827</color>
+    
+    <!-- Text colors for light mode -->
+    <color name="text_primary">#1C1B1F</color>
+    <color name="text_secondary">#49454F</color>
+    <color name="section_header_text">#1C1B1F</color>
 </resources>

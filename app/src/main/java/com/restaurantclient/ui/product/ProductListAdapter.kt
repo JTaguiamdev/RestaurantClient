@@ -18,7 +18,7 @@ class ProductListAdapter(
     private val isAdminMode: Boolean = false
 ) : ListAdapter<ProductResponse, ProductListAdapter.ProductViewHolder>(ProductDiffCallback) {
 
-    private val favoriteStates = mutableMapOf<String, Boolean>()
+    private val favoriteStates = mutableMapOf<Int, Boolean>()
 
     companion object {
         private const val MIN_RATING = 3.5
@@ -30,7 +30,7 @@ class ProductListAdapter(
         private val onClick: (ProductResponse) -> Unit,
         private val onAdminAction: ((View, ProductResponse) -> Unit)?,
         private val isAdminMode: Boolean,
-        private val favoriteStates: MutableMap<String, Boolean>
+        private val favoriteStates: MutableMap<Int, Boolean>
     ) : RecyclerView.ViewHolder(binding.root) {
         private var currentProduct: ProductResponse? = null
 

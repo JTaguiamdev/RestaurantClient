@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
@@ -332,7 +333,7 @@ class ProductListActivity : AppCompatActivity() {
             // Simple filtering - you can enhance this based on product categories
             allProducts.filter { product ->
                 product.name.contains(category, ignoreCase = true) ||
-                product.description.contains(category, ignoreCase = true)
+                product.description?.contains(category, ignoreCase = true) == true
             }
         }
         productListAdapter.submitList(filteredProducts)
@@ -341,7 +342,7 @@ class ProductListActivity : AppCompatActivity() {
     private fun filterProducts(query: String) {
         val filteredProducts = allProducts.filter { product ->
             product.name.contains(query, ignoreCase = true) ||
-            product.description.contains(query, ignoreCase = true)
+            product.description?.contains(query, ignoreCase = true) == true
         }
         productListAdapter.submitList(filteredProducts)
     }
@@ -416,7 +417,6 @@ class ProductListActivity : AppCompatActivity() {
 
     private fun setupGlassEffects() {
         configureBlur(binding.adminBannerBlurView, R.color.admin_glass_overlay, 20f)
-        configureBlur(binding.customerBannerBlurView, R.color.customer_glass_overlay, 22f)
     }
 
     private fun configureBlur(blurView: BlurView, overlayColorRes: Int, radius: Float = 18f) {

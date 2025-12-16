@@ -138,5 +138,3 @@ class ProductDetailActivity : AppCompatActivity() {
         private const val MAX_RATING = 5.0
     }
 }
-    }
-}

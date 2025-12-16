@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Glassmorphism overlay colors for dark mode -->
+    <color name="admin_glass_overlay">#40FFFFFF</color>
+    <color name="customer_glass_overlay">#35FFFFFF</color>
+    <color name="white_glass_overlay">#40FFFFFF</color>
+    <color name="price_color">#27AE60</color>
+</resources>

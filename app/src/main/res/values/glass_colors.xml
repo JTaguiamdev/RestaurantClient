@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="admin_glass_overlay">#80FFFFFF</color>
-    <color name="customer_glass_overlay">#66FFFFFF</color>
+    <!-- Glassmorphism overlay colors with proper transparency -->
+    <color name="admin_glass_overlay">#33FFFFFF</color>
+    <color name="customer_glass_overlay">#30FFFFFF</color>
+    <color name="white_glass_overlay">#CCFFFFFF</color>
     <color name="price_color">#27AE60</color>
 </resources>

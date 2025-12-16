@@ -3,14 +3,12 @@ package com.restaurantclient.ui.admin
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
 import android.view.ViewGroup
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.ColorUtils
-import androidx.core.view.isVisible
 import com.eightbitlab.com.blurview.BlurView
 import com.eightbitlab.com.blurview.RenderScriptBlur
 import com.google.android.material.chip.Chip
@@ -18,9 +16,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.restaurantclient.MainActivity
 import com.restaurantclient.R
 import com.restaurantclient.data.dto.RoleDTO
-import com.restaurantclient.data.dto.UserDTO
 import com.restaurantclient.databinding.ActivityAdminDashboardBinding
-import com.restaurantclient.databinding.ItemRecentUserBinding
 import com.restaurantclient.ui.product.ProductListActivity
 import com.restaurantclient.ui.user.UserProfileActivity
 import dagger.hilt.android.AndroidEntryPoint
@@ -81,26 +77,6 @@ class AdminDashboardActivity : BaseAdminActivity() {
             binding.totalOrdersText.text = stats.totalOrders.toString()
             binding.totalProductsText.text = stats.totalProducts.toString()
             binding.newUsersText.text = stats.newUsersToday.toString()
-        }
-
-        adminViewModel.recentUsers.observe(this) { users ->
-            renderRecentUsers(users)
-        }
-    }
-
-    private fun renderRecentUsers(users: List<UserDTO>) {
-        val inflater = LayoutInflater.from(this)
-        binding.recentUsersContainer.removeAllViews()
-        val hasUsers = users.isNotEmpty()
-        binding.recentUsersContainer.isVisible = hasUsers
-        binding.recentUsersEmpty.isVisible = !hasUsers
-
-        users.forEach { user ->
-            val itemBinding = ItemRecentUserBinding.inflate(inflater, binding.recentUsersContainer, false)
-            itemBinding.usernameText.text = user.username
-            itemBinding.joinedText.text = formatDate(user.createdAt)
-            bindRoleChip(itemBinding.roleChip, user.role)
-            binding.recentUsersContainer.addView(itemBinding.root)
         }
     }
 
@@ -168,19 +144,63 @@ class AdminDashboardActivity : BaseAdminActivity() {
     }
 
     private fun setupGlassEffects() {
-        configureBlur(binding.adminBadgeBlurView, R.color.admin_glass_overlay, 22f)
-    }
-
-    private fun configureBlur(blurView: BlurView, overlayColorRes: Int, radius: Float = 18f) {
+        val radius = 25f
         val decorView = window.decorView
         val rootView = decorView.findViewById<ViewGroup>(android.R.id.content)
         val windowBackground = decorView.background
-        blurView.setupWith(rootView)
+        
+        // Admin badge blur with white overlay
+        binding.adminBadgeBlurView.setupWith(rootView)
             .setFrameClearDrawable(windowBackground)
             .setBlurAlgorithm(RenderScriptBlur(this))
             .setBlurRadius(radius)
-            .setHasFixedTransformationMatrix(true)
-        val overlay = ColorUtils.setAlphaComponent(ContextCompat.getColor(this, overlayColorRes), 200)
-        blurView.setOverlayColor(overlay)
+        val adminOverlay = ContextCompat.getColor(this, R.color.admin_glass_overlay)
+        binding.adminBadgeBlurView.setOverlayColor(adminOverlay)
+        
+        // White glassmorphism overlay for statistics cards
+        val whiteOverlay = ContextCompat.getColor(this, R.color.white_glass_overlay)
+        
+        binding.totalUsersBlur.setupWith(rootView)
+            .setFrameClearDrawable(windowBackground)
+            .setBlurAlgorithm(RenderScriptBlur(this))
+            .setBlurRadius(20f)
+        binding.totalUsersBlur.setOverlayColor(whiteOverlay)
+        
+        binding.totalOrdersBlur.setupWith(rootView)
+            .setFrameClearDrawable(windowBackground)
+            .setBlurAlgorithm(RenderScriptBlur(this))
+            .setBlurRadius(20f)
+        binding.totalOrdersBlur.setOverlayColor(whiteOverlay)
+        
+        binding.totalProductsBlur.setupWith(rootView)
+            .setFrameClearDrawable(windowBackground)
+            .setBlurAlgorithm(RenderScriptBlur(this))
+            .setBlurRadius(20f)
+        binding.totalProductsBlur.setOverlayColor(whiteOverlay)
+        
+        binding.newUsersBlur.setupWith(rootView)
+            .setFrameClearDrawable(windowBackground)
+            .setBlurAlgorithm(RenderScriptBlur(this))
+            .setBlurRadius(20f)
+        binding.newUsersBlur.setOverlayColor(whiteOverlay)
+        
+        // Management cards
+        binding.userManagementBlur.setupWith(rootView)
+            .setFrameClearDrawable(windowBackground)
+            .setBlurAlgorithm(RenderScriptBlur(this))
+            .setBlurRadius(20f)
+        binding.userManagementBlur.setOverlayColor(whiteOverlay)
+        
+        binding.productManagementBlur.setupWith(rootView)
+            .setFrameClearDrawable(windowBackground)
+            .setBlurAlgorithm(RenderScriptBlur(this))
+            .setBlurRadius(20f)
+        binding.productManagementBlur.setOverlayColor(whiteOverlay)
+        
+        binding.orderManagementBlur.setupWith(rootView)
+            .setFrameClearDrawable(windowBackground)
+            .setBlurAlgorithm(RenderScriptBlur(this))
+            .setBlurRadius(20f)
+        binding.orderManagementBlur.setOverlayColor(whiteOverlay)
     }
 }

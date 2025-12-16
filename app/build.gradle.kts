@@ -95,6 +95,9 @@ dependencies {
     // Secure Storage
     implementation(libs.androidx.security.crypto)
     
+    // BlurView for glassmorphism
+    implementation(libs.blurview)
+    
     // SwipeRefreshLayout
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
 

@@ -49,4 +49,9 @@
     
     <!-- Brand color override for dark mode -->
     <color name="brand_surface_container">@color/md_theme_dark_surfaceContainer</color>
+    
+    <!-- Text colors for dark mode -->
+    <color name="text_primary">#E2E2E5</color>
+    <color name="text_secondary">#C2C7CF</color>
+    <color name="section_header_text">#E2E2E5</color>
 </resources>
