@@ -80,5 +80,25 @@ class ProductRepository @Inject constructor(private val apiService: ApiService) 
             Result.Error(e)
         }
     }
+
+    suspend fun getProductsByCategory(categoryId: Int): Result<List<ProductResponse>> {
+        return try {
+            Log.d("ProductRepository", "Fetching products for category: $categoryId")
+            val response = apiService.getProductsByCategory(categoryId)
+            Log.d("ProductRepository", "API Response code: ${response.code()}")
+            if (response.isSuccessful) {
+                val products = response.body()!!
+                Log.d("ProductRepository", "Successfully fetched ${products.size} products for category $categoryId")
+                Result.Success(products)
+            } else {
+                val errorMsg = "Failed to fetch products by category: HTTP ${response.code()}"
+                Log.e("ProductRepository", errorMsg)
+                Result.Error(Exception(errorMsg))
+            }
+        } catch (e: Exception) {
+            Log.e("ProductRepository", "Exception fetching products by category", e)
+            Result.Error(e)
+        }
+    }
 }
 

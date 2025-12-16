@@ -144,49 +144,7 @@
                 android:layout_height="wrap_content"
                 app:singleSelection="true"
                 app:selectionRequired="true">
-
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/chip_all"
-                    style="@style/Widget.App.Chip.Category"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/category_all"
-                    android:checked="true" />
-
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/chip_combos"
-                    style="@style/Widget.App.Chip.Category"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/category_combos" />
-
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/chip_sliders"
-                    style="@style/Widget.App.Chip.Category"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/category_sliders" />
-
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/chip_classic"
-                    style="@style/Widget.App.Chip.Category"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/category_classic" />
-
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/chip_burger"
-                    style="@style/Widget.App.Chip.Category"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/category_burger" />
-
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/chip_pizza"
-                    style="@style/Widget.App.Chip.Category"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/category_pizza" />
+                <!-- Chips will be dynamically added from API -->
             </com.google.android.material.chip.ChipGroup>
         </HorizontalScrollView>
 
@@ -309,141 +267,202 @@
         app:icon="@android:drawable/ic_input_add"
         tools:visibility="gone" />
 
-    <!-- Bottom Navigation Bar -->
-    <com.google.android.material.bottomappbar.BottomAppBar
-        android:id="@+id/bottom_app_bar"
+    <!-- Bottom Navigation Bar with Glassmorphism (Admin only) -->
+    <FrameLayout
+        android:id="@+id/bottom_nav_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        app:backgroundTint="@color/food_primary_red"
-        app:fabCradleMargin="8dp"
-        app:fabCradleRoundedCornerRadius="16dp"
-        app:fabCradleVerticalOffset="8dp">
+        android:visibility="gone"
+        tools:visibility="visible">
 
-        <LinearLayout
+        <com.eightbitlab.com.blurview.BlurView
+            android:id="@+id/bottom_nav_blur"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <com.google.android.material.bottomappbar.BottomAppBar
+            android:id="@+id/bottom_app_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="5">
+            android:layout_gravity="bottom"
+            app:backgroundTint="@android:color/transparent"
+            app:fabCradleMargin="8dp"
+            app:fabCradleRoundedCornerRadius="16dp"
+            app:fabCradleVerticalOffset="8dp">
 
             <LinearLayout
-                android:id="@+id/nav_home"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:padding="8dp"
-                android:gravity="center">
+                android:orientation="horizontal"
+                android:weightSum="6">
 
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/ic_home"
-                    android:contentDescription="@string/nav_home"
-                    app:tint="@color/white" />
+        <LinearLayout
+            android:id="@+id/nav_home"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="8dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/nav_home"
-                    android:textColor="@color/white"
-                    android:textSize="10sp"
-                    android:layout_marginTop="4dp" />
-            </LinearLayout>
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:contentDescription="@string/nav_home"
+                android:src="@drawable/ic_home"
+                app:tint="@color/white" />
 
-            <LinearLayout
-                android:id="@+id/nav_profile"
-                android:layout_width="0dp"
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:padding="8dp"
-                android:gravity="center">
-
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/ic_person"
-                    android:contentDescription="@string/nav_profile"
-                    app:tint="@color/white" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/nav_profile"
-                    android:textColor="@color/white"
-                    android:textSize="10sp"
-                    android:layout_marginTop="4dp" />
-            </LinearLayout>
-
-            <!-- Spacer for FAB -->
-            <View
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
-
-            <LinearLayout
-                android:id="@+id/nav_orders"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:padding="8dp"
-                android:gravity="center">
-
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/ic_receipt"
-                    android:contentDescription="@string/nav_orders"
-                    app:tint="@color/white" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/nav_orders"
-                    android:textColor="@color/white"
-                    android:textSize="10sp"
-                    android:layout_marginTop="4dp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/nav_favorites"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:padding="8dp"
-                android:gravity="center">
-
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/ic_favorite"
-                    android:contentDescription="@string/nav_favorites"
-                    app:tint="@color/white" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/nav_favorites"
-                    android:textColor="@color/white"
-                    android:textSize="10sp"
-                    android:layout_marginTop="4dp" />
-            </LinearLayout>
+                android:layout_marginTop="4dp"
+                android:text="@string/nav_home"
+                android:textColor="@color/white"
+                android:textSize="10sp" />
         </LinearLayout>
-    </com.google.android.material.bottomappbar.BottomAppBar>
 
-    <!-- Center FAB (hidden for customers, kept for future use) -->
+        <LinearLayout
+            android:id="@+id/nav_profile"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="8dp">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:contentDescription="@string/nav_profile"
+                android:src="@drawable/ic_person"
+                app:tint="@color/white" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="@string/nav_profile"
+                android:textColor="@color/white"
+                android:textSize="10sp" />
+        </LinearLayout>
+
+        <!-- Spacer for FAB -->
+        <View
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <LinearLayout
+            android:id="@+id/nav_orders"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="8dp">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:contentDescription="@string/nav_orders"
+                android:src="@drawable/ic_receipt"
+                app:tint="@color/white" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="@string/nav_orders"
+                android:textColor="@color/white"
+                android:textSize="10sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/nav_favorites"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="8dp">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:contentDescription="@string/nav_favorites"
+                android:src="@drawable/ic_favorite"
+                app:tint="@color/white" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="@string/nav_favorites"
+                android:textColor="@color/white"
+                android:textSize="10sp" />
+        </LinearLayout>
+
+        <!-- Admin Dashboard button (only visible for admins) -->
+        <LinearLayout
+            android:id="@+id/nav_admin_dashboard"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="8dp"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:contentDescription="@string/nav_admin_dashboard"
+                android:src="@drawable/ic_admin_badge"
+                app:tint="@color/white" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="@string/nav_admin_dashboard"
+                android:textColor="@color/white"
+                android:textSize="10sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+        </com.google.android.material.bottomappbar.BottomAppBar>
+
+    </FrameLayout>
+
+    <!-- FAB for Cart (Bottom Right) -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_add"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
         android:src="@drawable/ic_add"
         android:contentDescription="@string/nav_add"
         app:backgroundTint="@color/food_primary_red"
         app:tint="@color/white"
-        app:layout_anchor="@id/bottom_app_bar"
         app:fabSize="normal" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

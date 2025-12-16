@@ -55,6 +55,10 @@ class ProductViewModel @Inject constructor(
         mutateProduct { productRepository.deleteProduct(productId) }
     }
 
+    suspend fun getProductsByCategory(categoryId: Int): Result<List<ProductResponse>> {
+        return productRepository.getProductsByCategory(categoryId)
+    }
+
     private fun mutateProduct(block: suspend () -> Result<*>) {
         viewModelScope.launch {
             _mutationLoading.value = true

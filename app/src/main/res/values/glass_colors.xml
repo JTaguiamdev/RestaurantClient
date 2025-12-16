@@ -4,5 +4,6 @@
     <color name="admin_glass_overlay">#33FFFFFF</color>
     <color name="customer_glass_overlay">#30FFFFFF</color>
     <color name="white_glass_overlay">#CCFFFFFF</color>
+    <color name="bottom_nav_glass_overlay">#B3EF4444</color>
     <color name="price_color">#27AE60</color>
 </resources>

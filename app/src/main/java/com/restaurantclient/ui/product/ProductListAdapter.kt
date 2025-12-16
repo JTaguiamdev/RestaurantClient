@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.restaurantclient.R
 import com.restaurantclient.data.dto.ProductResponse
 import com.restaurantclient.databinding.ItemProductBinding
+import com.restaurantclient.utils.ImageMapper
 import kotlin.random.Random
 
 class ProductListAdapter(
@@ -45,6 +46,10 @@ class ProductListAdapter(
             binding.productName.text = product.name
             binding.productDescription.text = product.description
             binding.productPrice.text = "$${product.price}"
+            
+            // Load product image from local resources
+            val imageResource = ImageMapper.getDrawableResourceOrPlaceholder(product.product_image_uri)
+            binding.productImage.setImageResource(imageResource)
 
             // Show/hide elements based on mode
             binding.adminBadgeChip.isVisible = isAdminMode

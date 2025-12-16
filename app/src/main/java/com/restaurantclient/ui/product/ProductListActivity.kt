@@ -44,6 +44,7 @@ class ProductListActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityProductListBinding
     private val productViewModel: ProductViewModel by viewModels()
+    private val categoryViewModel: CategoryViewModel by viewModels()
     private val authViewModel: AuthViewModel by viewModels()
     private lateinit var productListAdapter: ProductListAdapter
     
@@ -55,7 +56,7 @@ class ProductListActivity : AppCompatActivity() {
     private var isFetchLoading: Boolean = false
     private var isMutationLoading: Boolean = false
     private var allProducts: List<ProductResponse> = emptyList()
-    private var selectedCategory: String = "All"
+    private var selectedCategoryId: Int? = null // null means "All"
 
     companion object {
         private const val BLUR_RADIUS = 20f
@@ -75,6 +76,7 @@ class ProductListActivity : AppCompatActivity() {
         setupRecyclerView()
         setupObservers()
         observeCartChanges()
+        observeCategories()
         refreshProducts()
     }
     
@@ -88,14 +90,7 @@ class ProductListActivity : AppCompatActivity() {
             true
         }
 
-        // Setup category chips
-        binding.categoryChipGroup.setOnCheckedStateChangeListener { group, checkedIds ->
-            if (checkedIds.isNotEmpty()) {
-                val chip = group.findViewById<Chip>(checkedIds[0])
-                selectedCategory = chip?.text.toString()
-                filterByCategory(selectedCategory)
-            }
-        }
+        // Category chips listener is now setup in setupDynamicCategoryChips()
 
         // Setup filter button
         binding.filterButton.setOnClickListener {
@@ -131,11 +126,17 @@ class ProductListActivity : AppCompatActivity() {
         binding.navFavorites.setOnClickListener {
             Toast.makeText(this, "Favorites coming soon", Toast.LENGTH_SHORT).show()
         }
+        
+        binding.navAdminDashboard.setOnClickListener {
+            startActivity(Intent(this, AdminDashboardActivity::class.java))
+        }
     }
 
     private fun setupAdminUi() {
         binding.adminModeBanner.isVisible = isAdminUser
         binding.adminAddProductFab.isVisible = isAdminUser
+        binding.navAdminDashboard.isVisible = isAdminUser
+        binding.bottomNavContainer.isVisible = isAdminUser
 
         if (isAdminUser) {
             binding.adminQuickUsersButton.setOnClickListener {
@@ -163,7 +164,25 @@ class ProductListActivity : AppCompatActivity() {
                 ContextCompat.getColor(this, R.color.admin_glass_overlay), BLUR_OVERLAY_ALPHA
             )
             binding.adminBannerBlurView.setOverlayColor(overlay)
+            
+            // Setup bottom navigation glassmorphism (admin only)
+            setupBottomNavGlass()
         }
+    }
+    
+    private fun setupBottomNavGlass() {
+        val decorView = window.decorView
+        val rootView = decorView.findViewById<android.view.ViewGroup>(android.R.id.content)
+        val windowBackground = decorView.background
+        
+        binding.bottomNavBlur.setupWith(rootView)
+            .setFrameClearDrawable(windowBackground)
+            .setBlurAlgorithm(RenderScriptBlur(this))
+            .setBlurRadius(20f)
+            .setHasFixedTransformationMatrix(false)
+        
+        val navOverlay = ContextCompat.getColor(this, R.color.bottom_nav_glass_overlay)
+        binding.bottomNavBlur.setOverlayColor(navOverlay)
     }
 
     private fun setupRecyclerView() {
@@ -194,6 +213,77 @@ class ProductListActivity : AppCompatActivity() {
         lifecycleScope.launch {
             cartManager.cartItems.collectLatest { items ->
                 updateCartBadge(cartManager.totalItems)
+            }
+        }
+    }
+
+    private fun observeCategories() {
+        lifecycleScope.launch {
+            categoryViewModel.categories.collectLatest { categories ->
+                setupDynamicCategoryChips(categories)
+            }
+        }
+    }
+
+    private fun setupDynamicCategoryChips(categories: List<com.restaurantclient.data.dto.CategoryDTO>) {
+        binding.categoryChipGroup.removeAllViews()
+        
+        // Add "All" chip first
+        val allChip = Chip(this).apply {
+            id = View.generateViewId()
+            text = "All"
+            tag = null // null tag means "All" category
+            isCheckable = true
+            isChecked = true
+            setChipBackgroundColorResource(R.color.food_primary_red)
+            setTextColor(getColor(R.color.white))
+            chipStrokeWidth = 0f
+        }
+        binding.categoryChipGroup.addView(allChip)
+        
+        // Add category chips dynamically
+        categories.forEach { category ->
+            val chip = Chip(this).apply {
+                id = View.generateViewId()
+                text = category.name
+                tag = category.id // Store category ID in tag
+                isCheckable = true
+                setChipBackgroundColorResource(R.color.food_light_gray)
+                setTextColor(getColor(R.color.food_dark_text))
+                chipStrokeWidth = 2f
+                chipStrokeColor = getColorStateList(R.color.food_primary_red)
+            }
+            binding.categoryChipGroup.addView(chip)
+        }
+        
+        // Update chip colors when selection changes
+        binding.categoryChipGroup.setOnCheckedStateChangeListener { group, checkedIds ->
+            // Reset all chips to default style
+            for (i in 0 until group.childCount) {
+                val chip = group.getChildAt(i) as? Chip
+                chip?.apply {
+                    if (!isChecked) {
+                        setChipBackgroundColorResource(R.color.food_light_gray)
+                        setTextColor(getColor(R.color.food_dark_text))
+                        chipStrokeWidth = 2f
+                        chipStrokeColor = getColorStateList(R.color.food_primary_red)
+                    }
+                }
+            }
+            
+            // Style the selected chip
+            if (checkedIds.isNotEmpty()) {
+                val selectedChip = group.findViewById<Chip>(checkedIds[0])
+                selectedChip?.apply {
+                    setChipBackgroundColorResource(R.color.food_primary_red)
+                    setTextColor(getColor(R.color.white))
+                    chipStrokeWidth = 0f
+                    
+                    // Save and filter products by category
+                    val categoryId = tag as? Int
+                    selectedCategoryId = categoryId
+                    filterByCategory(categoryId)
+                }
             }
         }
     }
@@ -300,7 +390,7 @@ class ProductListActivity : AppCompatActivity() {
             when (result) {
                 is Result.Success -> {
                     allProducts = result.data
-                    filterByCategory(selectedCategory)
+                    filterByCategory(selectedCategoryId)
                 }
                 is Result.Error -> {
                     Toast.makeText(this, getString(R.string.product_list_error, result.exception.message), Toast.LENGTH_LONG).show()
@@ -326,17 +416,31 @@ class ProductListActivity : AppCompatActivity() {
         }
     }
 
-    private fun filterByCategory(category: String) {
-        val filteredProducts = if (category == "All") {
-            allProducts
+    private fun filterByCategory(categoryId: Int?) {
+        if (categoryId == null) {
+            // Show all products
+            productListAdapter.submitList(allProducts)
         } else {
-            // Simple filtering - you can enhance this based on product categories
-            allProducts.filter { product ->
-                product.name.contains(category, ignoreCase = true) ||
-                product.description?.contains(category, ignoreCase = true) == true
+            // Fetch products by category from API
+            lifecycleScope.launch {
+                binding.progressBar.isVisible = true
+                when (val result = productViewModel.getProductsByCategory(categoryId)) {
+                    is Result.Success -> {
+                        productListAdapter.submitList(result.data)
+                    }
+                    is Result.Error -> {
+                        Toast.makeText(
+                            this@ProductListActivity,
+                            "Failed to load category products: ${result.exception.message}",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        // Fallback to showing all products
+                        productListAdapter.submitList(allProducts)
+                    }
+                }
+                binding.progressBar.isVisible = false
             }
         }
-        productListAdapter.submitList(filteredProducts)
     }
 
     private fun filterProducts(query: String) {

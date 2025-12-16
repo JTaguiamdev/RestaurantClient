@@ -79,6 +79,7 @@
     <string name="nav_add">Add</string>
     <string name="nav_orders">Orders</string>
     <string name="nav_favorites">Favorites</string>
+    <string name="nav_admin_dashboard">Dashboard</string>
     <string name="product_subtitle_wendys">Wendy\'s Burger</string>
     <string name="spicy_label">Spicy</string>
     <string name="spicy_mild">Mild</string>
