@@ -192,8 +192,6 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    </com.google.android.material.appbar.AppBarLayout>
-
     <!-- Product Grid -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/products_recycler_view"
@@ -204,7 +202,7 @@
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         app:spanCount="2"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:listitem="@layout/item_product_food" />
+        tools:listitem="@layout/item_product" />
 
     <ProgressBar
         android:id="@+id/progress_bar"
