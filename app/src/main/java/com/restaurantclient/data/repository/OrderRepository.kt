@@ -73,7 +73,12 @@ class OrderRepository @Inject constructor(private val apiService: ApiService) {
         return try {
             val response = apiService.updateOrder(orderId, UpdateOrderRequest(status))
             if (response.isSuccessful) {
-                Result.Success(response.body()!!)
+                val body = response.body()
+                if (body != null) {
+                    Result.Success(body)
+                } else {
+                    Result.Error(Exception("Empty response body"))
+                }
             } else {
                 Result.Error(Exception("Failed to update order: ${response.code()}"))
             }
