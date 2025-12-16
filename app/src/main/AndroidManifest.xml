@@ -47,10 +47,6 @@
             android:name=".ui.admin.OrderManagementActivity"
             android:theme="@style/Theme.RestaurantClient.Admin" />
 
-        <!-- Food Delivery UI Activities -->
-        <activity android:name=".ui.food.FoodHomeActivity" />
-        <activity android:name=".ui.food.FoodDetailActivity" />
-
     </application>
 
 </manifest>
