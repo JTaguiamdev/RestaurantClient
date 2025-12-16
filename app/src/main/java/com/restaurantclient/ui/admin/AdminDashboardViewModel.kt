@@ -94,7 +94,7 @@ class AdminDashboardViewModel @Inject constructor(
         val today = LocalDate.now()
         return users.count { user ->
             user.createdAt?.let { createdAt ->
-                runCatching { LocalDate.parse(createdAt.substring(0, 10)) }.getOrNull() == today
+                runCatching { LocalDate.parse(createdAt.take(10)) }.getOrNull() == today
             } ?: false
         }
     }
