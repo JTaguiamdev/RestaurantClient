@@ -21,9 +21,9 @@
             android:background="@android:color/transparent"
             android:elevation="4dp"
             app:navigationIcon="?attr/homeAsUpIndicator"
-            app:navigationIconTint="@color/itadaki_white"
+            app:navigationIconTint="@color/black"
             app:title="@string/order_detail_title"
-            app:titleTextColor="@color/itadaki_white" />
+            app:titleTextColor="@color/black" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -38,7 +38,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
-            app:cardBackgroundColor="@color/itadaki_white"
+            app:cardBackgroundColor="@color/bg_gradient_start"
             app:cardCornerRadius="24dp"
             app:cardElevation="8dp"
             app:strokeColor="@color/itadaki_transparent_red"

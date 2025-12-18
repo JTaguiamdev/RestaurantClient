@@ -22,11 +22,11 @@
             android:background="@android:color/transparent"
             android:elevation="4dp"
             app:navigationIcon="?attr/homeAsUpIndicator"
-            app:navigationIconTint="@color/itadaki_white"
+            app:navigationIconTint="@color/black"
             app:subtitle="@string/orders_screen_subtitle"
-            app:subtitleTextColor="@color/itadaki_white"
+            app:subtitleTextColor="@color/black"
             app:title="@string/action_my_orders"
-            app:titleTextColor="@color/itadaki_white" />
+            app:titleTextColor="@color/black" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
