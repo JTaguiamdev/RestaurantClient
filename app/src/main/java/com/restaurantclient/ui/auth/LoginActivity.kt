@@ -5,11 +5,14 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import coil.load
+import com.restaurantclient.R
 import com.restaurantclient.data.Result
 import com.restaurantclient.data.dto.LoginDTO
 import com.restaurantclient.data.dto.NewUserDTO
 import com.restaurantclient.databinding.ActivityLoginBinding
 import com.restaurantclient.ui.common.setupGlassEffect
+import com.restaurantclient.ui.intro.IntroductionActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -23,8 +26,13 @@ class LoginActivity : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        setupBackgroundGif()
         setupGlassUI()
         setupObservers()
+
+        binding.aboutButton.setOnClickListener {
+            startActivity(android.content.Intent(this, IntroductionActivity::class.java))
+        }
 
         binding.loginButton.setOnClickListener {
             val username = binding.usernameEditText.text.toString()
@@ -50,6 +58,15 @@ class LoginActivity : AppCompatActivity() {
             
             binding.progressBar.visibility = View.VISIBLE
             authViewModel.register(NewUserDTO(username, password))
+        }
+    }
+    
+    private fun setupBackgroundGif() {
+        // Load from preloaded cache - no rendering delay
+        binding.backgroundGif.load(R.raw.steam_animation) {
+            crossfade(false)
+            memoryCacheKey("steam_animation_login")
+            diskCacheKey("steam_animation_login")
         }
     }
     

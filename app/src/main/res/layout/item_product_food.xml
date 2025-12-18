@@ -38,7 +38,7 @@
             app:layout_constraintTop_toTopOf="@id/product_image"
             app:layout_constraintEnd_toEndOf="@id/product_image"
             android:layout_margin="8dp"
-            app:tint="@color/food_primary_red" />
+            app:tint="@color/itadaki_deep_red" />
 
         <!-- Product Name -->
         <TextView

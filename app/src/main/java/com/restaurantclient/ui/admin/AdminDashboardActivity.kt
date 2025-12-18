@@ -32,6 +32,7 @@ class AdminDashboardActivity : BaseAdminActivity() {
         binding = ActivityAdminDashboardBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        setupStatusBar()
         setupToolbar()
         setupGlassEffects()
         setupClickListeners()
@@ -39,6 +40,10 @@ class AdminDashboardActivity : BaseAdminActivity() {
         
         // Load dashboard data
         adminViewModel.loadDashboardData()
+    }
+
+    private fun setupStatusBar() {
+        window.statusBarColor = ContextCompat.getColor(this, R.color.admin_primary)
     }
 
     private fun setupToolbar() {

@@ -48,8 +48,12 @@ class CheckoutActivity : AppCompatActivity() {
     }
 
     private fun setupToolbar() {
-        binding.toolbar.setNavigationOnClickListener {
-            finish()
+        binding.root.findViewById<com.google.android.material.appbar.MaterialToolbar>(R.id.toolbar).apply {
+            title = "Checkout"
+            navigationIcon = getDrawable(android.R.drawable.ic_menu_close_clear_cancel)
+            setNavigationOnClickListener {
+                finish()
+            }
         }
     }
     
@@ -98,6 +102,7 @@ class CheckoutActivity : AppCompatActivity() {
             
             when (result) {
                 is Result.Success -> {
+                    Toast.makeText(this, "Order placed successfully!", Toast.LENGTH_SHORT).show()
                     val orderTotal = "$${String.format("%.2f", cartManager.totalAmount)}"
                     cartManager.clearCart() // Clear cart after successful order
                     

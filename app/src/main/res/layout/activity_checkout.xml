@@ -4,25 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bg_gradient_start"
+    android:background="@color/itadaki_cream"
     tools:context=".ui.checkout.CheckoutActivity">
 
-    <com.google.android.material.appbar.AppBarLayout
+    <include
         android:id="@+id/appBarLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:elevation="4dp"
-        app:elevation="4dp">
-
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:elevation="4dp"
-            app:navigationIcon="@android:drawable/ic_menu_close_clear_cancel"
-            app:title="Checkout" />
-
-    </com.google.android.material.appbar.AppBarLayout>
+        layout="@layout/customer_toolbar" />
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -96,11 +83,11 @@
                 android:layout_height="0dp"
                 android:layout_weight="1" />
 
-            <!-- Price Breakdown Glass Card -->
+            <!-- Combined Total & Button Glass Card -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
+                android:layout_marginBottom="80dp"
                 app:cardBackgroundColor="@android:color/transparent"
                 app:cardCornerRadius="16dp"
                 app:cardElevation="0dp"
@@ -119,13 +106,15 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
+                        android:background="@drawable/glass_card_border"
                         android:padding="20dp">
 
                         <!-- Total -->
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal">
+                            android:orientation="horizontal"
+                            android:layout_marginBottom="16dp">
 
                             <TextView
                                 android:layout_width="0dp"
@@ -133,7 +122,7 @@
                                 android:layout_weight="1"
                                 android:text="Total"
                                 android:textAppearance="?attr/textAppearanceTitleLarge"
-                                android:textColor="@color/food_dark_text"
+                                android:textColor="@color/itadaki_charcoal"
                                 android:textStyle="bold" />
 
                             <TextView
@@ -141,27 +130,25 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:textAppearance="?attr/textAppearanceTitleLarge"
-                                android:textColor="@color/food_primary_red"
+                                android:textColor="@color/itadaki_deep_red"
                                 android:textStyle="bold"
                                 tools:text="$129.97" />
                         </LinearLayout>
 
+                        <!-- Place Order Button -->
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/place_order_button"
+                            android:layout_width="match_parent"
+                            android:layout_height="56dp"
+                            android:text="Place Order"
+                            android:textColor="@android:color/white"
+                            android:textSize="16sp"
+                            app:backgroundTint="@color/itadaki_deep_red"
+                            app:cornerRadius="16dp" />
+
                     </LinearLayout>
                 </FrameLayout>
             </com.google.android.material.card.MaterialCardView>
-
-            <!-- Place Order Button -->
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/place_order_button"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="24dp"
-                android:text="Place Order"
-                android:textSize="16sp"
-                android:textColor="@android:color/white"
-                app:backgroundTint="@color/food_primary_red"
-                app:cornerRadius="16dp" />
 
         </LinearLayout>
 

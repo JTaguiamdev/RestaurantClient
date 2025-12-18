@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import com.restaurantclient.R
 import com.restaurantclient.data.Result
 import com.restaurantclient.data.TokenManager
 import com.restaurantclient.databinding.ActivityMyOrdersBinding
@@ -27,7 +28,11 @@ class MyOrdersActivity : AppCompatActivity() {
         binding = ActivityMyOrdersBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.ordersToolbar.setNavigationOnClickListener { finish() }
+        binding.root.findViewById<com.google.android.material.appbar.MaterialToolbar>(R.id.toolbar).apply {
+            title = getString(R.string.action_my_orders)
+            subtitle = getString(R.string.orders_screen_subtitle)
+            setNavigationOnClickListener { finish() }
+        }
 
         setupGlassUI()
         

@@ -12,17 +12,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:elevation="4dp"
-        app:blurOverlayColor="#00FFFFFF">
-
-        <!-- Glass Border -->
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/glass_card_border" />
+        app:blurOverlayColor="#4DFFFFFF">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/glass_card_border"
             android:padding="12dp">
 
             <!-- Product Image Placeholder -->
@@ -45,19 +40,19 @@
                 android:layout_height="32dp"
                 android:src="@drawable/ic_favorite"
                 android:padding="6dp"
-                android:background="@drawable/bg_product_card"
+                android:background="@drawable/glass_card_border"
                 app:layout_constraintTop_toTopOf="@id/product_image"
                 app:layout_constraintEnd_toEndOf="@id/product_image"
                 android:layout_margin="8dp"
                 android:contentDescription="@string/nav_favorites"
-                app:tint="@color/food_primary_red" />
+                app:tint="@color/itadaki_deep_red" />
 
             <!-- Admin Manage Button -->
             <ImageButton
                 android:id="@+id/admin_manage_button"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
-                android:background="@drawable/bg_product_card"
+                android:background="@drawable/glass_card_border"
                 android:contentDescription="@string/product_manage_content_description"
                 android:padding="6dp"
                 android:scaleType="centerInside"
@@ -75,7 +70,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:textColor="@color/food_dark_text"
+                android:textColor="@color/itadaki_charcoal"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:maxLines="1"
@@ -91,7 +86,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
-                android:textColor="@color/food_text_secondary"
+                android:textColor="@color/itadaki_charcoal"
                 android:textSize="12sp"
                 android:maxLines="1"
                 android:ellipsize="end"
@@ -124,7 +119,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
-                    android:textColor="@color/food_dark_text"
+                    android:textColor="@color/itadaki_charcoal"
                     android:textSize="14sp"
                     android:textStyle="bold"
                     tools:text="4.5" />
@@ -138,7 +133,7 @@
                 android:layout_height="32dp"
                 android:layout_marginTop="8dp"
                 android:checkable="false"
-                android:textColor="@color/food_primary_red"
+                android:textColor="@color/itadaki_deep_red"
                 android:textStyle="bold"
                 android:textSize="14sp"
                 app:chipBackgroundColor="@color/chip_price_background"

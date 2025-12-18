@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_category_unselected"
+    android:background="@color/itadaki_cream"
     tools:context=".ui.user.UserProfileActivity">
 
     <LinearLayout
@@ -48,7 +48,7 @@
                     android:layout_height="wrap_content"
                     android:textAppearance="?attr/textAppearanceHeadline5"
                     android:textStyle="bold"
-                    tools:text="customer" />
+                    tools:text="Admin" />
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/role_chip"
@@ -57,7 +57,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:text="ROLE"
-                    tools:text="CUSTOMER" />
+                    tools:text="ADMIN" />
             </LinearLayout>
         </eightbitlab.com.blurview.BlurView>
 
@@ -72,7 +72,7 @@
             app:cardCornerRadius="16dp"
             app:cardElevation="0dp"
             app:strokeWidth="0dp"
-            tools:visibility="gone">
+            tools:visibility="visible">
 
             <FrameLayout
                 android:layout_width="match_parent"
@@ -142,7 +142,7 @@
             app:cardCornerRadius="16dp"
             app:cardElevation="0dp"
             app:strokeWidth="0dp"
-            tools:visibility="visible">
+            tools:visibility="gone">
 
             <FrameLayout
                 android:layout_width="match_parent"
@@ -171,7 +171,7 @@
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/customer_orders_button"
-                        style="@style/GlassButton.Filled"
+                        style="@style/GlassButton.Primary"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
@@ -180,7 +180,7 @@
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/customer_cart_button"
-                        style="@style/GlassButton.Filled"
+                        style="@style/GlassButton.Primary"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
@@ -189,7 +189,7 @@
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/customer_checkout_button"
-                        style="@style/GlassButton.Filled"
+                        style="@style/GlassButton.Primary"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
@@ -210,7 +210,7 @@
             android:layout_marginBottom="24dp"
             android:text="Logout"
             android:textColor="@android:color/white"
-            android:backgroundTint="@color/food_primary_red"
+            android:backgroundTint="@color/itadaki_deep_red"
             app:cornerRadius="12dp"
             app:strokeWidth="0dp" />
 

@@ -70,4 +70,16 @@
         <item name="android:windowLightStatusBar">false</item>
         <item name="android:windowBackground">@color/itadaki_charcoal</item>
     </style>
+    
+    <!-- Red UI Button Style for Itadaki -->
+    <style name="Widget.Itadaki.Button.Red" parent="Widget.Material3.Button">
+        <item name="backgroundTint">#D32F2F</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="cornerRadius">30dp</item>
+        <item name="elevation">8dp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">18sp</item>
+        <item name="rippleColor">#FFCCCB</item>
+        <item name="android:minHeight">60dp</item>
+    </style>
 </resources>

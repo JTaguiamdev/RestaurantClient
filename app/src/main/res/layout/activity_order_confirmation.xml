@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_product_card"
+    android:background="@color/white"
     android:padding="24dp"
     tools:context=".ui.order.OrderConfirmationActivity">
 
@@ -15,7 +15,7 @@
         android:layout_marginTop="64dp"
         android:background="@android:color/transparent"
         android:padding="12dp"
-        app:lottie_rawRes="@raw/success_check"
+        app:lottie_rawRes="@raw/success_check1"
         app:lottie_autoPlay="true"
         app:lottie_loop="true"
         app:lottie_speed="1.1"
@@ -137,7 +137,7 @@
         android:layout_marginTop="32dp"
         android:text="View My Orders"
         android:textColor="@android:color/white"
-        android:backgroundTint="@color/food_primary_red"
+        android:backgroundTint="@color/itadaki_deep_red"
         app:cornerRadius="20dp"
         app:layout_constraintBottom_toTopOf="@id/continueshoppingButton"
         app:layout_constraintEnd_toEndOf="parent"
@@ -151,13 +151,13 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
         android:text="Continue Shopping"
-        android:textColor="@color/food_primary_red"
+        android:textColor="@color/itadaki_deep_red"
         app:cornerRadius="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/view_orders_button"
-        app:strokeColor="@color/food_primary_red"
+        app:strokeColor="@color/itadaki_deep_red"
         app:strokeWidth="1dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

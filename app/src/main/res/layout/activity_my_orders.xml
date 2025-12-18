@@ -4,31 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_category_unselected"
+    android:background="@color/itadaki_cream"
     tools:context=".ui.order.MyOrdersActivity">
 
-    <com.google.android.material.appbar.AppBarLayout
+    <include
         android:id="@+id/app_bar_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@android:color/transparent"
-        android:elevation="4dp"
-        app:elevation="4dp">
-
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/orders_toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@android:color/transparent"
-            android:elevation="4dp"
-            app:navigationIcon="?attr/homeAsUpIndicator"
-            app:navigationIconTint="@color/black"
-            app:subtitle="@string/orders_screen_subtitle"
-            app:subtitleTextColor="@color/black"
-            app:title="@string/action_my_orders"
-            app:titleTextColor="@color/black" />
-
-    </com.google.android.material.appbar.AppBarLayout>
+        layout="@layout/customer_toolbar" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

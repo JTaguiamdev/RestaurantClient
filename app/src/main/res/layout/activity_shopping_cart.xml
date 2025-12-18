@@ -4,23 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/itadaki_cream"
     tools:context=".ui.cart.ShoppingCartActivity">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:elevation="4dp"
-        app:elevation="4dp">
-
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:elevation="4dp"
-            app:navigationIcon="@android:drawable/ic_menu_close_clear_cancel"
-            app:title="My Cart" />
-
-    </com.google.android.material.appbar.AppBarLayout>
+    <include layout="@layout/customer_toolbar" />
 
     <!-- Cart List -->
     <androidx.recyclerview.widget.RecyclerView
@@ -54,7 +41,8 @@
             <eightbitlab.com.blurview.BlurView
                 android:id="@+id/cart_summary_blur"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:background="@drawable/glass_card_border"/>
 
             <!-- Content -->
             <LinearLayout
@@ -84,7 +72,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAppearance="?attr/textAppearanceTitleLarge"
-                        android:textColor="@color/food_primary_red"
+                        android:textColor="@color/itadaki_deep_red"
                         android:textStyle="bold"
                         tools:text="$129.97" />
                 </LinearLayout>
@@ -97,7 +85,7 @@
                     android:text="Proceed to Checkout"
                     android:textSize="16sp"
                     android:textColor="@android:color/white"
-                    app:backgroundTint="@color/food_primary_red"
+                    app:backgroundTint="@color/itadaki_deep_red"
                     app:cornerRadius="16dp" />
 
             </LinearLayout>

@@ -69,6 +69,8 @@
     <color name="itadaki_charcoal">#1D3557</color>
     <color name="itadaki_overlay">#80000000</color>
     <color name="itadaki_transparent_red">#40E63946</color>
+    <color name="itadaki_cream">#FFF8E1</color>
+    <color name="itadaki_deep_red">#D32F2F</color>
     
     <!-- Itadaki Gradient Colors -->
     <color name="itadaki_gradient_start">#9B1C1C</color>

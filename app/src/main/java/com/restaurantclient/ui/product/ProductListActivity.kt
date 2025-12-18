@@ -23,6 +23,7 @@ import com.eightbitlab.com.blurview.RenderScriptBlur
 import com.google.android.material.chip.Chip
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.restaurantclient.MainActivity
+import com.restaurantclient.data.dto.CategoryDTO
 import com.restaurantclient.R
 import com.restaurantclient.data.CartManager
 import com.restaurantclient.data.Result
@@ -61,6 +62,7 @@ class ProductListActivity : AppCompatActivity() {
     private var isMutationLoading: Boolean = false
     private var allProducts: List<ProductResponse> = emptyList()
     private var selectedCategoryId: Int? = null // null means "All"
+    private var selectedCategoryName: String? = null // used when API omits ID
 
     companion object {
         private const val BLUR_RADIUS = 20f
@@ -146,18 +148,21 @@ class ProductListActivity : AppCompatActivity() {
     private fun setupFABScrollAnimation(fabContainer: View?) {
         fabContainer ?: return
         
+        val fabCartContainer = customerBinding?.root?.findViewById<View>(R.id.fab_cart_container)
+        fabCartContainer ?: return
+        
         getProductsRecyclerView().addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 if (dy > 0) {
                     // Scrolling down - hide FAB with animation
-                    fabContainer.animate()
-                        .translationY(fabContainer.height.toFloat() + 100f)
+                    fabCartContainer.animate()
+                        .translationY(fabCartContainer.height.toFloat() + 100f)
                         .alpha(0f)
                         .setDuration(200)
                         .start()
                 } else if (dy < 0) {
                     // Scrolling up - show FAB with animation
-                    fabContainer.animate()
+                    fabCartContainer.animate()
                         .translationY(0f)
                         .alpha(1f)
                         .setDuration(200)
@@ -264,7 +269,7 @@ class ProductListActivity : AppCompatActivity() {
             val chip = Chip(this).apply {
                 id = View.generateViewId()
                 text = category.name
-                tag = category.id // Store category ID in tag
+                tag = category // Keep reference for later lookup
                 isCheckable = true
                 setChipBackgroundColorResource(R.color.food_light_gray)
                 setTextColor(getColor(R.color.food_dark_text))
@@ -297,10 +302,16 @@ class ProductListActivity : AppCompatActivity() {
                     setTextColor(getColor(R.color.white))
                     chipStrokeWidth = 0f
                     
-                    // Save and filter products by category
-                    val categoryId = tag as? Int
+                    val selectedCategory = tag as? CategoryDTO
+                    val categoryId = selectedCategory?.resolvedId
                     selectedCategoryId = categoryId
-                    filterByCategory(categoryId)
+                    selectedCategoryName = when {
+                        selectedCategory == null -> null
+                        categoryId == null -> selectedCategory.name
+                        else -> null
+                    }
+                    val fallbackName = selectedCategoryName ?: selectedCategory?.name
+                    filterByCategory(categoryId, fallbackName)
                 }
             }
         }
@@ -408,7 +419,7 @@ class ProductListActivity : AppCompatActivity() {
             when (result) {
                 is Result.Success -> {
                     allProducts = result.data
-                    filterByCategory(selectedCategoryId)
+                    filterByCategory(selectedCategoryId, selectedCategoryName)
                 }
                 is Result.Error -> {
                     Toast.makeText(this, getString(R.string.product_list_error, result.exception.message), Toast.LENGTH_LONG).show()
@@ -434,30 +445,43 @@ class ProductListActivity : AppCompatActivity() {
         }
     }
 
-    private fun filterByCategory(categoryId: Int?) {
-        if (categoryId == null) {
-            // Show all products
+    private fun filterByCategory(categoryId: Int?, categoryNameFallback: String? = null) {
+        if (categoryId == null && categoryNameFallback.isNullOrBlank()) {
             productListAdapter.submitList(allProducts)
-        } else {
-            // Fetch products by category from API
-            lifecycleScope.launch {
-                getProgressBar().isVisible = true
-                when (val result = productViewModel.getProductsByCategory(categoryId)) {
-                    is Result.Success -> {
-                        productListAdapter.submitList(result.data)
-                    }
-                    is Result.Error -> {
-                        Toast.makeText(
-                            this@ProductListActivity,
-                            "Failed to load category products: ${result.exception.message}",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                        // Fallback to showing all products
-                        productListAdapter.submitList(allProducts)
-                    }
-                }
-                getProgressBar().isVisible = false
+            return
+        }
+
+        val filteredProducts = allProducts.filter { product ->
+            val productCategories = product.categories ?: return@filter false
+            productCategories.any { category ->
+                val matchesId = categoryId != null && category.resolvedId == categoryId
+                val matchesName = !categoryNameFallback.isNullOrBlank() &&
+                    category.name.equals(categoryNameFallback, ignoreCase = true)
+                matchesId || matchesName
             }
+        }
+
+        if (filteredProducts.isNotEmpty() || categoryId == null) {
+            productListAdapter.submitList(filteredProducts)
+            return
+        }
+
+        lifecycleScope.launch {
+            getProgressBar().isVisible = true
+            when (val result = productViewModel.getProductsByCategory(categoryId)) {
+                is Result.Success -> {
+                    productListAdapter.submitList(result.data)
+                }
+                is Result.Error -> {
+                    Toast.makeText(
+                        this@ProductListActivity,
+                        "Failed to load category products: ${result.exception.message}",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    productListAdapter.submitList(allProducts)
+                }
+            }
+            getProgressBar().isVisible = false
         }
     }
 

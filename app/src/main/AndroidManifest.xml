@@ -26,6 +26,7 @@
         </activity>
 
         <activity android:name=".ui.auth.LoginActivity" />
+        <activity android:name=".ui.intro.IntroductionActivity" />
         <activity android:name=".ui.product.ProductListActivity" />
         <activity android:name=".ui.product.ProductDetailActivity" />
         <activity android:name=".ui.order.MyOrdersActivity" />

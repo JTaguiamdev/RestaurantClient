@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/itadaki_cream"
     tools:context=".ui.product.ProductDetailActivity">
 
     <androidx.core.widget.NestedScrollView
@@ -116,7 +116,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
-                        android:textColor="@color/food_primary_red"
+                        android:textColor="@color/itadaki_deep_red"
                         android:textSize="22sp"
                         android:textStyle="bold"
                         tools:text="$19.99" />
@@ -174,7 +174,7 @@
                     app:iconGravity="textStart"
                     app:iconPadding="0dp"
                     app:iconTint="@color/white"
-                    app:backgroundTint="@color/food_primary_red"
+                    app:backgroundTint="@color/itadaki_deep_red"
                     app:cornerRadius="24dp" />
 
                 <TextView
@@ -197,7 +197,7 @@
                     app:iconGravity="textStart"
                     app:iconPadding="0dp"
                     app:iconTint="@color/white"
-                    app:backgroundTint="@color/food_primary_red"
+                    app:backgroundTint="@color/itadaki_deep_red"
                     app:cornerRadius="24dp" />
             </LinearLayout>
 
@@ -223,7 +223,7 @@
         android:textColor="@color/white"
         android:textSize="16sp"
         android:textStyle="bold"
-        app:backgroundTint="@color/food_primary_red"
+        app:backgroundTint="@color/itadaki_deep_red"
         app:cornerRadius="16dp" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

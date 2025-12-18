@@ -1,113 +1,140 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/itadaki_charcoal">
+    android:background="@color/itadaki_cream">
 
-    <!-- Animated GIF background -->
+    <!-- Header Section -->
     <ImageView
-        android:id="@+id/steam_animation"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="centerCrop"
-        android:contentDescription="@string/itadaki_tagline" />
+        android:id="@+id/app_logo"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:src="@drawable/itadaki_logo"
+        android:contentDescription="@string/app_name"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="48dp" />
 
-    <!-- Gradient overlay for readability -->
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/bg_intro_gradient"
-        android:alpha="0.7" />
+    <TextView
+        android:id="@+id/tagline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Authentic Taste, Delivered"
+        android:textColor="@color/itadaki_deep_red"
+        android:textSize="24sp"
+        android:fontFamily="cursive"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/app_logo"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="8dp" />
 
-    <!-- Content Container -->
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="32dp">
+    <!-- App Description -->
+    <TextView
+        android:id="@+id/app_description"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/itadaki_description"
+        android:textColor="#1D3557"
+        android:textSize="14sp"
+        android:textAlignment="center"
+        android:lineSpacingExtra="4dp"
+        android:paddingStart="32dp"
+        android:paddingEnd="32dp"
+        app:layout_constraintTop_toBottomOf="@id/tagline"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp" />
 
-        <!-- Logo -->
-        <ImageView
-            android:id="@+id/itadaki_logo"
-            android:layout_width="160dp"
-            android:layout_height="160dp"
-            android:src="@drawable/itadaki_logo"
-            android:contentDescription="@string/itadaki_app_name"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/app_name"
-            app:layout_constraintVertical_chainStyle="packed"
-            android:layout_marginBottom="24dp"/>
+    <!-- Product Carousel Card -->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/carousel_card"
+        android:layout_width="0dp"
+        android:layout_height="300dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginTop="32dp"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="8dp"
+        app:cardBackgroundColor="#FFFFFF"
+        app:layout_constraintTop_toBottomOf="@id/app_description"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
-        <!-- App Name -->
-        <TextView
-            android:id="@+id/app_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/itadaki_app_name"
-            android:textColor="@color/itadaki_white"
-            android:textSize="48sp"
-            android:fontFamily="@font/quicksand"
-            android:textStyle="bold"
-            app:layout_constraintTop_toBottomOf="@id/itadaki_logo"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/divider"
-            android:layout_marginBottom="16dp"/>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-        <!-- Divider -->
-        <View
-            android:id="@+id/divider"
-            android:layout_width="100dp"
-            android:layout_height="3dp"
-            android:background="@color/itadaki_white"
-            android:alpha="0.6"
-            app:layout_constraintTop_toBottomOf="@id/app_name"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/itadaki_tagline"
-            android:layout_marginBottom="16dp"/>
+            <!-- ViewPager2 for Product Slider -->
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/product_viewpager"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/indicator_container"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
 
-        <!-- Tagline -->
-        <TextView
-            android:id="@+id/itadaki_tagline"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/itadaki_tagline"
-            android:textColor="@color/itadaki_white"
-            android:textSize="18sp"
-            android:fontFamily="@font/noto_sans_jp"
-            android:letterSpacing="0.08"
-            android:alpha="0.9"
-            app:layout_constraintTop_toBottomOf="@id/divider"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/btn_get_started"
-            android:layout_marginBottom="48dp"/>
+            <!-- Glassmorphism Overlay -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                app:layout_constraintBottom_toBottomOf="@id/product_viewpager"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
 
-        <!-- Get Started Button -->
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_get_started"
-            android:layout_width="0dp"
-            android:layout_height="56dp"
-            android:text="@string/itadaki_get_started"
-            android:textColor="@color/itadaki_white"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:fontFamily="@font/noto_sans_jp"
-            android:letterSpacing="0.1"
-            app:backgroundTint="@color/itadaki_red"
-            app:cornerRadius="28dp"
-            app:elevation="8dp"
-            app:rippleColor="@color/itadaki_white"
-            app:layout_constraintTop_toBottomOf="@id/itadaki_tagline"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintWidth_percent="0.7"
-            android:layout_marginBottom="64dp"/>
+            <!-- Page Indicator Dots Container -->
+            <LinearLayout
+                android:id="@+id/indicator_container"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:padding="12dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-</FrameLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <!-- Product Name Display -->
+    <TextView
+        android:id="@+id/product_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#1D3557"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:fontFamily="sans-serif-medium"
+        tools:text="Tonkotsu Ramen"
+        app:layout_constraintTop_toBottomOf="@id/carousel_card"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp" />
+
+    <!-- Start Ordering Button -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_start_ordering"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:text="@string/login"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        app:cornerRadius="30dp"
+        app:backgroundTint="@color/itadaki_deep_red"
+        app:elevation="8dp"
+        app:rippleColor="#FFCCCB"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="48dp"
+        android:layout_marginEnd="48dp"
+        android:layout_marginBottom="48dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

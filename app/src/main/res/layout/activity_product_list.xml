@@ -4,14 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="#FFF8E1"
     tools:context=".ui.product.ProductListActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
+        android:background="@color/itadaki_cream"
         android:elevation="0dp"
         app:elevation="0dp">
 
@@ -20,7 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="16dp"
-            android:layout_marginTop="10dp">
+            android:layout_marginTop="20dp">
 
             <LinearLayout
                 android:id="@+id/brand_section"
@@ -36,7 +36,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/app_brand_name"
-                    android:textColor="@color/food_dark_text"
+                    android:textColor="@color/itadaki_deep_red"
                     android:textSize="28sp"
                     android:textStyle="bold"
                     android:fontFamily="cursive" />
@@ -46,7 +46,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/app_tagline"
-                    android:textColor="@color/food_text_secondary"
+                    android:textColor="@color/itadaki_charcoal"
                     android:textSize="14sp" />
             </LinearLayout>
 
@@ -88,7 +88,7 @@
                     app:iconTint="@color/white"
                     app:iconGravity="textStart"
                     app:iconPadding="0dp"
-                    app:backgroundTint="@color/food_primary_red"
+                    app:backgroundTint="@color/itadaki_deep_red"
                     app:cornerRadius="20dp" />
             </LinearLayout>
 
@@ -179,6 +179,7 @@
 
     <!-- Glass FAB Container with Badge -->
     <FrameLayout
+        android:id="@+id/fab_cart_container"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
@@ -207,7 +208,7 @@
                 android:layout_gravity="center"
                 android:src="@drawable/ic_cart"
                 android:contentDescription="@string/view_cart"
-                app:tint="@color/food_primary_red" />
+                app:tint="@color/itadaki_deep_red" />
                 
             <!-- Invisible clickable overlay -->
             <View

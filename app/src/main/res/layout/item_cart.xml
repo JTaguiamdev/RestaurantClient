@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp">
+    android:layout_margin="8dp"
+    android:background="@drawable/glass_card_border">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -49,7 +50,7 @@
             android:background="?attr/selectableItemBackgroundBorderless"
             android:src="@drawable/ic_delete"
             android:contentDescription="@string/remove_item"
-            app:tint="@color/food_primary_red"
+            app:tint="@color/itadaki_deep_red"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -75,8 +76,8 @@
                 app:iconGravity="textStart"
                 app:iconPadding="0dp"
                 app:iconSize="20dp"
-                app:strokeColor="@color/food_primary_red"
-                app:iconTint="@color/food_primary_red" />
+                app:strokeColor="@color/itadaki_deep_red"
+                app:iconTint="@color/itadaki_deep_red" />
 
             <TextView
                 android:id="@+id/quantity_text"
@@ -99,8 +100,8 @@
                 app:iconGravity="textStart"
                 app:iconPadding="0dp"
                 app:iconSize="20dp"
-                app:strokeColor="@color/food_primary_red"
-                app:iconTint="@color/food_primary_red" />
+                app:strokeColor="@color/itadaki_deep_red"
+                app:iconTint="@color/itadaki_deep_red" />
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
