@@ -71,7 +71,12 @@ android {
         }
     }
 
-
+    // Always rename APK to RestaurantClient.apk for all build types
+    applicationVariants.all {
+        outputs.all {
+            outputFileName = "RestaurantClient.apk"
+        }
+    }
 }
 
 dependencies {
