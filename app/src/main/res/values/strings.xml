@@ -107,4 +107,7 @@
     <string name="login">Login</string>
     <string name="action_refresh">Refresh</string>
     <string name="_1">1</string>
+    <string name="total">Total</string>
+    <string name="proceed_to_checkout">Proceed to Checkout</string>
+    <string name="place_order">Place Order</string>
 </resources>
