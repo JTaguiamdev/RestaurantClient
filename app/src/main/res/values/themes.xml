@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Base.Theme.RestaurantClient" parent="Theme.Material3.DayNight.NoActionBar">
+    <style name="Base.Theme.RestaurantClient" parent="Theme.Material3.Light.NoActionBar">
         <item name="colorPrimary">@color/brand_primary</item>
         <item name="colorOnPrimary">@color/brand_on_primary</item>
         <item name="colorPrimaryContainer">@color/brand_primary_container</item>
@@ -58,7 +58,7 @@
     </style>
     
     <!-- Itadaki Introduction Screen Theme -->
-    <style name="Theme.Itadaki.Introduction" parent="Theme.Material3.DayNight.NoActionBar">
+    <style name="Theme.Itadaki.Introduction" parent="Theme.Material3.Light.NoActionBar">
         <item name="colorPrimary">@color/itadaki_red</item>
         <item name="colorOnPrimary">@color/itadaki_white</item>
         <item name="colorPrimaryContainer">@color/itadaki_crimson</item>
