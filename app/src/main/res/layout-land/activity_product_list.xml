@@ -269,32 +269,24 @@
         tools:visibility="gone" />
 
     <!-- Bottom Navigation Bar with Glassmorphism (Admin only) -->
-    <FrameLayout
-        android:id="@+id/bottom_nav_container"
+    <com.google.android.material.bottomappbar.BottomAppBar
+        android:id="@+id/bottom_app_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:visibility="gone"
-        tools:visibility="visible">
+        tools:visibility="visible"
+        app:backgroundTint="@android:color/transparent"
+        app:fabCradleMargin="8dp"
+        app:fabCradleRoundedCornerRadius="16dp"
+        app:fabCradleVerticalOffset="8dp" >
 
         <com.eightbitlab.com.blurview.BlurView
             android:id="@+id/bottom_nav_blur"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
-        <com.google.android.material.bottomappbar.BottomAppBar
-            android:id="@+id/bottom_app_bar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            app:backgroundTint="@android:color/transparent"
-            app:fabCradleMargin="8dp"
-            app:fabCradleRoundedCornerRadius="16dp"
-            app:fabCradleVerticalOffset="8dp">
-
-        </com.google.android.material.bottomappbar.BottomAppBar>
-
-    </FrameLayout>
+    </com.google.android.material.bottomappbar.BottomAppBar>
 
     <!-- FAB for Cart (Bottom Right) -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -315,7 +307,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:weightSum="6"
-        app:layout_anchor="@+id/bottom_nav_container"
+        app:layout_anchor="@+id/bottom_app_bar"
         app:layout_anchorGravity="center">
 
         <LinearLayout

@@ -9,16 +9,31 @@ import javax.inject.Inject
 
 class ProductRepository @Inject constructor(private val apiService: ApiService) {
 
-    suspend fun getAllProducts(): Result<List<ProductResponse>> {
+    private var cachedProducts: List<ProductResponse>? = null
+
+    fun clearCache() {
+        cachedProducts = null
+    }
+
+    suspend fun getAllProducts(forceRefresh: Boolean = false): Result<List<ProductResponse>> {
+        if (cachedProducts != null && !forceRefresh) {
+            return Result.Success(cachedProducts!!)
+        }
+
         return try {
             Log.d("ProductRepository", "Fetching all products")
             val response = apiService.getAllProducts()
             Log.d("ProductRepository", "API Response code: ${response.code()}")
             if (response.isSuccessful) {
-                val products = response.body()
-                if (products != null) {
-                    Log.d("ProductRepository", "Successfully fetched ${products.size} products")
-                    Result.Success(products)
+                val newProducts = response.body()
+                if (newProducts != null) {
+                    if (newProducts != cachedProducts) { // Simple equality check for list
+                        cachedProducts = newProducts
+                        Log.d("ProductRepository", "Successfully fetched and updated ${newProducts.size} products in cache")
+                    } else {
+                        Log.d("ProductRepository", "Successfully fetched products, but data is same as cache. Not updating cache.")
+                    }
+                    Result.Success(cachedProducts!!)
                 } else {
                     val errorMsg = "Failed to fetch products: Response body is null"
                     Log.e("ProductRepository", errorMsg)

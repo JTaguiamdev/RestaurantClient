@@ -1,11 +1,15 @@
 package com.restaurantclient.data.network
 
+import com.restaurantclient.data.dto.AddPermissionRequest
+import com.restaurantclient.data.dto.AddRolesRequest
+import com.restaurantclient.data.dto.AssignMultipleRolesRequest
 import com.restaurantclient.data.dto.AssignRoleRequest
 import com.restaurantclient.data.dto.CategoryDTO
 import com.restaurantclient.data.dto.CategoryProductRequest
 import com.restaurantclient.data.dto.CategoryRequest
 import com.restaurantclient.data.dto.CreateOrderRequest
 import com.restaurantclient.data.dto.CreateUserRequest
+import com.restaurantclient.data.dto.DashboardSummaryDTO
 import com.restaurantclient.data.dto.LoginDTO
 import com.restaurantclient.data.dto.LoginResponse
 import com.restaurantclient.data.dto.NewUserDTO
@@ -13,9 +17,12 @@ import com.restaurantclient.data.dto.OrderResponse
 import com.restaurantclient.data.dto.PermissionRequest
 import com.restaurantclient.data.dto.ProductRequest
 import com.restaurantclient.data.dto.ProductResponse
+import com.restaurantclient.data.dto.RoleDetailsDTO
 import com.restaurantclient.data.dto.RoleDTO
 import com.restaurantclient.data.dto.RoleRequest
 import com.restaurantclient.data.dto.UpdateOrderRequest
+import com.restaurantclient.data.dto.UpdateUserRolesRequest
+import com.restaurantclient.data.dto.UpdateUserRequest // Added missing import
 import com.restaurantclient.data.dto.UserDTO
 import okhttp3.ResponseBody
 import retrofit2.Response
@@ -87,6 +94,9 @@ interface ApiService {
     @POST("api/v1/users/{id}")
     suspend fun updateUser(@Path("id") userId: Int, @Body userDTO: UserDTO): Response<UserDTO>
 
+    @PUT("api/v1/users/{id}/profile")
+    suspend fun updateUserProfile(@Path("id") userId: Int, @Body updateUserRequest: UpdateUserRequest): Response<Unit>
+
     @DELETE("api/v1/users/{id}")
     suspend fun deleteUser(@Path("id") userId: Int): Response<Unit>
 
@@ -100,6 +110,9 @@ interface ApiService {
 
     @GET("api/v1/roles")
     suspend fun getAllRoles(): Response<List<RoleDTO>>
+    
+    @GET("api/v1/roles")
+    suspend fun getAllRolesWithDetails(): Response<List<RoleDetailsDTO>>
 
     @POST("api/v1/roles/update/{id}")
     suspend fun updateRole(@Path("id") roleId: Int, @Body roleRequest: RoleRequest): Response<RoleDTO>
@@ -115,6 +128,24 @@ interface ApiService {
 
     @POST("api/v1/roles/assign")
     suspend fun assignRole(@Body assignRoleRequest: AssignRoleRequest): Response<Unit>
+    
+    @POST("api/v1/roles/add_permission")
+    suspend fun addPermission(@Body addPermissionRequest: AddPermissionRequest): Response<Unit>
+    
+    @POST("api/v1/roles/assign/multiple")
+    suspend fun assignMultipleRoles(@Body assignMultipleRolesRequest: AssignMultipleRolesRequest): Response<Unit>
+    
+    @PUT("api/v1/users/{id}/roles")
+    suspend fun updateUserRoles(@Path("id") userId: Int, @Body updateUserRolesRequest: UpdateUserRolesRequest): Response<UserDTO>
+    
+    @POST("api/v1/users/{username}/roles/add")
+    suspend fun addRolesToUser(@Path("username") username: String, @Body addRolesRequest: AddRolesRequest): Response<UserDTO>
+    
+    @DELETE("api/v1/users/{username}/roles/{roleName}")
+    suspend fun removeRoleFromUser(@Path("username") username: String, @Path("roleName") roleName: String): Response<UserDTO>
+    
+    @GET("api/v1/users/{username}/roles")
+    suspend fun getUserRoles(@Path("username") username: String): Response<List<RoleDetailsDTO>>
 
     // Categories
     @GET("api/v1/categories")
@@ -137,6 +168,9 @@ interface ApiService {
 
     @GET("api/v1/categories/{id}/products")
     suspend fun getProductsByCategory(@Path("id") categoryId: Int): Response<List<ProductResponse>>
+    
+    @GET("api/v1/categories/{category_name}/products")
+    suspend fun getProductsByCategoryName(@Path("category_name") categoryName: String): Response<List<ProductResponse>>
 
     // Additional Order Endpoints
     @GET("api/v1/orders/role/{role_name}")
@@ -145,4 +179,8 @@ interface ApiService {
     // Health Check
     @GET("api")
     suspend fun healthCheck(): Response<String>
+    
+    // Dashboard Summary
+    @GET("api/v1/dashboard/summary")
+    suspend fun getDashboardSummary(): Response<DashboardSummaryDTO>
 }

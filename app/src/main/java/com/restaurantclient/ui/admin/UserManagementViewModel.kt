@@ -25,15 +25,18 @@ class UserManagementViewModel @Inject constructor(
 
     private val _updateUserResult = MutableLiveData<Result<Unit>>()
     val updateUserResult: LiveData<Result<Unit>> = _updateUserResult
+    
+    private val _updateRolesResult = MutableLiveData<Result<UserDTO>>()
+    val updateRolesResult: LiveData<Result<UserDTO>> = _updateRolesResult
 
     private val _loading = MutableLiveData<Boolean>()
     val loading: LiveData<Boolean> = _loading
 
-    fun loadUsers() {
+    fun loadUsers(forceRefresh: Boolean = false) {
         viewModelScope.launch {
             _loading.value = true
             try {
-                val result = userRepository.getAllUsers()
+                val result = userRepository.getAllUsers(forceRefresh)
                 _users.value = result
             } catch (e: Exception) {
                 _users.value = Result.Error(e)
@@ -64,8 +67,41 @@ class UserManagementViewModel @Inject constructor(
             }
         }
     }
+    
+    fun updateUserRoles(userId: Int, roleNames: List<String>) {
+        viewModelScope.launch {
+            try {
+                val result = userRepository.updateUserRoles(userId, roleNames)
+                _updateRolesResult.value = result
+            } catch (e: Exception) {
+                _updateRolesResult.value = Result.Error(e)
+            }
+        }
+    }
+    
+    fun addRolesToUser(username: String, roleNames: List<String>) {
+        viewModelScope.launch {
+            try {
+                val result = userRepository.addRolesToUser(username, roleNames)
+                _updateRolesResult.value = result
+            } catch (e: Exception) {
+                _updateRolesResult.value = Result.Error(e)
+            }
+        }
+    }
+    
+    fun removeRoleFromUser(username: String, roleName: String) {
+        viewModelScope.launch {
+            try {
+                val result = userRepository.removeRoleFromUser(username, roleName)
+                _updateRolesResult.value = result
+            } catch (e: Exception) {
+                _updateRolesResult.value = Result.Error(e)
+            }
+        }
+    }
 
     fun refreshUsers() {
-        loadUsers()
+        loadUsers(true)
     }
 }

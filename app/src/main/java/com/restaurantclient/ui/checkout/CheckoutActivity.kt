@@ -23,11 +23,14 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+import com.restaurantclient.ui.auth.AuthViewModel // Import AuthViewModel
+
 @AndroidEntryPoint
 class CheckoutActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityCheckoutBinding
     private val orderViewModel: OrderViewModel by viewModels()
+    private val authViewModel: AuthViewModel by viewModels() // Inject AuthViewModel
     private lateinit var cartAdapter: CheckoutCartAdapter
     private var isOrderBeingPlaced = false
     
@@ -150,6 +153,13 @@ class CheckoutActivity : AppCompatActivity() {
             products = cartManager.toOrderRequest()
         )
         
-        orderViewModel.createOrder(orderRequest)
+        val currentUser = authViewModel.getCurrentUser()
+        if (currentUser?.username != null) {
+            orderViewModel.createOrder(orderRequest, currentUser.username)
+        } else {
+            Toast.makeText(this, "User not logged in. Please log in to place an order.", Toast.LENGTH_LONG).show()
+            isOrderBeingPlaced = false
+            binding.placeOrderButton.isEnabled = true
+        }
     }
 }

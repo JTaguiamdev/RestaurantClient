@@ -29,7 +29,6 @@ class CreateUserActivity : BaseAdminActivity() {
 
         setupToolbar()
         setupGlassForm()
-        setupRoleSpinner()
         setupClickListeners()
         setupObservers()
     }
@@ -46,15 +45,6 @@ class CreateUserActivity : BaseAdminActivity() {
         val whiteOverlay = ContextCompat.getColor(this, R.color.white_glass_overlay)
         binding.createUserFormBlur.setOverlayColor(whiteOverlay)
         binding.createUserFormBlur.setupGlassEffect(25f)
-    }
-
-    private fun setupRoleSpinner() {
-        val roles = arrayOf("Customer", "Admin")
-        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, roles)
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        binding.roleSpinner.adapter = adapter
-        // Default to Customer role
-        binding.roleSpinner.setSelection(0)
     }
 
     private fun setupClickListeners() {
@@ -123,16 +113,9 @@ class CreateUserActivity : BaseAdminActivity() {
             binding.passwordLayout.error = null
         }
 
-        // Determine role
-        val role = when (binding.roleSpinner.selectedItem.toString()) {
-            "Admin" -> RoleDTO.Admin
-            "Customer" -> RoleDTO.Customer
-            else -> RoleDTO.Customer
-        }
-
         // Create user
         binding.progressBar.visibility = View.VISIBLE
-        createUserViewModel.createUser(username, password, role)
+        createUserViewModel.createUser(username, password, RoleDTO.Customer)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

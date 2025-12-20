@@ -10,10 +10,20 @@ import javax.inject.Inject
 
 class OrderRepository @Inject constructor(private val apiService: ApiService) {
 
+    private var cachedAllOrders: List<OrderResponse>? = null
+    private val cachedUserOrders: MutableMap<String, List<OrderResponse>> = mutableMapOf()
+
+    fun clearCache() {
+        cachedAllOrders = null
+        cachedUserOrders.clear()
+        Log.d("OrderRepository", "Order caches cleared.")
+    }
+
     suspend fun createOrder(createOrderRequest: CreateOrderRequest): Result<OrderResponse> {
         return try {
             val response = apiService.createOrder(createOrderRequest)
             if (response.isSuccessful) {
+                clearCache() // Invalidate cache after creating new order
                 // Server returns plain text "Orders created", create dummy response
                 val dummyResponse = OrderResponse(
                     order_id = 0,
@@ -34,15 +44,25 @@ class OrderRepository @Inject constructor(private val apiService: ApiService) {
         }
     }
 
-    suspend fun getUserOrders(username: String): Result<List<OrderResponse>> {
+    suspend fun getUserOrders(username: String, forceRefresh: Boolean = false): Result<List<OrderResponse>> {
+        if (cachedUserOrders.containsKey(username) && !forceRefresh) {
+            Log.d("OrderRepository", "Returning cached orders for user: $username")
+            return Result.Success(cachedUserOrders[username]!!)
+        }
+
         return try {
-            Log.d("OrderRepository", "Fetching orders for username: $username")
+            Log.d("OrderRepository", "Fetching orders for username: $username (forceRefresh: $forceRefresh)")
             val response = apiService.getUserOrders(username)
             Log.d("OrderRepository", "API Response code: ${response.code()}")
             if (response.isSuccessful) {
-                val orders = response.body()!!
-                Log.d("OrderRepository", "Successfully fetched ${orders.size} orders")
-                Result.Success(orders)
+                val newOrders = response.body()!!
+                if (newOrders != cachedUserOrders[username]) {
+                    cachedUserOrders[username] = newOrders
+                    Log.d("OrderRepository", "Successfully fetched and updated ${newOrders.size} orders for user $username in cache")
+                } else {
+                    Log.d("OrderRepository", "Successfully fetched orders for user $username, but data is same as cache. Not updating cache.")
+                }
+                Result.Success(cachedUserOrders[username]!!)
             } else {
                 val errorMsg = "Failed to get user orders: HTTP ${response.code()}"
                 Log.e("OrderRepository", errorMsg)
@@ -67,11 +87,24 @@ class OrderRepository @Inject constructor(private val apiService: ApiService) {
         }
     }
 
-    suspend fun getAllOrders(): Result<List<OrderResponse>> {
+    suspend fun getAllOrders(forceRefresh: Boolean = false): Result<List<OrderResponse>> {
+        if (cachedAllOrders != null && !forceRefresh) {
+            Log.d("OrderRepository", "Returning cached all orders.")
+            return Result.Success(cachedAllOrders!!)
+        }
+
         return try {
+            Log.d("OrderRepository", "Fetching all orders (forceRefresh: $forceRefresh)")
             val response = apiService.getAllOrders()
             if (response.isSuccessful) {
-                Result.Success(response.body() ?: emptyList())
+                val newOrders = response.body() ?: emptyList()
+                if (newOrders != cachedAllOrders) {
+                    cachedAllOrders = newOrders
+                    Log.d("OrderRepository", "Successfully fetched and updated ${newOrders.size} all orders in cache")
+                } else {
+                    Log.d("OrderRepository", "Successfully fetched all orders, but data is same as cache. Not updating cache.")
+                }
+                Result.Success(cachedAllOrders!!)
             } else {
                 Result.Error(Exception("Failed to fetch orders: ${response.code()}"))
             }

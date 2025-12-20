@@ -29,9 +29,9 @@ class ProductViewModel @Inject constructor(
     private val _mutationLoading = MutableLiveData<Boolean>()
     val mutationLoading: LiveData<Boolean> = _mutationLoading
 
-    fun fetchProducts() {
+    fun fetchProducts(forceRefresh: Boolean = false) {
         viewModelScope.launch {
-            val result = productRepository.getAllProducts()
+            val result = productRepository.getAllProducts(forceRefresh)
             _products.postValue(result)
         }
     }
@@ -69,7 +69,11 @@ class ProductViewModel @Inject constructor(
             }
 
             when (result) {
-                is Result.Success<*> -> _productMutation.value = Result.Success(Unit)
+                is Result.Success<*> -> {
+                    _productMutation.value = Result.Success(Unit)
+                    productRepository.clearCache() // Invalidate cache
+                    fetchProducts(true) // Refresh products from API
+                }
                 is Result.Error -> _productMutation.value = Result.Error(result.exception)
             }
 

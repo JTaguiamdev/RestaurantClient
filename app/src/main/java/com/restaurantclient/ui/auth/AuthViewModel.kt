@@ -158,6 +158,7 @@ class AuthViewModel @Inject constructor(
                         userId = null,
                         username = newUserDto.username,
                         roleDetails = null, // Create simple admin role details
+                        roles = null,
                         createdAt = null,
                         updatedAt = null
                     )
@@ -240,6 +241,10 @@ class AuthViewModel @Inject constructor(
         return currentUser
     }
 
+    fun getUserId(): Int? {
+        return tokenManager.getUserId()
+    }
+
     // Load user info from stored data on app start
     fun loadStoredUserInfo() {
         val role = tokenManager.getUserRole()
@@ -251,6 +256,7 @@ class AuthViewModel @Inject constructor(
                 userId = null,
                 username = username,
                 roleDetails = null, // Role will be computed from stored role
+                roles = null,
                 createdAt = null,
                 updatedAt = null
             )
@@ -261,6 +267,7 @@ class AuthViewModel @Inject constructor(
                 userId = null,
                 username = username,
                 roleDetails = null,
+                roles = null,
                 createdAt = null,
                 updatedAt = null
             )
@@ -298,10 +305,11 @@ class AuthViewModel @Inject constructor(
                 tokenManager.saveUserRole(determinedRole)
                 
                 // Update current user object
-                currentUser = currentUser?.copy(roleDetails = null) ?: UserDTO(
+                currentUser = currentUser?.copy(roleDetails = null, roles = null) ?: UserDTO(
                     userId = null,
                     username = username,
                     roleDetails = null, // Role stored via TokenManager
+                    roles = null,
                     createdAt = null,
                     updatedAt = null
                 )
@@ -315,10 +323,11 @@ class AuthViewModel @Inject constructor(
                 // Default to customer if can't determine
                 val defaultRole = RoleDTO.Customer
                 tokenManager.saveUserRole(defaultRole)
-                currentUser = currentUser?.copy(roleDetails = null) ?: UserDTO(
+                currentUser = currentUser?.copy(roleDetails = null, roles = null) ?: UserDTO(
                     userId = null,
                     username = username,
                     roleDetails = null, // Role stored via TokenManager
+                    roles = null,
                     createdAt = null,
                     updatedAt = null
                 )

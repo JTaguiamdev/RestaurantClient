@@ -25,7 +25,7 @@ class OrderViewModel @Inject constructor(
     
     private var isCreatingOrder = false
 
-    fun createOrder(createOrderRequest: CreateOrderRequest) {
+    fun createOrder(createOrderRequest: CreateOrderRequest, username: String) { // Pass username to refresh orders
         if (isCreatingOrder) return
         
         isCreatingOrder = true
@@ -33,12 +33,17 @@ class OrderViewModel @Inject constructor(
             val result = orderRepository.createOrder(createOrderRequest)
             _createOrderResult.postValue(result)
             isCreatingOrder = false
+            
+            // Force refresh user orders after creating a new order
+            if (result is Result.Success) {
+                fetchUserOrders(username, forceRefresh = true)
+            }
         }
     }
 
-    fun fetchUserOrders(username: String) {
+    fun fetchUserOrders(username: String, forceRefresh: Boolean = false) {
         viewModelScope.launch {
-            val result = orderRepository.getUserOrders(username)
+            val result = orderRepository.getUserOrders(username, forceRefresh)
             _userOrders.postValue(result)
         }
     }

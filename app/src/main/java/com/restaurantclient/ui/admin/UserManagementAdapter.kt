@@ -15,7 +15,8 @@ import com.restaurantclient.ui.common.setupGlassEffect
 
 class UserManagementAdapter(
     private val onEditUser: (UserDTO) -> Unit,
-    private val onDeleteUser: (UserDTO) -> Unit
+    private val onDeleteUser: (UserDTO) -> Unit,
+    private val onManagePermissions: (UserDTO) -> Unit
 ) : ListAdapter<UserDTO, UserManagementAdapter.UserViewHolder>(UserDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserViewHolder {
@@ -44,20 +45,28 @@ class UserManagementAdapter(
             binding.usernameText.text = user.username
             binding.createdAtText.text = user.createdAt ?: "Unknown"
             
-            // Set role badge
-            when (user.role) {
-                RoleDTO.Admin -> {
-                    binding.roleBadge.text = "ADMIN"
-                    binding.roleBadge.setBackgroundColor(binding.root.context.getColor(R.color.admin_primary))
+            // Display role with permissions
+            val role = user.roleDetails
+            if (role != null) {
+                val permissions = role.permissions ?: emptyList()
+                if (permissions.isNotEmpty()) {
+                    binding.roleBadge.text = "${role.name} (${permissions.size} perms: ${permissions.joinToString(", ")})"
+                } else {
+                    binding.roleBadge.text = role.name
                 }
-                RoleDTO.Customer -> {
-                    binding.roleBadge.text = "CUSTOMER"
-                    binding.roleBadge.setBackgroundColor(binding.root.context.getColor(R.color.admin_secondary))
+                
+                // Set color based on role
+                when {
+                    user.isAdmin() -> {
+                        binding.roleBadge.setBackgroundColor(binding.root.context.getColor(R.color.admin_primary))
+                    }
+                    else -> {
+                        binding.roleBadge.setBackgroundColor(binding.root.context.getColor(R.color.admin_secondary))
+                    }
                 }
-                else -> {
-                    binding.roleBadge.text = "UNKNOWN"
-                    binding.roleBadge.setBackgroundColor(binding.root.context.getColor(R.color.admin_text_secondary))
-                }
+            } else {
+                binding.roleBadge.text = "NO ROLE"
+                binding.roleBadge.setBackgroundColor(binding.root.context.getColor(R.color.admin_text_secondary))
             }
 
             // Set click listeners
@@ -69,8 +78,12 @@ class UserManagementAdapter(
                 onDeleteUser(user)
             }
 
+            binding.managePermissionsButton.setOnClickListener {
+                onManagePermissions(user)
+            }
+
             // Don't allow deletion of admin users (safety measure)
-            binding.deleteButton.isEnabled = user.role != RoleDTO.Admin
+            binding.deleteButton.isEnabled = !user.isAdmin()
         }
     }
 

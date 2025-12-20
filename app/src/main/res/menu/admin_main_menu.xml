@@ -7,6 +7,12 @@
         android:title="User Management"
         android:icon="@drawable/ic_user_management"
         app:showAsAction="never" />
+        
+    <item
+        android:id="@+id/action_role_management"
+        android:title="Role Management"
+        android:icon="@drawable/ic_role"
+        app:showAsAction="never" />
 
     <item
         android:id="@+id/action_product_list"

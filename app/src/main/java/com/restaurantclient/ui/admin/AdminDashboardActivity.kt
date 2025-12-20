@@ -65,6 +65,11 @@ class AdminDashboardActivity : BaseAdminActivity() {
         binding.orderManagementCard.setOnClickListener {
             startActivity(Intent(this, OrderManagementActivity::class.java))
         }
+        
+        // Role Management Card
+        binding.roleManagementCard.setOnClickListener {
+            startActivity(Intent(this, RoleManagementActivity::class.java))
+        }
 
         // Quick Actions
         binding.addUserButton.setOnClickListener {
@@ -82,6 +87,14 @@ class AdminDashboardActivity : BaseAdminActivity() {
             binding.totalOrdersText.text = stats.totalOrders.toString()
             binding.totalProductsText.text = stats.totalProducts.toString()
             binding.newUsersText.text = stats.newUsersToday.toString()
+        }
+        
+        adminViewModel.dashboardSummary.observe(this) { summary ->
+            // Enhanced dashboard with order status breakdown
+            binding.totalOrdersText.text = summary.orderCount.toString()
+            binding.totalUsersText.text = summary.userCount.toString()
+            binding.totalProductsText.text = summary.productCount.toString()
+            // Can add more detailed stats if UI supports it
         }
     }
 
@@ -120,6 +133,10 @@ class AdminDashboardActivity : BaseAdminActivity() {
             }
             R.id.action_user_management -> {
                 startActivity(Intent(this, UserManagementActivity::class.java))
+                true
+            }
+            R.id.action_role_management -> {
+                startActivity(Intent(this, RoleManagementActivity::class.java))
                 true
             }
             R.id.action_product_list -> {
@@ -201,5 +218,11 @@ class AdminDashboardActivity : BaseAdminActivity() {
             .setBlurAlgorithm(RenderScriptBlur(this))
             .setBlurRadius(20f)
         binding.orderManagementBlur.setOverlayColor(ContextCompat.getColor(this, R.color.white_glass_overlay))
+        
+        binding.roleManagementBlur.setupWith(rootView)
+            .setFrameClearDrawable(windowBackground)
+            .setBlurAlgorithm(RenderScriptBlur(this))
+            .setBlurRadius(20f)
+        binding.roleManagementBlur.setOverlayColor(ContextCompat.getColor(this, R.color.white_glass_overlay))
     }
 }

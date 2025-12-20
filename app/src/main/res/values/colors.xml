@@ -76,4 +76,7 @@
     <color name="itadaki_gradient_start">#9B1C1C</color>
     <color name="itadaki_gradient_center">#E63946</color>
     <color name="itadaki_gradient_end">#40E63946</color>
+    
+    <!-- Permissions Badge -->
+    <color name="permissions_badge_bg">#0D6750A4</color>
 </resources>

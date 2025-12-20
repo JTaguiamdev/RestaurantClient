@@ -25,11 +25,11 @@ class OrderManagementViewModel @Inject constructor(
     private val _loading = MutableLiveData<Boolean>()
     val loading: LiveData<Boolean> = _loading
 
-    fun loadOrders() {
+    fun loadOrders(forceRefresh: Boolean = false) {
         viewModelScope.launch {
             _loading.value = true
             try {
-                val result = orderRepository.getAllOrders()
+                val result = orderRepository.getAllOrders(forceRefresh)
                 _orders.value = result
             } catch (e: Exception) {
                 _orders.value = Result.Error(e)
@@ -44,6 +44,8 @@ class OrderManagementViewModel @Inject constructor(
             try {
                 val result = orderRepository.updateOrderStatus(orderId, newStatus)
                 _updateResult.value = result
+                orderRepository.clearCache() // Invalidate cache after update
+                loadOrders(true) // Refresh orders
             } catch (e: Exception) {
                 _updateResult.value = Result.Error(e)
             }

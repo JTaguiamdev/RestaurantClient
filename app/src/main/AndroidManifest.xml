@@ -47,6 +47,9 @@
         <activity
             android:name=".ui.admin.OrderManagementActivity"
             android:theme="@style/Theme.RestaurantClient.Admin" />
+        <activity
+            android:name=".ui.admin.RoleManagementActivity"
+            android:theme="@style/Theme.RestaurantClient.Admin" />
 
     </application>
 

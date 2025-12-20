@@ -64,6 +64,7 @@ class TokenManager @Inject constructor(private val prefs: SharedPreferences) {
                             val roleName = when (roleId) {
                                 2 -> "Admin"     // Your admin role ID is 2
                                 1 -> "Customer"  // Assuming customer role ID is 1
+                                5 -> "Casher"    // Casher role ID is 5
                                 else -> "Customer" // Default to customer
                             }
                             Log.d("TokenManager", "Converted role ID $roleId to: $roleName")
@@ -131,6 +132,7 @@ class TokenManager @Inject constructor(private val prefs: SharedPreferences) {
         val normalizedRole = when (role.lowercase()) {
             "admin" -> "Admin"
             "customer" -> "Customer"
+            "casher" -> "Casher"
             else -> role // Keep original if not recognized
         }
         Log.d("TokenManager", "Normalized role: $normalizedRole")
@@ -142,6 +144,7 @@ class TokenManager @Inject constructor(private val prefs: SharedPreferences) {
             val roleString = when (it) {
                 RoleDTO.Admin -> "Admin"
                 RoleDTO.Customer -> "Customer"
+                RoleDTO.Casher -> "Casher"
             }
             saveUserRole(roleString)
         }
@@ -153,6 +156,7 @@ class TokenManager @Inject constructor(private val prefs: SharedPreferences) {
         return when (roleString?.lowercase()) {
             "admin" -> RoleDTO.Admin
             "customer" -> RoleDTO.Customer
+            "casher" -> RoleDTO.Casher
             else -> {
                 Log.w("TokenManager", "Unknown role: $roleString")
                 null
