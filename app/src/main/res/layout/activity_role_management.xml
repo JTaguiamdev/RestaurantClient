@@ -7,9 +7,19 @@
     android:background="@drawable/bg_admin_glass_gradient"
     tools:context=".ui.admin.RoleManagementActivity">
 
-    <include
-        android:id="@+id/admin_toolbar"
-        layout="@layout/admin_toolbar" />
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:fitsSystemWindows="true"
+        app:elevation="0dp"
+        app:liftOnScroll="false">
+
+        <include
+            android:id="@+id/admin_toolbar"
+            layout="@layout/admin_toolbar" />
+
+    </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipe_refresh_layout"
@@ -82,7 +92,7 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp">
 
-        <eightbitlab.com.blurview.BlurView
+        <com.eightbitlab.com.blurview.BlurView
             android:id="@+id/add_role_fab_blur"
             android:layout_width="56dp"
             android:layout_height="56dp" />
@@ -99,3 +109,4 @@
     </FrameLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
+

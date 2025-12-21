@@ -14,16 +14,21 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <eightbitlab.com.blurview.BlurView
+        <!-- LAYER 1: Blur Background -->
+        <com.eightbitlab.com.blurview.BlurView
             android:id="@+id/order_card_blur"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:background="@drawable/glass_card_border"
+            app:blurOverlayColor="#15FFFFFF" />
 
+        <!-- LAYER 2: Sharp Content -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="16dp">
+            android:padding="16dp"
+            android:background="@android:color/transparent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -59,45 +64,73 @@
             android:textColor="@color/admin_text_secondary"
             tools:text="User #12 • Placed Mar 18" />
 
-        <TextView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            android:text="Status"
-            android:textAppearance="?attr/textAppearanceCaption"
-            android:textColor="@color/admin_text_secondary" />
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Order Status"
+                android:textAppearance="?attr/textAppearanceCaption"
+                android:textColor="@color/admin_text_secondary"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/current_status_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?attr/textAppearanceCaption"
+                android:textColor="@color/admin_primary"
+                android:textStyle="bold"
+                tools:text="PENDING" />
+        </LinearLayout>
 
         <com.google.android.material.chip.ChipGroup
             android:id="@+id/status_chip_group"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="8dp"
             app:singleLine="false"
+            app:selectionRequired="true"
             app:singleSelection="true">
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chip_pending"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/Widget.RestaurantClient.AdminBadge"
+                style="@style/Widget.RestaurantClient.AdminChoiceChip"
                 android:layout_marginEnd="8dp"
                 android:text="Pending"
                 android:tag="Pending" />
 
             <com.google.android.material.chip.Chip
-                android:id="@+id/chip_processing"
+                android:id="@+id/chip_accepted"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/Widget.RestaurantClient.AdminBadge"
+                style="@style/Widget.RestaurantClient.AdminChoiceChip"
                 android:layout_marginEnd="8dp"
-                android:text="Processing"
-                android:tag="Processing" />
+                android:text="Accepted"
+                android:tag="Accepted" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip_ready"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/Widget.RestaurantClient.AdminChoiceChip"
+                android:layout_marginEnd="8dp"
+                android:text="Ready"
+                android:tag="Ready" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chip_completed"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/Widget.RestaurantClient.AdminBadge"
+                style="@style/Widget.RestaurantClient.AdminChoiceChip"
                 android:layout_marginEnd="8dp"
                 android:text="Completed"
                 android:tag="Completed" />
@@ -106,7 +139,7 @@
                 android:id="@+id/chip_cancelled"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/Widget.RestaurantClient.AdminBadge"
+                style="@style/Widget.RestaurantClient.AdminChoiceChip"
                 android:text="Cancelled"
                 android:tag="Cancelled" />
         </com.google.android.material.chip.ChipGroup>
@@ -116,3 +149,4 @@
     </FrameLayout>
 
 </com.google.android.material.card.MaterialCardView>
+

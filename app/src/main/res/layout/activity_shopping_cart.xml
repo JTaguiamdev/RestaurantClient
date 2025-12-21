@@ -7,7 +7,20 @@
     android:background="@color/itadaki_cream"
     tools:context=".ui.cart.ShoppingCartActivity">
 
-    <include layout="@layout/customer_toolbar" />
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/app_bar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:fitsSystemWindows="true"
+        app:elevation="0dp"
+        app:liftOnScroll="false">
+
+        <include
+            android:id="@+id/customer_toolbar"
+            layout="@layout/customer_toolbar" />
+
+    </com.google.android.material.appbar.AppBarLayout>
 
     <!-- Cart List -->
     <androidx.recyclerview.widget.RecyclerView
@@ -74,7 +87,7 @@
                 </LinearLayout>
 
                 <!-- Checkout Button -->
-                <eightbitlab.com.blurview.BlurView
+                <com.eightbitlab.com.blurview.BlurView
                     android:id="@+id/cart_summary_blur"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"

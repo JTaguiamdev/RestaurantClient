@@ -1,18 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.appbar.AppBarLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.appbar.MaterialToolbar xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/toolbar"
+    style="@style/Widget.RestaurantClient.AdminToolbar"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@color/admin_primary"
+    android:layout_height="?attr/actionBarSize"
+    android:background="@color/itadaki_crimson"
     android:elevation="4dp"
-    android:layout_marginTop="40dp" >
-
-    <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/toolbar"
-        style="@style/Widget.RestaurantClient.AdminToolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/admin_primary"
-        app:titleTextColor="@android:color/white" />
-
-</com.google.android.material.appbar.AppBarLayout>
+    app:titleTextColor="@android:color/white" />

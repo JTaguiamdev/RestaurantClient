@@ -3,7 +3,7 @@ package com.restaurantclient.ui.common
 import android.view.View
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import eightbitlab.com.blurview.BlurView
+import com.eightbitlab.com.blurview.BlurView
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
@@ -341,3 +341,4 @@ class GlassComponentsInstrumentedTest {
         )
     }
 }
+

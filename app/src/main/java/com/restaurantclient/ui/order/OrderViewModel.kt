@@ -9,6 +9,8 @@ import com.restaurantclient.data.dto.CreateOrderRequest
 import com.restaurantclient.data.dto.OrderResponse
 import com.restaurantclient.data.repository.OrderRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -24,6 +26,7 @@ class OrderViewModel @Inject constructor(
     val userOrders: LiveData<Result<List<OrderResponse>>> = _userOrders
     
     private var isCreatingOrder = false
+    private var pollingJob: Job? = null
 
     fun createOrder(createOrderRequest: CreateOrderRequest, username: String) { // Pass username to refresh orders
         if (isCreatingOrder) return
@@ -46,5 +49,26 @@ class OrderViewModel @Inject constructor(
             val result = orderRepository.getUserOrders(username, forceRefresh)
             _userOrders.postValue(result)
         }
+    }
+
+    fun startPollingOrders(username: String) {
+        if (pollingJob?.isActive == true) return
+        
+        pollingJob = viewModelScope.launch {
+            while (true) {
+                fetchUserOrders(username, forceRefresh = true)
+                delay(5000) // Poll every 5 seconds
+            }
+        }
+    }
+
+    fun stopPollingOrders() {
+        pollingJob?.cancel()
+        pollingJob = null
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        stopPollingOrders()
     }
 }

@@ -95,8 +95,8 @@ class ProductListActivity : AppCompatActivity() {
     
     // Helper methods to access views from either binding (with explicit non-null assertion)
     private fun getSearchInput() = (if (isAdminUser) adminBinding!!.searchInput else customerBinding!!.searchInput)!!
-    private fun getFilterButton() = (if (isAdminUser) adminBinding!!.filterButton else customerBinding!!.filterButton)!!
-    private fun getProfileImage() = (if (isAdminUser) adminBinding!!.profileImage else customerBinding!!.profileImage)!!
+    private fun getFilterButton(): android.view.View? = (if (isAdminUser) adminBinding!!.root.findViewById<android.view.View>(R.id.admin_filter_button) else customerBinding!!.root.findViewById<android.view.View>(R.id.customer_filter_button))
+    private fun getProfileImage(): android.view.View? = (if (isAdminUser) adminBinding!!.root.findViewById<android.view.View>(R.id.admin_profile_image) else customerBinding!!.root.findViewById<android.view.View>(R.id.customer_profile_image))
     private fun getProductsRecyclerView() = (if (isAdminUser) adminBinding!!.productsRecyclerView else customerBinding!!.productsRecyclerView)!!
     private fun getProgressBar() = (if (isAdminUser) adminBinding!!.progressBar else customerBinding!!.progressBar)!!
     private fun getCategoryChipGroup() = (if (isAdminUser) adminBinding!!.categoryChipGroup else customerBinding!!.categoryChipGroup)!!
@@ -112,12 +112,12 @@ class ProductListActivity : AppCompatActivity() {
         }
 
         // Setup filter button
-        getFilterButton().setOnClickListener {
+        getFilterButton()?.setOnClickListener {
             Toast.makeText(this, "Filter clicked", Toast.LENGTH_SHORT).show()
         }
 
         // Setup profile image click
-        getProfileImage().setOnClickListener {
+        getProfileImage()?.setOnClickListener {
             startActivity(Intent(this, UserProfileActivity::class.java))
         }
 
@@ -422,7 +422,8 @@ class ProductListActivity : AppCompatActivity() {
                     filterByCategory(selectedCategoryId, selectedCategoryName)
                 }
                 is Result.Error -> {
-                    Toast.makeText(this, getString(R.string.product_list_error, result.exception.message), Toast.LENGTH_LONG).show()
+                    val message = com.restaurantclient.util.ErrorUtils.getHumanFriendlyErrorMessage(result.exception)
+                    Toast.makeText(this, getString(R.string.product_list_error, message), Toast.LENGTH_LONG).show()
                 }
             }
         }
@@ -434,7 +435,8 @@ class ProductListActivity : AppCompatActivity() {
                     refreshProducts()
                 }
                 is Result.Error -> {
-                    Toast.makeText(this, getString(R.string.product_action_error, result.exception.message), Toast.LENGTH_LONG).show()
+                    val message = com.restaurantclient.util.ErrorUtils.getHumanFriendlyErrorMessage(result.exception)
+                    Toast.makeText(this, getString(R.string.product_action_error, message), Toast.LENGTH_LONG).show()
                 }
             }
         }
@@ -473,9 +475,10 @@ class ProductListActivity : AppCompatActivity() {
                     productListAdapter.submitList(result.data)
                 }
                 is Result.Error -> {
+                    val message = com.restaurantclient.util.ErrorUtils.getHumanFriendlyErrorMessage(result.exception)
                     Toast.makeText(
                         this@ProductListActivity,
-                        "Failed to load category products: ${result.exception.message}",
+                        "Failed to load category products: $message",
                         Toast.LENGTH_SHORT
                     ).show()
                     productListAdapter.submitList(allProducts)

@@ -31,28 +31,29 @@
 
 
     <!-- Glass Login Form - Centered -->
-    <eightbitlab.com.blurview.BlurView
-        android:id="@+id/login_glass_card"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"
-        android:elevation="8dp"
-        app:blurOverlayColor="#00FFFFFF"
-        android:background="@drawable/glass_card_border" >
+        android:elevation="8dp">
 
-        <!-- Glass Border -->
-        <View
+        <!-- LAYER 1: The Blur Background -->
+        <com.eightbitlab.com.blurview.BlurView
+            android:id="@+id/login_glass_card"
             android:layout_width="match_parent"
-            android:layout_height="400dp"
-            />
+            android:layout_height="match_parent"
+            android:background="@drawable/glass_card_border"
+            app:blurOverlayColor="@android:color/transparent" />
 
+        <!-- LAYER 2: The Sharp Content (Transparent background) -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="24dp" >
+            android:padding="24dp"
+            android:background="@android:color/transparent">
 
             <!-- Itadaki Logo/Icon -->
             <ImageView
@@ -149,15 +150,18 @@
                 app:strokeColor="@color/itadaki_deep_red"
                 app:strokeWidth="2dp" />
         </LinearLayout>
-    </eightbitlab.com.blurview.BlurView>
+    </FrameLayout>
 
-    <com.google.android.material.progressindicator.CircularProgressIndicator
+    <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/progress_bar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
         android:layout_gravity="center"
         android:visibility="gone"
-        app:indicatorSize="48dp"
+        app:lottie_rawRes="@raw/japanese_noodles_loading"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
         tools:visibility="visible" />
 
 </FrameLayout>
+

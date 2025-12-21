@@ -16,7 +16,10 @@ import com.restaurantclient.data.dto.UserDTO
 import com.restaurantclient.data.network.ApiService
 import javax.inject.Inject
 
-class UserRepository @Inject constructor(private val apiService: ApiService) {
+class UserRepository @Inject constructor(
+    private val apiService: ApiService,
+    private val tokenManager: com.restaurantclient.data.TokenManager
+) {
 
     private var cachedUsers: List<UserDTO>? = null
 
@@ -165,8 +168,8 @@ class UserRepository @Inject constructor(private val apiService: ApiService) {
         return try {
             val roleName = when (role) {
                 RoleDTO.Admin -> "ADMIN"
-                RoleDTO.Customer -> "customer"
-                RoleDTO.Casher -> "Casher"
+                RoleDTO.Customer -> "CUSTOMER"
+                RoleDTO.Casher -> "CASHER"
             }
             val response = apiService.assignRole(AssignRoleRequest(username, roleName))
             if (response.isSuccessful) {
@@ -242,6 +245,27 @@ class UserRepository @Inject constructor(private val apiService: ApiService) {
                 Result.Success(response.body() ?: emptyList())
             } else {
                 Result.Error(Exception("Failed to get user roles: ${response.code()}"))
+            }
+        } catch (e: Exception) {
+            Result.Error(e)
+        }
+    }
+
+    suspend fun getCurrentUser(): Result<UserDTO> {
+        return try {
+            val response = apiService.getCurrentUser()
+            if (response.isSuccessful) {
+                Result.Success(response.body()!!)
+            } else if (response.code() == 404) {
+                // Fallback: try to get user by ID from token
+                val userId = tokenManager.getUserId()
+                if (userId != null) {
+                    getUserById(userId)
+                } else {
+                    Result.Error(Exception("Failed to get current user: 404 and no user ID found in token"))
+                }
+            } else {
+                Result.Error(Exception("Failed to get current user: ${response.code()}"))
             }
         } catch (e: Exception) {
             Result.Error(e)

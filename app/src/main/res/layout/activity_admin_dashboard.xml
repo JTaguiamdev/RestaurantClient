@@ -7,9 +7,19 @@
     android:background="@drawable/bg_admin_glass_gradient"
     tools:context=".ui.admin.AdminDashboardActivity">
 
-    <include
-        android:id="@+id/admin_toolbar"
-        layout="@layout/admin_toolbar" />
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:fitsSystemWindows="true"
+        app:elevation="0dp"
+        app:liftOnScroll="false">
+
+        <include
+            android:id="@+id/admin_toolbar"
+            layout="@layout/admin_toolbar" />
+
+    </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -20,7 +30,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="16dp">
+            android:padding="16dp"
+            android:layout_marginBottom="30dp">
 
 
 
@@ -56,17 +67,21 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
 
+                        <!-- LAYER 1: Blur Background -->
                         <com.eightbitlab.com.blurview.BlurView
                             android:id="@+id/total_users_blur"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent" />
+                            android:layout_height="match_parent"
+                            android:background="@drawable/glass_card_border" />
 
+                        <!-- LAYER 2: Sharp Content -->
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:orientation="vertical"
                             android:padding="16dp"
-                            android:gravity="center">
+                            android:gravity="center"
+                            android:background="@android:color/transparent">
 
                             <ImageView
                                 android:layout_width="32dp"
@@ -89,7 +104,8 @@
                                 android:layout_height="wrap_content"
                                 android:text="Total Users"
                                 android:textSize="12sp"
-                                android:textColor="@color/text_secondary" />
+                                android:textColor="@color/white"
+                                android:alpha="0.7" />
 
                         </LinearLayout>
 
@@ -112,17 +128,21 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
 
+                        <!-- LAYER 1: Blur Background -->
                         <com.eightbitlab.com.blurview.BlurView
                             android:id="@+id/total_orders_blur"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent" />
+                            android:layout_height="match_parent"
+                            android:background="@drawable/glass_card_border" />
 
+                        <!-- LAYER 2: Sharp Content -->
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:orientation="vertical"
                             android:padding="16dp"
-                            android:gravity="center">
+                            android:gravity="center"
+                            android:background="@android:color/transparent">
 
                             <ImageView
                                 android:layout_width="32dp"
@@ -145,7 +165,8 @@
                                 android:layout_height="wrap_content"
                                 android:text="Total Orders"
                                 android:textSize="12sp"
-                                android:textColor="@color/text_secondary" />
+                                android:textColor="@color/white"
+                                android:alpha="0.7" />
 
                         </LinearLayout>
 
@@ -168,17 +189,21 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
 
+                        <!-- LAYER 1: Blur Background -->
                         <com.eightbitlab.com.blurview.BlurView
                             android:id="@+id/total_products_blur"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent" />
+                            android:layout_height="match_parent"
+                            android:background="@drawable/glass_card_border" />
 
+                        <!-- LAYER 2: Sharp Content -->
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:orientation="vertical"
                             android:padding="16dp"
-                            android:gravity="center">
+                            android:gravity="center"
+                            android:background="@android:color/transparent">
 
                             <ImageView
                                 android:layout_width="32dp"
@@ -201,14 +226,15 @@
                                 android:layout_height="wrap_content"
                                 android:text="Products"
                                 android:textSize="12sp"
-                                android:textColor="@color/text_secondary" />
+                                android:textColor="@color/white"
+                                android:alpha="0.7" />
 
                         </LinearLayout>
 
                     </FrameLayout>
                 </com.google.android.material.card.MaterialCardView>
 
-                <!-- New Users Today Card -->
+                <!-- Total Roles Card -->
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="0dp"
                     android:layout_height="120dp"
@@ -224,27 +250,31 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
 
+                        <!-- LAYER 1: Blur Background -->
                         <com.eightbitlab.com.blurview.BlurView
-                            android:id="@+id/new_users_blur"
+                            android:id="@+id/total_roles_blur"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent" />
+                            android:layout_height="match_parent"
+                            android:background="@drawable/glass_card_border" />
 
+                        <!-- LAYER 2: Sharp Content -->
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:orientation="vertical"
                             android:padding="16dp"
-                            android:gravity="center">
+                            android:gravity="center"
+                            android:background="@android:color/transparent">
 
                             <ImageView
                                 android:layout_width="32dp"
                                 android:layout_height="32dp"
-                                android:src="@drawable/ic_new_users"
+                                android:src="@drawable/ic_role"
                                 app:tint="@color/admin_success"
                                 android:layout_marginBottom="8dp" />
 
                             <TextView
-                                android:id="@+id/new_users_text"
+                                android:id="@+id/total_roles_text"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="0"
@@ -255,9 +285,10 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="New Today"
+                                android:text="Total Roles"
                                 android:textSize="12sp"
-                                android:textColor="@color/text_secondary" />
+                                android:textColor="@color/white"
+                                android:alpha="0.7" />
 
                         </LinearLayout>
 
@@ -272,7 +303,7 @@
                 android:layout_height="wrap_content"
                 android:text="Management"
                 android:textAppearance="?attr/textAppearanceHeadline6"
-                android:textColor="@color/admin_background"
+                android:textColor="@color/white"
                 android:layout_marginBottom="12dp" />
 
             <!-- User Management Card -->
@@ -294,17 +325,21 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
+                    <!-- LAYER 1: Blur Background -->
                     <com.eightbitlab.com.blurview.BlurView
                         android:id="@+id/user_management_blur"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent" />
+                        android:layout_height="match_parent"
+                        android:background="@drawable/glass_card_border" />
 
+                    <!-- LAYER 2: Sharp Content -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
                         android:padding="16dp"
-                        android:gravity="center_vertical">
+                        android:gravity="center_vertical"
+                        android:background="@android:color/transparent">
 
                         <ImageView
                             android:layout_width="40dp"
@@ -324,6 +359,7 @@
                                 android:layout_height="wrap_content"
                                 android:text="User Management"
                                 android:textAppearance="?attr/textAppearanceSubtitle1"
+                                android:textColor="@color/white"
                                 android:textStyle="bold" />
 
                             <TextView
@@ -331,7 +367,8 @@
                                 android:layout_height="wrap_content"
                                 android:text="Create, edit, and manage user accounts"
                                 android:textAppearance="?attr/textAppearanceBody2"
-                                android:textColor="@color/text_secondary" />
+                                android:textColor="@color/white"
+                                android:alpha="0.6" />
 
                         </LinearLayout>
 
@@ -339,7 +376,8 @@
                             android:layout_width="24dp"
                             android:layout_height="24dp"
                             android:src="@drawable/ic_arrow_forward"
-                            app:tint="@color/text_secondary" />
+                            app:tint="@color/white"
+                            android:alpha="0.6" />
 
                     </LinearLayout>
 
@@ -365,17 +403,21 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
+                    <!-- LAYER 1: Blur Background -->
                     <com.eightbitlab.com.blurview.BlurView
                         android:id="@+id/product_management_blur"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent" />
+                        android:layout_height="match_parent"
+                        android:background="@drawable/glass_card_border" />
 
+                    <!-- LAYER 2: Sharp Content -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
                         android:padding="16dp"
-                        android:gravity="center_vertical">
+                        android:gravity="center_vertical"
+                        android:background="@android:color/transparent">
 
                         <ImageView
                             android:layout_width="40dp"
@@ -395,6 +437,7 @@
                                 android:layout_height="wrap_content"
                                 android:text="Product Management"
                                 android:textAppearance="?attr/textAppearanceSubtitle1"
+                                android:textColor="@color/white"
                                 android:textStyle="bold" />
 
                             <TextView
@@ -402,7 +445,8 @@
                                 android:layout_height="wrap_content"
                                 android:text="View and manage product catalog"
                                 android:textAppearance="?attr/textAppearanceBody2"
-                                android:textColor="@color/text_secondary" />
+                                android:textColor="@color/white"
+                                android:alpha="0.6" />
 
                         </LinearLayout>
 
@@ -410,7 +454,8 @@
                             android:layout_width="24dp"
                             android:layout_height="24dp"
                             android:src="@drawable/ic_arrow_forward"
-                            app:tint="@color/text_secondary" />
+                            app:tint="@color/white"
+                            android:alpha="0.6" />
 
                     </LinearLayout>
 
@@ -436,17 +481,21 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
+                    <!-- LAYER 1: Blur Background -->
                     <com.eightbitlab.com.blurview.BlurView
                         android:id="@+id/order_management_blur"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent" />
+                        android:layout_height="match_parent"
+                        android:background="@drawable/glass_card_border" />
 
+                    <!-- LAYER 2: Sharp Content -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
                         android:padding="16dp"
-                        android:gravity="center_vertical">
+                        android:gravity="center_vertical"
+                        android:background="@android:color/transparent">
 
                     <ImageView
                         android:layout_width="40dp"
@@ -466,6 +515,7 @@
                             android:layout_height="wrap_content"
                             android:text="Order Management"
                             android:textAppearance="?attr/textAppearanceSubtitle1"
+                            android:textColor="@color/white"
                             android:textStyle="bold" />
 
                         <TextView
@@ -473,7 +523,8 @@
                             android:layout_height="wrap_content"
                             android:text="View and manage all customer orders"
                             android:textAppearance="?attr/textAppearanceBody2"
-                            android:textColor="@color/text_secondary" />
+                            android:textColor="@color/white"
+                            android:alpha="0.6" />
 
                     </LinearLayout>
 
@@ -481,7 +532,8 @@
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:src="@drawable/ic_arrow_forward"
-                        app:tint="@color/text_secondary" />
+                        app:tint="@color/white"
+                        android:alpha="0.6" />
 
                 </LinearLayout>
 
@@ -507,17 +559,21 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
+                    <!-- LAYER 1: Blur Background -->
                     <com.eightbitlab.com.blurview.BlurView
                         android:id="@+id/role_management_blur"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent" />
+                        android:layout_height="match_parent"
+                        android:background="@drawable/glass_card_border" />
 
+                    <!-- LAYER 2: Sharp Content -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
                         android:padding="16dp"
-                        android:gravity="center_vertical">
+                        android:gravity="center_vertical"
+                        android:background="@android:color/transparent">
 
                         <ImageView
                             android:layout_width="40dp"
@@ -537,6 +593,7 @@
                                 android:layout_height="wrap_content"
                                 android:text="Role Management"
                                 android:textAppearance="?attr/textAppearanceSubtitle1"
+                                android:textColor="@color/white"
                                 android:textStyle="bold" />
 
                             <TextView
@@ -544,7 +601,8 @@
                                 android:layout_height="wrap_content"
                                 android:text="Manage roles and permissions"
                                 android:textAppearance="?attr/textAppearanceBody2"
-                                android:textColor="@color/text_secondary" />
+                                android:textColor="@color/white"
+                                android:alpha="0.6" />
 
                         </LinearLayout>
 
@@ -552,7 +610,8 @@
                             android:layout_width="24dp"
                             android:layout_height="24dp"
                             android:src="@drawable/ic_arrow_forward"
-                            app:tint="@color/text_secondary" />
+                            app:tint="@color/white"
+                            android:alpha="0.6" />
 
                     </LinearLayout>
 

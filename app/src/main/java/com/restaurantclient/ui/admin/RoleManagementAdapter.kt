@@ -1,7 +1,9 @@
 package com.restaurantclient.ui.admin
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -10,11 +12,13 @@ import com.restaurantclient.R
 import com.restaurantclient.data.dto.RoleDetailsDTO
 import com.restaurantclient.databinding.ItemRoleBinding
 import com.restaurantclient.ui.common.setupGlassEffect
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class RoleManagementAdapter(
     private val onEditRole: (RoleDetailsDTO) -> Unit,
-    private val onManagePermissions: (RoleDetailsDTO) -> Unit,
-    private val onDeleteRole: (RoleDetailsDTO) -> Unit
+    private val onDeleteRole: (RoleDetailsDTO) -> Unit,
+    private val onAddPermission: (RoleDetailsDTO) -> Unit,
+    private val onRemovePermission: (RoleDetailsDTO) -> Unit
 ) : ListAdapter<RoleDetailsDTO, RoleManagementAdapter.RoleViewHolder>(RoleDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RoleViewHolder {
@@ -43,46 +47,43 @@ class RoleManagementAdapter(
             binding.roleNameText.text = role.name
             binding.roleDescriptionText.text = role.description ?: "No description"
             
-            // Display permissions
+            // Format permissions list
             val permissions = role.permissions ?: emptyList()
             if (permissions.isNotEmpty()) {
                 binding.permissionsBadge.text = "${permissions.size} permissions: ${permissions.joinToString(", ")}"
+                binding.permissionsBadge.visibility = View.VISIBLE
             } else {
-                binding.permissionsBadge.text = "No permissions"
+                binding.permissionsBadge.text = "No permissions assigned"
+                binding.permissionsBadge.visibility = View.VISIBLE
             }
-            
-            // Set role badge color
-            when (role.name.uppercase()) {
-                "ADMIN" -> {
-                    binding.roleBadge.setBackgroundColor(binding.root.context.getColor(R.color.admin_primary))
-                }
-                "CUSTOMER" -> {
-                    binding.roleBadge.setBackgroundColor(binding.root.context.getColor(R.color.admin_secondary))
-                }
-                "CASHER" -> {
-                    binding.roleBadge.setBackgroundColor(binding.root.context.getColor(R.color.admin_success))
-                }
-                else -> {
-                    binding.roleBadge.setBackgroundColor(binding.root.context.getColor(R.color.admin_accent))
-                }
-            }
-            binding.roleBadge.text = role.name.uppercase()
 
             // Set click listeners
             binding.editButton.setOnClickListener {
                 onEditRole(role)
             }
 
-            binding.managePermissionsButton.setOnClickListener {
-                onManagePermissions(role)
-            }
-
             binding.deleteButton.setOnClickListener {
                 onDeleteRole(role)
             }
 
-            // Don't allow deletion of core roles
-            binding.deleteButton.isEnabled = role.name.uppercase() !in listOf("ADMIN", "CUSTOMER", "CASHER")
+            binding.addPermissionButton.setOnClickListener {
+                onAddPermission(role)
+            }
+
+            binding.removePermissionButton.setOnClickListener {
+                if (permissions.isNotEmpty()) {
+                    onRemovePermission(role)
+                } else {
+                    Toast.makeText(binding.root.context, "No permissions to remove", Toast.LENGTH_SHORT).show()
+                }
+            }
+            
+            // Allow clicking permissions badge as well
+            binding.permissionsBadge.setOnClickListener {
+                if (permissions.isNotEmpty()) {
+                    onRemovePermission(role)
+                }
+            }
         }
     }
 

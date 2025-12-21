@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <eightbitlab.com.blurview.BlurView
+        <com.eightbitlab.com.blurview.BlurView
             android:id="@+id/role_card_blur"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
@@ -56,25 +56,10 @@
             android:layout_marginTop="4dp"
             android:textAppearance="?attr/textAppearanceBody2"
             android:textColor="@color/admin_text_secondary"
-            app:layout_constraintEnd_toEndOf="@id/role_name_text"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/role_name_text"
             app:layout_constraintTop_toBottomOf="@id/role_name_text"
             tools:text="Can moderate content" />
-
-        <!-- Role Badge -->
-        <TextView
-            android:id="@+id/role_badge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/role_badge_background"
-            android:paddingHorizontal="8dp"
-            android:paddingVertical="4dp"
-            android:textColor="@android:color/white"
-            android:textSize="12sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/role_icon"
-            tools:text="MODERATOR" />
             
         <!-- Permissions Badge -->
         <TextView
@@ -99,41 +84,64 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            android:orientation="horizontal"
+            android:orientation="vertical"
+            android:gravity="end"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/permissions_badge">
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/manage_permissions_button"
-                style="@style/Widget.MaterialComponents.Button.TextButton"
+            <!-- Permissions Row -->
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:text="Permissions"
-                android:textColor="@color/admin_accent"
-                app:icon="@drawable/ic_permissions"
-                app:iconTint="@color/admin_accent" />
+                android:orientation="horizontal">
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/edit_button"
-                style="@style/Widget.MaterialComponents.Button.TextButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:text="Edit"
-                android:textColor="@color/admin_primary"
-                app:icon="@drawable/ic_edit"
-                app:iconTint="@color/admin_primary" />
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/add_permission_button"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Add"
+                    android:textColor="@color/admin_accent"
+                    app:icon="@drawable/ic_permissions"
+                    app:iconTint="@color/admin_accent" />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/delete_button"
-                style="@style/Widget.MaterialComponents.Button.TextButton"
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/remove_permission_button"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Remove Permission"
+                    android:textColor="@color/admin_warning"
+                    app:icon="@drawable/ic_remove"
+                    app:iconTint="@color/admin_warning" />
+            </LinearLayout>
+
+            <!-- Management Row -->
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Delete"
-                android:textColor="@color/admin_error"
-                app:icon="@drawable/ic_delete"
-                app:iconTint="@color/admin_error" />
+                android:orientation="horizontal">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/edit_button"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Edit"
+                    android:textColor="@color/admin_primary"
+                    app:icon="@drawable/ic_edit"
+                    app:iconTint="@color/admin_primary" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/delete_button"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Delete"
+                    android:textColor="@color/admin_error"
+                    app:icon="@drawable/ic_delete"
+                    app:iconTint="@color/admin_error" />
+            </LinearLayout>
 
         </LinearLayout>
 
@@ -142,3 +150,4 @@
     </FrameLayout>
 
 </com.google.android.material.card.MaterialCardView>
+

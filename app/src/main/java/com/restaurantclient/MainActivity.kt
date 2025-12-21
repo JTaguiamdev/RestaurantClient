@@ -96,27 +96,37 @@ class MainActivity : AppCompatActivity() {
             return
         }
         
-        // Smart admin detection based on username patterns
+        // Smart admin/casher detection based on username patterns
         val isLikelyAdmin = username.contains("admin", ignoreCase = true) || 
                            username == "admin" || 
                            username.lowercase().startsWith("admin") ||
                            isLikelyFirstUser(username)
+                           
+        val isLikelyCasher = username.contains("casher", ignoreCase = true) ||
+                            username == "casher" ||
+                            username.lowercase().startsWith("casher") ||
+                            username.contains("cashier", ignoreCase = true)
         
-        Log.d("MainActivity", "🤖 Admin detection for '$username':")
-        Log.d("MainActivity", "   - Contains 'admin': ${username.contains("admin", ignoreCase = true)}")
-        Log.d("MainActivity", "   - Equals 'admin': ${username == "admin"}")
-        Log.d("MainActivity", "   - Starts with 'admin': ${username.lowercase().startsWith("admin")}")
-        Log.d("MainActivity", "   - Likely first user: ${isLikelyFirstUser(username)}")
-        Log.d("MainActivity", "   - 🎯 Final decision: isAdmin = $isLikelyAdmin")
+        Log.d("MainActivity", "🤖 Detection for '$username':")
+        Log.d("MainActivity", "   - Is Likely Admin: $isLikelyAdmin")
+        Log.d("MainActivity", "   - Is Likely Casher: $isLikelyCasher")
         
-        if (isLikelyAdmin) {
-            Log.d("MainActivity", "✅ Username suggests admin role, navigating to admin dashboard")
-            authViewModel.setUserRole(RoleDTO.Admin)
-            goToAdminDashboard()
-        } else {
-            Log.d("MainActivity", "👤 Assuming customer role, navigating to product list")
-            authViewModel.setUserRole(RoleDTO.Customer)
-            goToProductList()
+        when {
+            isLikelyAdmin -> {
+                Log.d("MainActivity", "✅ Username suggests admin role")
+                authViewModel.setUserRole(RoleDTO.Admin)
+                goToAdminDashboard()
+            }
+            isLikelyCasher -> {
+                Log.d("MainActivity", "✅ Username suggests casher role")
+                authViewModel.setUserRole(RoleDTO.Casher)
+                goToCasherDashboard()
+            }
+            else -> {
+                Log.d("MainActivity", "👤 Assuming customer role")
+                authViewModel.setUserRole(RoleDTO.Customer)
+                goToProductList()
+            }
         }
     }
     
@@ -156,6 +166,10 @@ class MainActivity : AppCompatActivity() {
                 Log.d("MainActivity", "User is admin, navigating to AdminDashboard")
                 goToAdminDashboard()
             }
+            authViewModel.isCasher() -> {
+                Log.d("MainActivity", "User is casher, navigating to CasherDashboard")
+                goToCasherDashboard()
+            }
             authViewModel.isCustomer() -> {
                 Log.d("MainActivity", "User is customer, navigating to ProductList")
                 goToProductList()
@@ -169,6 +183,12 @@ class MainActivity : AppCompatActivity() {
 
     private fun goToAdminDashboard() {
         val intent = Intent(this, AdminDashboardActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(intent)
+    }
+
+    private fun goToCasherDashboard() {
+        val intent = Intent(this, com.restaurantclient.ui.casher.CasherDashboardActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         startActivity(intent)
     }

@@ -13,6 +13,8 @@ class RestaurantClientApp : Application(), ImageLoaderFactory {
     
     override fun onCreate() {
         super.onCreate()
+        // Force light mode globally
+        androidx.appcompat.app.AppCompatDelegate.setDefaultNightMode(androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO)
     }
     
     override fun newImageLoader(): ImageLoader {

@@ -6,7 +6,7 @@ import android.os.Build
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
-import eightbitlab.com.blurview.BlurView
+import com.eightbitlab.com.blurview.BlurView
 
 /**
  * Manager for optimizing BlurView performance across different devices
@@ -173,3 +173,4 @@ fun BlurView.setupForRecyclerView(blurRadius: Float = 15f) {
     val optimizedRadius = BlurPerformanceManager.getOptimalBlurRadius(blurRadius * 0.8f)
     this.setupGlassEffect(optimizedRadius)
 }
+

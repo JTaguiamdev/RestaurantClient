@@ -8,7 +8,7 @@
     >
 
     <!-- Glass Product Card -->
-    <eightbitlab.com.blurview.BlurView
+    <com.eightbitlab.com.blurview.BlurView
         android:id="@+id/product_glass_card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -111,7 +111,8 @@
                     android:layout_height="16dp"
                     android:src="@drawable/ic_star"
                     android:contentDescription="@string/rating_content_description"
-                    app:tint="@color/food_star_orange" />
+                    app:tint="@color/food_star_orange"
+                    android:visibility="visible"/>
 
                 <TextView
                     android:id="@+id/rating_text"
@@ -121,8 +122,23 @@
                     android:textColor="@color/itadaki_charcoal"
                     android:textSize="14sp"
                     android:textStyle="bold"
-                    tools:text="4.5" />
+                    tools:text="4.5"
+                    android:visibility="visible"/>
             </LinearLayout>
+
+            <!-- Admin Badge Chip -->
+            <com.google.android.material.chip.Chip
+                android:id="@+id/admin_badge_chip"
+                style="@style/Widget.RestaurantClient.AdminBadge"
+                android:layout_width="wrap_content"
+                android:layout_height="32dp"
+                app:chipMinHeight="32dp"
+                android:text="@string/admin_badge_text"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/product_price"
+                app:layout_constraintBottom_toBottomOf="@id/product_price"
+                tools:visibility="visible" />
 
             <!-- Product Price (Chip) -->
             <com.google.android.material.chip.Chip
@@ -141,19 +157,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 tools:text="$5.50" />
 
-            <!-- Admin Badge Chip -->
-            <com.google.android.material.chip.Chip
-                android:id="@+id/admin_badge_chip"
-                style="@style/Widget.RestaurantClient.AdminBadge"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="@string/admin_badge_text"
-                android:visibility="gone"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/rating_section"
-                tools:visibility="gone" />
-
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </eightbitlab.com.blurview.BlurView>
+    </com.eightbitlab.com.blurview.BlurView>
 </FrameLayout>
+

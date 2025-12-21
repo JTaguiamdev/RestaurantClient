@@ -2,7 +2,7 @@ package com.restaurantclient.ui.common
 
 import android.view.View
 import android.view.ViewOutlineProvider
-import eightbitlab.com.blurview.BlurView
+import com.eightbitlab.com.blurview.BlurView
 
 /**
  * Extension function to setup BlurView with common configurations
@@ -36,3 +36,4 @@ fun BlurView.setBlurIntensity(intensity: Float) {
     val radius = (intensity * 25f).coerceIn(0f, 25f)
     this.setBlurRadius(radius)
 }
+

@@ -7,7 +7,7 @@ import android.graphics.Bitmap
 import android.util.LruCache
 import android.view.View
 import android.view.ViewTreeObserver
-import eightbitlab.com.blurview.BlurView
+import com.eightbitlab.com.blurview.BlurView
 import java.lang.ref.WeakReference
 
 /**
@@ -263,3 +263,4 @@ fun BlurView.setupWithMemoryOptimization(
     val key = "${context.javaClass.simpleName}_${this.id}"
     MemoryOptimizer.cacheBlurView(key, this)
 }
+

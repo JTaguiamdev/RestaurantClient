@@ -33,6 +33,7 @@ class UserProfileActivity : AppCompatActivity() {
         binding = ActivityUserProfileBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        setupToolbar()
         setupGlassUI()
         setupUserInfo()
         setupClickListeners()
@@ -45,6 +46,15 @@ class UserProfileActivity : AppCompatActivity() {
             Toast.makeText(this, "User ID not found, cannot load profile.", Toast.LENGTH_LONG).show()
             finish()
         }
+    }
+
+    private fun setupToolbar() {
+        setSupportActionBar(binding.customerToolbar.toolbar)
+        supportActionBar?.apply {
+            title = "My Profile"
+            setDisplayHomeAsUpEnabled(true)
+        }
+        binding.customerToolbar.toolbar.setNavigationOnClickListener { finish() }
     }
     
     private fun setupGlassUI() {
@@ -64,14 +74,35 @@ class UserProfileActivity : AppCompatActivity() {
         binding.roleChip.text = when (userRole) {
             RoleDTO.Admin -> getString(R.string.role_admin_label)
             RoleDTO.Customer -> getString(R.string.role_customer_label)
+            RoleDTO.Casher -> "Cashier"
             else -> getString(R.string.profile_unknown_role)
         }
         binding.roleChip.isVisible = userRole != null
 
-        if (authViewModel.isAdmin()) {
-            setupAdminShortcuts()
-        } else {
-            setupCustomerShortcuts()
+        when {
+            authViewModel.isAdmin() -> setupAdminShortcuts()
+            authViewModel.isCasher() -> setupCasherShortcuts()
+            else -> setupCustomerShortcuts()
+        }
+    }
+
+    private fun setupCasherShortcuts() {
+        binding.adminActionsCard.isVisible = false
+        binding.customerActionsCard.isVisible = false
+        binding.casherActionsCard.isVisible = true
+
+        // Setup blur for casher actions card
+        binding.casherActionsBlur.let { blurView ->
+            val whiteOverlay = ContextCompat.getColor(this, R.color.white_glass_overlay)
+            blurView.setOverlayColor(whiteOverlay)
+            blurView.setupGlassEffect(20f)
+        }
+
+        binding.casherDashboardButton.setOnClickListener {
+            startActivity(Intent(this, com.restaurantclient.ui.casher.CasherDashboardActivity::class.java))
+        }
+        binding.casherOrdersButton.setOnClickListener {
+            startActivity(Intent(this, com.restaurantclient.ui.casher.CasherOrderActivity::class.java))
         }
     }
 
@@ -136,7 +167,8 @@ class UserProfileActivity : AppCompatActivity() {
                     binding.usernameText.text = user.username // Update displayed username
                 }
                 is Result.Error -> {
-                    Toast.makeText(this, "Failed to load user profile: ${result.exception.message}", Toast.LENGTH_LONG).show()
+                    val message = com.restaurantclient.util.ErrorUtils.getHumanFriendlyErrorMessage(result.exception)
+                    Toast.makeText(this, "Failed to load user profile: $message", Toast.LENGTH_LONG).show()
                 }
             }
         }

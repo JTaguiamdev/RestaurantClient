@@ -68,7 +68,8 @@ class CreateUserActivity : BaseAdminActivity() {
                 }
                 is Result.Error -> {
                     binding.progressBar.visibility = View.GONE
-                    Toast.makeText(this, "Failed to create user: ${result.exception.message}", Toast.LENGTH_LONG).show()
+                    val message = com.restaurantclient.util.ErrorUtils.getHumanFriendlyErrorMessage(result.exception)
+                    Toast.makeText(this, "Failed to create user: $message", Toast.LENGTH_LONG).show()
                 }
             }
         }

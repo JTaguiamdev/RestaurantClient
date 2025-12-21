@@ -4,71 +4,60 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/admin_background"
+    android:background="@drawable/bg_admin_glass_gradient"
     tools:context=".ui.product.ProductListActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/admin_primary"
-        android:elevation="4dp"
-        app:elevation="4dp">
+        android:background="@android:color/transparent"
+        android:fitsSystemWindows="true"
+        app:elevation="0dp"
+        app:liftOnScroll="false">
 
-        <!-- Admin Header Section -->
+        <!-- Admin Modern Header Section -->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="16dp"
-            android:background="@color/admin_primary">
-
-            <!-- Admin Badge Icon -->
-            <ImageView
-                android:id="@+id/admin_badge_icon"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:src="@drawable/ic_admin_badge"
-                android:contentDescription="Admin"
-                app:tint="@color/white"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent" />
+            android:padding="16dp">
 
             <LinearLayout
-                android:id="@+id/admin_header_section"
+                android:id="@+id/admin_brand_section"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_marginStart="12dp"
-                app:layout_constraintStart_toEndOf="@id/admin_badge_icon"
-                app:layout_constraintEnd_toStartOf="@id/admin_actions"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent">
+                app:layout_constraintEnd_toStartOf="@+id/admin_profile_actions">
 
                 <TextView
                     android:id="@+id/brand_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Product Management"
+                    android:text="@string/app_brand_name"
                     android:textColor="@color/white"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
+                    android:textSize="28sp"
+                    android:textStyle="bold"
+                    android:fontFamily="cursive" />
 
                 <TextView
-                    android:id="@+id/tagline"
+                    android:id="@+id/admin_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/admin_mode_active"
+                    android:text="Product Management"
                     android:textColor="@color/white"
-                    android:textSize="12sp"
+                    android:textSize="14sp"
                     android:alpha="0.8" />
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/admin_actions"
+                android:id="@+id/admin_profile_actions"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginTop="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent">
@@ -77,21 +66,21 @@
                     android:id="@+id/profile_section"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp">
+                    android:layout_marginEnd="12dp">
 
                     <com.google.android.material.imageview.ShapeableImageView
-                        android:id="@+id/profile_image"
-                        android:layout_width="36dp"
-                        android:layout_height="36dp"
-                        android:src="@drawable/ic_person"
+                        android:id="@+id/admin_profile_image"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/outline_account_circle_24"
                         android:scaleType="centerCrop"
-                        android:background="@color/white"
-                        app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full" />
+                        android:background="@android:color/transparent"
+                        app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full"
+                        app:tint="@color/white" />
                 </FrameLayout>
 
                 <com.google.android.material.button.MaterialButton
-                    android:id="@+id/filter_button"
-                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:id="@+id/admin_filter_button"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:insetTop="0dp"
@@ -101,7 +90,7 @@
                     app:iconTint="@color/white"
                     app:iconGravity="textStart"
                     app:iconPadding="0dp"
-                    app:strokeColor="@color/white"
+                    app:backgroundTint="@color/itadaki_crimson"
                     app:cornerRadius="20dp" />
             </LinearLayout>
 
@@ -114,7 +103,7 @@
             android:orientation="horizontal"
             android:padding="12dp"
             android:gravity="center_vertical"
-            android:background="@color/admin_primary">
+            android:background="@color/itadaki_crimson">
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/search_card"
@@ -167,8 +156,8 @@
                 app:icon="@drawable/ic_filter"
                 app:iconSize="16dp"
                 app:backgroundTint="@color/white"
-                app:iconTint="@color/admin_primary"
-                android:textColor="@color/admin_primary"
+                app:iconTint="@color/itadaki_crimson"
+                android:textColor="@color/itadaki_crimson"
                 app:cornerRadius="8dp" />
         </LinearLayout>
 
@@ -181,7 +170,7 @@
             android:paddingStart="12dp"
             android:paddingEnd="12dp"
             android:paddingBottom="12dp"
-            android:background="@color/admin_primary">
+            android:background="@color/itadaki_crimson">
 
             <com.google.android.material.chip.ChipGroup
                 android:id="@+id/category_chip_group"
@@ -225,18 +214,20 @@
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp">
 
-        <eightbitlab.com.blurview.BlurView
-            android:id="@+id/admin_add_product_fab_blur"
+        <FrameLayout
             android:layout_width="56dp"
             android:layout_height="56dp"
-            android:elevation="8dp"
-            app:blurOverlayColor="#00FFFFFF">
+            android:elevation="8dp">
 
-            <View
+            <!-- LAYER 1: Blur Background -->
+            <com.eightbitlab.com.blurview.BlurView
+                android:id="@+id/admin_add_product_fab_blur"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/glass_fab_border" />
+                android:background="@drawable/glass_fab_border"
+                app:blurOverlayColor="#15FFFFFF" />
 
+            <!-- LAYER 2: Sharp Icon -->
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
@@ -245,6 +236,7 @@
                 android:contentDescription="@string/action_add_product"
                 app:tint="@color/admin_accent" />
 
+            <!-- LAYER 3: Clickable Overlay -->
             <View
                 android:id="@+id/admin_add_product_fab"
                 android:layout_width="match_parent"
@@ -252,7 +244,8 @@
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:clickable="true"
                 android:focusable="true" />
-        </eightbitlab.com.blurview.BlurView>
+        </FrameLayout>
     </FrameLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
+

@@ -24,4 +24,12 @@
         <item name="android:textColor">@android:color/white</item>
         <item name="chipCornerRadius">12dp</item>
     </style>
+
+    <style name="Widget.RestaurantClient.AdminChoiceChip" parent="@style/Widget.MaterialComponents.Chip.Choice">
+        <item name="chipBackgroundColor">@color/admin_chip_background</item>
+        <item name="android:textColor">@color/admin_chip_text</item>
+        <item name="chipCornerRadius">8dp</item>
+        <item name="chipStrokeWidth">0dp</item>
+        <item name="rippleColor">@color/admin_primary</item>
+    </style>
 </resources>

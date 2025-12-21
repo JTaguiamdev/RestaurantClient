@@ -30,6 +30,16 @@ class OrderManagementActivity : BaseAdminActivity() {
         viewModel.loadOrders()
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.startPollingOrders()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        viewModel.stopPollingOrders()
+    }
+
     private fun setupToolbar() {
         setupAdminToolbar(
             binding.adminToolbar.toolbar,
@@ -64,7 +74,8 @@ class OrderManagementActivity : BaseAdminActivity() {
                 is Result.Error -> {
                     binding.progressBar.visibility = View.GONE
                     updateEmptyState(true)
-                    Toast.makeText(this, getString(R.string.order_list_error, result.exception.message), Toast.LENGTH_LONG).show()
+                    val message = com.restaurantclient.util.ErrorUtils.getHumanFriendlyErrorMessage(result.exception)
+                    Toast.makeText(this, getString(R.string.order_list_error, message), Toast.LENGTH_LONG).show()
                 }
             }
         }
@@ -76,7 +87,8 @@ class OrderManagementActivity : BaseAdminActivity() {
                     viewModel.loadOrders()
                 }
                 is Result.Error -> {
-                    Toast.makeText(this, getString(R.string.order_update_error, result.exception.message), Toast.LENGTH_LONG).show()
+                    val message = com.restaurantclient.util.ErrorUtils.getHumanFriendlyErrorMessage(result.exception)
+                    Toast.makeText(this, getString(R.string.order_update_error, message), Toast.LENGTH_LONG).show()
                 }
             }
         }

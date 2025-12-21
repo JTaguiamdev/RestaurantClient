@@ -50,6 +50,17 @@
         <activity
             android:name=".ui.admin.RoleManagementActivity"
             android:theme="@style/Theme.RestaurantClient.Admin" />
+        <activity
+            android:name=".ui.admin.AdminProfileActivity"
+            android:theme="@style/Theme.RestaurantClient.Admin" />
+
+        <!-- Casher Activities -->
+        <activity
+            android:name=".ui.casher.CasherDashboardActivity"
+            android:theme="@style/Theme.RestaurantClient.Casher" />
+        <activity
+            android:name=".ui.casher.CasherOrderActivity"
+            android:theme="@style/Theme.RestaurantClient.Casher" />
 
     </application>
 

@@ -1,36 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.appbar.AppBarLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.appbar.MaterialToolbar xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/toolbar"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:elevation="4dp"
-    android:layout_marginTop="40dp"
+    android:layout_height="?attr/actionBarSize"
     android:background="@color/itadaki_cream"
-    app:elevation="4dp">
-
-    <com.google.android.material.appbar.MaterialToolbar
-        xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:elevation="0dp"
-        app:navigationIcon="?attr/homeAsUpIndicator"
-        app:navigationIconTint="@color/black"
-        app:titleTextColor="@color/black"
-        android:background="@color/itadaki_cream">
-
-        <ImageView
-            android:id="@+id/refresh_icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_refresh"
-            android:layout_gravity="end"
-            android:padding="16dp"
-            android:contentDescription="@string/action_refresh"
-            app:tint="@color/black"
-            android:visibility="gone"
-            tools:visibility="visible" />
-
-    </com.google.android.material.appbar.MaterialToolbar>
-
-</com.google.android.material.appbar.AppBarLayout>
+    android:elevation="4dp"
+    app:navigationIcon="?attr/homeAsUpIndicator"
+    app:navigationIconTint="@color/black"
+    app:titleTextColor="@color/black" />

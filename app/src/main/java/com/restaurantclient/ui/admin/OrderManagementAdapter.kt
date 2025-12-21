@@ -14,7 +14,7 @@ import com.restaurantclient.ui.common.setupGlassEffect
 
 class OrderManagementAdapter(
     private val onStatusChange: (OrderResponse, String) -> Unit
-) : ListAdapter<OrderResponse, OrderManagementAdapter.OrderViewHolder>(DiffCallback) {
+) : ListAdapter<AdminOrderUIModel, OrderManagementAdapter.OrderViewHolder>(DiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OrderViewHolder {
         val binding = ItemAdminOrderBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -31,7 +31,8 @@ class OrderManagementAdapter(
 
         private val statusMap = mapOf(
             binding.chipPending.id to "Pending",
-            binding.chipProcessing.id to "Processing",
+            binding.chipAccepted.id to "Accepted",
+            binding.chipReady.id to "Ready",
             binding.chipCompleted.id to "Completed",
             binding.chipCancelled.id to "Cancelled"
         )
@@ -47,10 +48,12 @@ class OrderManagementAdapter(
             binding.orderCardBlur.setupGlassEffect(20f)
         }
 
-        fun bind(order: OrderResponse) {
+        fun bind(uiModel: AdminOrderUIModel) {
+            val order = uiModel.order
             binding.orderIdText.text = "Order #${order.order_id}"
             binding.orderAmountText.text = "${order.total_amount}"
-            binding.orderMetaText.text = buildMetaText(order)
+            binding.orderMetaText.text = buildMetaText(uiModel)
+            binding.currentStatusLabel.text = order.status?.uppercase() ?: "PENDING"
 
             binding.statusChipGroup.setOnCheckedStateChangeListener(null)
             val normalizedStatus = order.status?.lowercase() ?: "pending"
@@ -68,17 +71,17 @@ class OrderManagementAdapter(
             }
         }
 
-        private fun buildMetaText(order: OrderResponse): String {
-            val date = order.created_at?.substringBefore("T") ?: ""
-            return "User #${order.user_id} • Placed $date"
+        private fun buildMetaText(uiModel: AdminOrderUIModel): String {
+            val date = uiModel.order.created_at?.substringBefore("T") ?: ""
+            return "${uiModel.username} • Placed $date"
         }
     }
 
-    private object DiffCallback : DiffUtil.ItemCallback<OrderResponse>() {
-        override fun areItemsTheSame(oldItem: OrderResponse, newItem: OrderResponse): Boolean =
-            oldItem.order_id == newItem.order_id
+    private object DiffCallback : DiffUtil.ItemCallback<AdminOrderUIModel>() {
+        override fun areItemsTheSame(oldItem: AdminOrderUIModel, newItem: AdminOrderUIModel): Boolean =
+            oldItem.order.order_id == newItem.order.order_id
 
-        override fun areContentsTheSame(oldItem: OrderResponse, newItem: OrderResponse): Boolean =
+        override fun areContentsTheSame(oldItem: AdminOrderUIModel, newItem: AdminOrderUIModel): Boolean =
             oldItem == newItem
     }
 }

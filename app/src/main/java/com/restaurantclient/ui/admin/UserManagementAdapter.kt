@@ -15,8 +15,7 @@ import com.restaurantclient.ui.common.setupGlassEffect
 
 class UserManagementAdapter(
     private val onEditUser: (UserDTO) -> Unit,
-    private val onDeleteUser: (UserDTO) -> Unit,
-    private val onManagePermissions: (UserDTO) -> Unit
+    private val onDeleteUser: (UserDTO) -> Unit
 ) : ListAdapter<UserDTO, UserManagementAdapter.UserViewHolder>(UserDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserViewHolder {
@@ -60,6 +59,9 @@ class UserManagementAdapter(
                     user.isAdmin() -> {
                         binding.roleBadge.setBackgroundColor(binding.root.context.getColor(R.color.admin_primary))
                     }
+                    user.isCasher() -> {
+                        binding.roleBadge.setBackgroundColor(binding.root.context.getColor(R.color.admin_accent))
+                    }
                     else -> {
                         binding.roleBadge.setBackgroundColor(binding.root.context.getColor(R.color.admin_secondary))
                     }
@@ -76,10 +78,6 @@ class UserManagementAdapter(
 
             binding.deleteButton.setOnClickListener {
                 onDeleteUser(user)
-            }
-
-            binding.managePermissionsButton.setOnClickListener {
-                onManagePermissions(user)
             }
 
             // Don't allow deletion of admin users (safety measure)

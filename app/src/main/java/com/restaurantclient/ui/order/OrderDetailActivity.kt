@@ -24,13 +24,7 @@ class OrderDetailActivity : AppCompatActivity() {
         binding = ActivityOrderDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val toolbar = findViewById<com.google.android.material.appbar.MaterialToolbar>(R.id.toolbar)
-        toolbar?.apply {
-            title = getString(R.string.order_detail_title)
-            setNavigationOnClickListener {
-                onBackPressedDispatcher.onBackPressed()
-            }
-        }
+        setupToolbar()
 
         val order = intent.getSerializableExtra(EXTRA_ORDER, OrderResponse::class.java)
         if (order == null) {
@@ -40,6 +34,17 @@ class OrderDetailActivity : AppCompatActivity() {
         }
 
         renderOrder(order)
+    }
+
+    private fun setupToolbar() {
+        setSupportActionBar(binding.customerToolbar.toolbar)
+        supportActionBar?.apply {
+            title = getString(R.string.order_detail_title)
+            setDisplayHomeAsUpEnabled(true)
+        }
+        binding.customerToolbar.toolbar.setNavigationOnClickListener {
+            onBackPressedDispatcher.onBackPressed()
+        }
     }
 
     private fun renderOrder(order: OrderResponse) {

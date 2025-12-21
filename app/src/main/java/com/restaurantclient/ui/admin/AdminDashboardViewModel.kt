@@ -10,10 +10,14 @@ import com.restaurantclient.data.dto.UserDTO
 import com.restaurantclient.data.repository.DashboardRepository
 import com.restaurantclient.data.repository.OrderRepository
 import com.restaurantclient.data.repository.ProductRepository
+import com.restaurantclient.data.repository.RoleRepository
 import com.restaurantclient.data.repository.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
 @HiltViewModel
@@ -21,6 +25,7 @@ class AdminDashboardViewModel @Inject constructor(
     private val userRepository: UserRepository,
     private val orderRepository: OrderRepository,
     private val productRepository: ProductRepository,
+    private val roleRepository: RoleRepository,
     private val dashboardRepository: DashboardRepository
 ) : ViewModel() {
 
@@ -40,123 +45,81 @@ class AdminDashboardViewModel @Inject constructor(
     val error: LiveData<String> = _error
     
     private var dashboardSummaryAvailable = true // Track if endpoint is available
+    private var pollingJob: Job? = null
 
-    fun loadDashboardData() {
+    fun loadDashboardData(showLoading: Boolean = true) {
         viewModelScope.launch {
-            _loading.value = true
+            if (showLoading) _loading.value = true
             
             try {
-                // Try to load from new dashboard summary API first (if available)
-                if (dashboardSummaryAvailable) {
-                    val summaryResult = dashboardRepository.getDashboardSummary()
+                // Fetch basic stats from repositories directly for most accurate live data
+                val usersResult = userRepository.getAllUsers(forceRefresh = true)
+                val ordersResult = orderRepository.getAllOrders(forceRefresh = true)
+                val productsResult = productRepository.getAllProducts(forceRefresh = true)
+                val rolesResult = roleRepository.getAllRoles(forceRefresh = true)
+
+                if (usersResult is Result.Success && ordersResult is Result.Success && productsResult is Result.Success) {
+                    val users = usersResult.data
+                    val rolesCount = if (rolesResult is Result.Success) rolesResult.data.size else 0
                     
-                    if (summaryResult is Result.Success) {
-                        val summary = summaryResult.data
-                        _dashboardSummary.value = summary
-                        
-                        // Convert to DashboardStats for backward compatibility
-                        val stats = DashboardStats(
-                            totalUsers = summary.userCount,
-                            totalOrders = summary.orderCount,
-                            totalProducts = summary.productCount,
-                            newUsersToday = 0, // Not provided by summary API
-                            pendingOrders = summary.pendingOrders,
-                            completedOrders = summary.completedOrders,
-                            cancelledOrders = summary.cancelledOrders
-                        )
-                        _dashboardStats.value = stats
-                        
-                        // Load recent users separately
-                        loadRecentUsers()
-                    } else {
-                        // If it's a 404, disable future attempts
-                        if (summaryResult is Result.Error && 
-                            summaryResult.exception.message?.contains("404") == true) {
-                            android.util.Log.w("AdminDashboardVM", "Dashboard summary endpoint not available, using fallback")
-                            dashboardSummaryAvailable = false
-                        }
-                        // Fallback to loading data from individual endpoints
-                        loadDashboardDataFallback()
-                    }
-                } else {
-                    // Directly use fallback if we know the endpoint isn't available
-                    loadDashboardDataFallback()
+                    val stats = DashboardStats(
+                        totalUsers = users.size,
+                        totalOrders = ordersResult.data.size,
+                        totalProducts = productsResult.data.size,
+                        totalRoles = rolesCount,
+                        newUsersToday = calculateNewUsersToday(users),
+                        pendingOrders = ordersResult.data.count { it.status?.equals("Pending", true) == true },
+                        completedOrders = ordersResult.data.count { it.status?.equals("Completed", true) == true },
+                        cancelledOrders = ordersResult.data.count { it.status?.equals("Cancelled", true) == true }
+                    )
+                    _dashboardStats.value = stats
+                    _recentUsers.value = users.takeLast(5).reversed()
                 }
             } catch (e: Exception) {
-                _error.value = "Unexpected error: ${e.message}"
-                // Fallback to loading data from individual endpoints
-                loadDashboardDataFallback()
+                android.util.Log.e("AdminDashboardVM", "Error loading data", e)
             } finally {
-                _loading.value = false
+                if (showLoading) _loading.value = false
             }
         }
     }
-    
-    private suspend fun loadRecentUsers() {
-        val usersResult = userRepository.getAllUsers(forceRefresh = true)
-        if (usersResult is Result.Success) {
-            _recentUsers.value = usersResult.data
-                .sortedBy { it.createdAt }
-                .takeLast(5)
-                .reversed()
+
+    fun startPollingStats() {
+        if (pollingJob?.isActive == true) return
+        pollingJob = viewModelScope.launch {
+            while (true) {
+                loadDashboardData(showLoading = false)
+                delay(5000)
+            }
         }
     }
-    
-    private suspend fun loadDashboardDataFallback() {
-        val usersResult = userRepository.getAllUsers(forceRefresh = true)
-        val ordersResult = orderRepository.getAllOrders(forceRefresh = true)
-        val productsResult = productRepository.getAllProducts(forceRefresh = true)
 
-        val errors = mutableListOf<String>()
+    fun stopPollingStats() {
+        pollingJob?.cancel()
+        pollingJob = null
+    }
 
-        val users = when (usersResult) {
-            is Result.Success -> usersResult.data
-            is Result.Error -> {
-                errors += "Users: ${usersResult.exception.message}"
-                emptyList()
-            }
-        }
-
-        val totalOrders = when (ordersResult) {
-            is Result.Success -> ordersResult.data.size
-            is Result.Error -> {
-                errors += "Orders: ${ordersResult.exception.message}"
-                0
-            }
-        }
-
-        val totalProducts = when (productsResult) {
-            is Result.Success -> productsResult.data.size
-            is Result.Error -> {
-                errors += "Products: ${productsResult.exception.message}"
-                0
-            }
-        }
-
-        val stats = DashboardStats(
-            totalUsers = users.size,
-            totalOrders = totalOrders,
-            totalProducts = totalProducts,
-            newUsersToday = calculateNewUsersToday(users),
-            pendingOrders = 0,
-            completedOrders = 0,
-            cancelledOrders = 0
-        )
-
-        _dashboardStats.value = stats
-        _recentUsers.value = users
-            .sortedBy { it.createdAt }
-            .takeLast(5)
-            .reversed()
-
-        _error.value = if (errors.isNotEmpty()) errors.joinToString("\n") else null
+    override fun onCleared() {
+        super.onCleared()
+        stopPollingStats()
     }
 
     private fun calculateNewUsersToday(users: List<UserDTO>): Int {
         val today = LocalDate.now()
+        // Format from backend is often "dd/MM/yyyy" or "yyyy-MM-dd"
         return users.count { user ->
             user.createdAt?.let { createdAt ->
-                runCatching { LocalDate.parse(createdAt.substring(0, 10)) }.getOrNull() == today
+                try {
+                    // Try dd/MM/yyyy first
+                    val date = if (createdAt.contains("/")) {
+                        LocalDate.parse(createdAt, DateTimeFormatter.ofPattern("dd/MM/yyyy"))
+                    } else {
+                        // Fallback to yyyy-MM-dd
+                        LocalDate.parse(createdAt.substring(0, 10))
+                    }
+                    date == today
+                } catch (e: Exception) {
+                    false
+                }
             } ?: false
         }
     }
@@ -165,6 +128,7 @@ class AdminDashboardViewModel @Inject constructor(
         userRepository.clearCache()
         orderRepository.clearCache()
         productRepository.clearCache()
+        roleRepository.clearCache()
         loadDashboardData()
     }
 }
@@ -173,6 +137,7 @@ data class DashboardStats(
     val totalUsers: Int,
     val totalOrders: Int,
     val totalProducts: Int,
+    val totalRoles: Int = 0,
     val newUsersToday: Int,
     val pendingOrders: Int = 0,
     val completedOrders: Int = 0,

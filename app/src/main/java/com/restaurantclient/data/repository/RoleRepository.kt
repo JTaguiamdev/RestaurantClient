@@ -119,11 +119,11 @@ class RoleRepository @Inject constructor(
         }
     }
 
-    suspend fun addPermissionToRole(roleId: Int, permission: String): Result<Unit> {
+    suspend fun addPermissionToRole(roleName: String, permission: String): Result<Unit> {
         return try {
-            Log.d(TAG, "Adding permission '$permission' to role ID: $roleId")
-            val permissionRequest = PermissionRequest(permission = permission)
-            val response = apiService.setPermission(roleId, permissionRequest)
+            Log.d(TAG, "Adding permission '$permission' to role: $roleName")
+            val request = com.restaurantclient.data.dto.AddPermissionRequest(roleName = roleName, permission = permission)
+            val response = apiService.addPermission(request)
             
             if (response.isSuccessful) {
                 Log.d(TAG, "Permission added successfully")
@@ -140,23 +140,22 @@ class RoleRepository @Inject constructor(
         }
     }
 
-    suspend fun removePermissionFromRole(roleId: Int, permission: String): Result<Unit> {
+    suspend fun removePermissionFromRole(roleId: Int): Result<Unit> {
         return try {
-            Log.d(TAG, "Removing permission '$permission' from role ID: $roleId")
-            val permissionRequest = PermissionRequest(permission = permission)
-            val response = apiService.removePermission(roleId, permissionRequest)
+            Log.d(TAG, "Removing all permissions from role ID: $roleId")
+            val response = apiService.removePermission(roleId)
             
             if (response.isSuccessful) {
-                Log.d(TAG, "Permission removed successfully")
+                Log.d(TAG, "Permissions removed successfully")
                 clearCache()
                 Result.Success(Unit)
             } else {
-                val error = Exception("Failed to remove permission: ${response.code()} - ${response.message()}")
-                Log.e(TAG, "Remove permission error: ${error.message}")
+                val error = Exception("Failed to remove permissions: ${response.code()} - ${response.message()}")
+                Log.e(TAG, "Remove permissions error: ${error.message}")
                 Result.Error(error)
             }
         } catch (e: Exception) {
-            Log.e(TAG, "Exception removing permission", e)
+            Log.e(TAG, "Exception removing permissions", e)
             Result.Error(e)
         }
     }

@@ -9,6 +9,8 @@ import com.restaurantclient.data.dto.RoleDTO
 import com.restaurantclient.data.dto.UserDTO
 import com.restaurantclient.data.repository.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -32,18 +34,41 @@ class UserManagementViewModel @Inject constructor(
     private val _loading = MutableLiveData<Boolean>()
     val loading: LiveData<Boolean> = _loading
 
-    fun loadUsers(forceRefresh: Boolean = false) {
+    private var pollingJob: Job? = null
+
+    fun loadUsers(forceRefresh: Boolean = false, showLoading: Boolean = true) {
         viewModelScope.launch {
-            _loading.value = true
+            if (showLoading) _loading.value = true
             try {
                 val result = userRepository.getAllUsers(forceRefresh)
                 _users.value = result
             } catch (e: Exception) {
                 _users.value = Result.Error(e)
             } finally {
-                _loading.value = false
+                if (showLoading) _loading.value = false
             }
         }
+    }
+
+    fun startPollingUsers() {
+        if (pollingJob?.isActive == true) return
+        
+        pollingJob = viewModelScope.launch {
+            while (true) {
+                loadUsers(forceRefresh = true, showLoading = false)
+                delay(5000)
+            }
+        }
+    }
+
+    fun stopPollingUsers() {
+        pollingJob?.cancel()
+        pollingJob = null
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        stopPollingUsers()
     }
 
     fun deleteUser(userId: Int) {

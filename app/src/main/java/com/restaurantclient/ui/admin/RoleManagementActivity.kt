@@ -41,6 +41,16 @@ class RoleManagementActivity : BaseAdminActivity() {
         roleManagementViewModel.loadRoles()
     }
 
+    override fun onResume() {
+        super.onResume()
+        roleManagementViewModel.startPollingRoles()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        roleManagementViewModel.stopPollingRoles()
+    }
+
     private fun setupToolbar() {
         setupAdminToolbar(
             binding.adminToolbar.toolbar,
@@ -58,8 +68,11 @@ class RoleManagementActivity : BaseAdminActivity() {
             onEditRole = { role ->
                 showEditRoleDialog(role)
             },
-            onManagePermissions = { role ->
-                showManagePermissionsDialog(role)
+            onAddPermission = { role ->
+                showAddPermissionDialog(role)
+            },
+            onRemovePermission = { role ->
+                showRemoveAllPermissionsConfirmation(role)
             },
             onDeleteRole = { role ->
                 showDeleteConfirmationDialog(role.name) {
@@ -72,6 +85,17 @@ class RoleManagementActivity : BaseAdminActivity() {
             layoutManager = LinearLayoutManager(this@RoleManagementActivity)
             adapter = roleManagementAdapter
         }
+    }
+
+    private fun showRemoveAllPermissionsConfirmation(role: RoleDetailsDTO) {
+        MaterialAlertDialogBuilder(this)
+            .setTitle("Remove All Permissions")
+            .setMessage("Are you sure you want to remove all permissions from role '${role.name}'?")
+            .setPositiveButton("Remove All") { _, _ ->
+                roleManagementViewModel.removePermissionFromRole(role.roleId)
+            }
+            .setNegativeButton("Cancel", null)
+            .show()
     }
 
     private fun setupClickListeners() {
@@ -103,7 +127,8 @@ class RoleManagementActivity : BaseAdminActivity() {
                 is Result.Error -> {
                     binding.progressBar.visibility = View.GONE
                     binding.swipeRefreshLayout.isRefreshing = false
-                    Toast.makeText(this, "Failed to load roles: ${result.exception.message}", Toast.LENGTH_LONG).show()
+                    val message = com.restaurantclient.util.ErrorUtils.getHumanFriendlyErrorMessage(result.exception)
+                    Toast.makeText(this, "Failed to load roles: $message", Toast.LENGTH_LONG).show()
                 }
             }
         }
@@ -115,7 +140,8 @@ class RoleManagementActivity : BaseAdminActivity() {
                     roleManagementViewModel.loadRoles()
                 }
                 is Result.Error -> {
-                    Toast.makeText(this, "Failed to create role: ${result.exception.message}", Toast.LENGTH_LONG).show()
+                    val message = com.restaurantclient.util.ErrorUtils.getHumanFriendlyErrorMessage(result.exception)
+                    Toast.makeText(this, "Failed to create role: $message", Toast.LENGTH_LONG).show()
                 }
             }
         }
@@ -127,7 +153,8 @@ class RoleManagementActivity : BaseAdminActivity() {
                     roleManagementViewModel.loadRoles()
                 }
                 is Result.Error -> {
-                    Toast.makeText(this, "Failed to update role: ${result.exception.message}", Toast.LENGTH_LONG).show()
+                    val message = com.restaurantclient.util.ErrorUtils.getHumanFriendlyErrorMessage(result.exception)
+                    Toast.makeText(this, "Failed to update role: $message", Toast.LENGTH_LONG).show()
                 }
             }
         }
@@ -139,7 +166,8 @@ class RoleManagementActivity : BaseAdminActivity() {
                     roleManagementViewModel.loadRoles()
                 }
                 is Result.Error -> {
-                    Toast.makeText(this, "Failed to delete role: ${result.exception.message}", Toast.LENGTH_LONG).show()
+                    val message = com.restaurantclient.util.ErrorUtils.getHumanFriendlyErrorMessage(result.exception)
+                    Toast.makeText(this, "Failed to delete role: $message", Toast.LENGTH_LONG).show()
                 }
             }
         }
@@ -196,37 +224,14 @@ class RoleManagementActivity : BaseAdminActivity() {
             .show()
     }
 
-    private fun showManagePermissionsDialog(role: RoleDetailsDTO) {
-        val availablePermissions = listOf(
-            "ADMIN",
-            "READ",
-            "WRITE",
-            "DELETE"
-        )
+    private fun showAddPermissionDialog(role: RoleDetailsDTO) {
+        val availablePermissions = arrayOf("ADMIN", "READ", "WRITE", "DELETE")
         
-        val currentPermissions = role.permissions?.toMutableSet() ?: mutableSetOf()
-        val permissionsArray = availablePermissions.toTypedArray()
-        val checkedItems = BooleanArray(permissionsArray.size) { index ->
-            currentPermissions.contains(permissionsArray[index])
-        }
-
         MaterialAlertDialogBuilder(this)
-            .setTitle("Manage Permissions: ${role.name}")
-            .setMultiChoiceItems(permissionsArray, checkedItems) { _, which, isChecked ->
-                val permission = permissionsArray[which]
-                if (isChecked) {
-                    if (!currentPermissions.contains(permission)) {
-                        roleManagementViewModel.addPermissionToRole(role.roleId, permission)
-                    }
-                } else {
-                    if (currentPermissions.contains(permission)) {
-                        roleManagementViewModel.removePermissionFromRole(role.roleId, permission)
-                    }
-                }
-            }
-            .setPositiveButton("Done") { dialog, _ ->
-                dialog.dismiss()
-                roleManagementViewModel.refreshRoles()
+            .setTitle("Add Permission to ${role.name}")
+            .setItems(availablePermissions) { _, which ->
+                val permission = availablePermissions[which]
+                roleManagementViewModel.addPermissionToRole(role.name, permission)
             }
             .setNegativeButton("Cancel", null)
             .show()

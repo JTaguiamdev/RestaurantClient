@@ -37,7 +37,9 @@ class ProductListAdapter(
 
         init {
             itemView.setOnClickListener {
-                currentProduct?.let { onClick(it) }
+                if (!isAdminMode) {
+                    currentProduct?.let { onClick(it) }
+                }
             }
         }
 

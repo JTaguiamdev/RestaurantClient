@@ -52,7 +52,7 @@ class CheckoutActivity : AppCompatActivity() {
     }
 
     private fun setupToolbar() {
-        binding.root.findViewById<com.google.android.material.appbar.MaterialToolbar>(R.id.toolbar).apply {
+        binding.customerToolbar.toolbar.apply {
             title = "Checkout"
             navigationIcon = androidx.appcompat.content.res.AppCompatResources.getDrawable(
                 this@CheckoutActivity,
@@ -123,7 +123,8 @@ class CheckoutActivity : AppCompatActivity() {
                     finish()
                 }
                 is Result.Error -> {
-                    Toast.makeText(this, "Failed to place order: ${result.exception.message}", Toast.LENGTH_LONG).show()
+                    val message = com.restaurantclient.util.ErrorUtils.getHumanFriendlyErrorMessage(result.exception)
+                    Toast.makeText(this, "Failed to place order: $message", Toast.LENGTH_LONG).show()
                 }
             }
         }

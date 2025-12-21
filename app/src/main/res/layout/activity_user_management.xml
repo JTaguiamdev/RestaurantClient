@@ -7,9 +7,19 @@
     android:background="@drawable/bg_admin_glass_gradient"
     tools:context=".ui.admin.UserManagementActivity">
 
-    <include
-        android:id="@+id/admin_toolbar"
-        layout="@layout/admin_toolbar" />
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:fitsSystemWindows="true"
+        app:elevation="0dp"
+        app:liftOnScroll="false">
+
+        <include
+            android:id="@+id/admin_toolbar"
+            layout="@layout/admin_toolbar" />
+
+    </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipe_refresh_layout"
@@ -65,13 +75,15 @@
 
             </LinearLayout>
 
-            <ProgressBar
+            <com.airbnb.lottie.LottieAnimationView
                 android:id="@+id/progress_bar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
                 android:layout_gravity="center"
                 android:visibility="gone"
-                tools:visibility="gone" />
+                app:lottie_rawRes="@raw/japanese_noodles_loading"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true" />
 
         </FrameLayout>
 
@@ -85,18 +97,20 @@
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp">
 
-        <eightbitlab.com.blurview.BlurView
-            android:id="@+id/add_user_fab_blur"
+        <FrameLayout
             android:layout_width="56dp"
             android:layout_height="56dp"
-            android:elevation="8dp"
-            app:blurOverlayColor="#00FFFFFF">
+            android:elevation="8dp">
 
-            <View
+            <!-- LAYER 1: Blur Background -->
+            <com.eightbitlab.com.blurview.BlurView
+                android:id="@+id/add_user_fab_blur"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/glass_fab_border" />
+                android:background="@drawable/glass_fab_border"
+                app:blurOverlayColor="#15FFFFFF" />
 
+            <!-- LAYER 2: Sharp Icon -->
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
@@ -105,6 +119,7 @@
                 android:contentDescription="Add User"
                 app:tint="@color/admin_primary" />
 
+            <!-- LAYER 3: Clickable Overlay -->
             <View
                 android:id="@+id/add_user_fab"
                 android:layout_width="match_parent"
@@ -112,7 +127,7 @@
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:clickable="true"
                 android:focusable="true" />
-        </eightbitlab.com.blurview.BlurView>
+        </FrameLayout>
     </FrameLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

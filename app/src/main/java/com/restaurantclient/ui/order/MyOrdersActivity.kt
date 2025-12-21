@@ -29,7 +29,7 @@ class MyOrdersActivity : AppCompatActivity() {
         binding = ActivityMyOrdersBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val toolbar = binding.root.findViewById<com.google.android.material.appbar.MaterialToolbar>(R.id.toolbar)
+        val toolbar = binding.customerToolbar.toolbar
         setSupportActionBar(toolbar)
         supportActionBar?.apply {
             title = getString(R.string.action_my_orders)
@@ -38,16 +38,6 @@ class MyOrdersActivity : AppCompatActivity() {
             setDisplayShowHomeEnabled(true)
         }
         toolbar.setNavigationOnClickListener { finish() }
-
-        val refreshIcon = binding.root.findViewById<ImageView>(R.id.refresh_icon)
-        refreshIcon.visibility = View.VISIBLE
-        refreshIcon.setOnClickListener {
-            val username = tokenManager.getUsername()
-            if (username != null) {
-                orderViewModel.fetchUserOrders(username)
-                Toast.makeText(this, "Refreshing orders...", Toast.LENGTH_SHORT).show()
-            }
-        }
 
         setupGlassUI()
         
@@ -75,6 +65,18 @@ class MyOrdersActivity : AppCompatActivity() {
             finish()
         }
     }
+
+    override fun onResume() {
+        super.onResume()
+        tokenManager.getUsername()?.let {
+            orderViewModel.startPollingOrders(it)
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        orderViewModel.stopPollingOrders()
+    }
     
     private fun setupGlassUI() {
         // Simplified - using MaterialCardView instead of BlurView for now
@@ -92,7 +94,8 @@ class MyOrdersActivity : AppCompatActivity() {
                 }
                 is Result.Error -> {
                     binding.progressBar.visibility = View.GONE
-                    Toast.makeText(this, "Failed to fetch orders: ${result.exception.message}", Toast.LENGTH_LONG).show()
+                    val message = com.restaurantclient.util.ErrorUtils.getHumanFriendlyErrorMessage(result.exception)
+                    Toast.makeText(this, "Failed to fetch orders: $message", Toast.LENGTH_LONG).show()
                 }
             }
         }

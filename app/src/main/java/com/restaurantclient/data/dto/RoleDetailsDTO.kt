@@ -27,6 +27,7 @@ data class RoleDetailsDTO(
             "ADMIN" -> RoleDTO.Admin
             "CUSTOMER" -> RoleDTO.Customer
             "USER" -> RoleDTO.Customer // Fallback
+            "CASHER" -> RoleDTO.Casher
             else -> null
         }
     }

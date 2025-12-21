@@ -76,7 +76,7 @@ interface ApiService {
     suspend fun getAllOrders(): Response<List<OrderResponse>>
 
     @POST("api/v1/orders/{id}")
-    suspend fun updateOrder(@Path("id") orderId: Int, @Body updateOrderRequest: UpdateOrderRequest): Response<OrderResponse>
+    suspend fun updateOrder(@Path("id") orderId: Int, @Body updateOrderRequest: UpdateOrderRequest): Response<ResponseBody>
 
     // Admin User Management
     @GET("api/v1/users")
@@ -124,7 +124,7 @@ interface ApiService {
     suspend fun setPermission(@Path("id") roleId: Int, @Body permissionRequest: PermissionRequest): Response<Unit>
 
     @PATCH("api/v1/roles/{id}/delete_permission")
-    suspend fun removePermission(@Path("id") roleId: Int, @Body permissionRequest: PermissionRequest): Response<Unit>
+    suspend fun removePermission(@Path("id") roleId: Int): Response<Unit>
 
     @POST("api/v1/roles/assign")
     suspend fun assignRole(@Body assignRoleRequest: AssignRoleRequest): Response<Unit>

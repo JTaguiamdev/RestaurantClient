@@ -6,7 +6,7 @@ import android.os.Build
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
-import eightbitlab.com.blurview.BlurView
+import com.eightbitlab.com.blurview.BlurView
 import java.util.concurrent.atomic.AtomicBoolean
 
 /**
@@ -265,3 +265,4 @@ object GlassTestingHelper {
         Log.d(TAG, "Passes Target: ${metrics.passesTarget}")
     }
 }
+

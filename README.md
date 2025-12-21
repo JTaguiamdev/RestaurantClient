@@ -9,6 +9,14 @@
 
 ---
 
+## 📥 Download
+
+[![Download APK](https://img.shields.io/badge/Download-Latest%20APK-red?style=for-the-badge&logo=android)](https://github.com/JTaguiamdev/RestaurantClient/releases/latest/download/RestaurantClient-debug.apk)
+
+*Note: This is a debug build. You may need to allow "Install from Unknown Sources" on your device.*
+
+---
+
 ## 📱 About
 
 **Itadaki** (頂 - "to receive") - A comprehensive mobile application for restaurant order management with stunning UI/UX. Built with Kotlin and Material Design 3, featuring glassmorphism effects and optimized performance.
@@ -66,7 +74,7 @@
 
 1. **Clone the repository**
 ```bash
-git clone https://github.com/your-username/RestaurantClient.git
+git clone https://github.com/JTaguiamdev/RestaurantClient.git
 cd RestaurantClient
 ```
 

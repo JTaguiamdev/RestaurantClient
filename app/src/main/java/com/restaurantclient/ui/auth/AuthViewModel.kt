@@ -233,6 +233,10 @@ class AuthViewModel @Inject constructor(
         return getUserRole() == RoleDTO.Admin
     }
 
+    fun isCasher(): Boolean {
+        return getUserRole() == RoleDTO.Casher
+    }
+
     fun isCustomer(): Boolean {
         return getUserRole() == RoleDTO.Customer
     }

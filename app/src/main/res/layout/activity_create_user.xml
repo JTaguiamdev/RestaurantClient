@@ -7,9 +7,19 @@
     android:background="@drawable/glass_card_border"
     tools:context=".ui.admin.CreateUserActivity">
 
-    <include
-        android:id="@+id/admin_toolbar"
-        layout="@layout/admin_toolbar" />
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:fitsSystemWindows="true"
+        app:elevation="0dp"
+        app:liftOnScroll="false">
+
+        <include
+            android:id="@+id/admin_toolbar"
+            layout="@layout/admin_toolbar" />
+
+    </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -37,7 +47,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-                    <eightbitlab.com.blurview.BlurView
+                    <com.eightbitlab.com.blurview.BlurView
                         android:id="@+id/create_user_form_blur"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent" />

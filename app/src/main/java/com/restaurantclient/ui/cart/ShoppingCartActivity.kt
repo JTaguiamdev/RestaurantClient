@@ -39,9 +39,12 @@ class ShoppingCartActivity : AppCompatActivity() {
     }
 
     private fun setupToolbar() {
-        binding.root.findViewById<com.google.android.material.appbar.MaterialToolbar>(R.id.toolbar).apply {
+        binding.customerToolbar.toolbar.apply {
             title = "My Cart"
-            navigationIcon = getDrawable(android.R.drawable.ic_menu_close_clear_cancel)
+            navigationIcon = androidx.appcompat.content.res.AppCompatResources.getDrawable(
+                this@ShoppingCartActivity, 
+                android.R.drawable.ic_menu_close_clear_cancel
+            )
             setNavigationOnClickListener {
                 finish()
             }

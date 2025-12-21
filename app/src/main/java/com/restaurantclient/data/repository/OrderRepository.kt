@@ -117,7 +117,18 @@ class OrderRepository @Inject constructor(private val apiService: ApiService) {
         return try {
             val response = apiService.updateOrder(orderId, UpdateOrderRequest(status))
             if (response.isSuccessful) {
-                Result.Success(response.body()!!)
+                // Return dummy response since backend returns "Order status updated" text
+                val dummyResponse = OrderResponse(
+                    order_id = orderId,
+                    user_id = 0,
+                    product_id = 0,
+                    quantity = 0,
+                    total_amount = "0",
+                    status = status,
+                    created_at = null,
+                    updated_at = null
+                )
+                Result.Success(dummyResponse)
             } else {
                 Result.Error(Exception("Failed to update order: ${response.code()}"))
             }
@@ -133,6 +144,19 @@ class OrderRepository @Inject constructor(private val apiService: ApiService) {
                 Result.Success(response.body() ?: emptyList())
             } else {
                 Result.Error(Exception("Failed to get orders by role: ${response.code()}"))
+            }
+        } catch (e: Exception) {
+            Result.Error(e)
+        }
+    }
+
+    suspend fun getDashboardSummary(): Result<com.restaurantclient.data.dto.DashboardSummaryDTO> {
+        return try {
+            val response = apiService.getDashboardSummary()
+            if (response.isSuccessful) {
+                Result.Success(response.body()!!)
+            } else {
+                Result.Error(Exception("Failed to get dashboard summary: ${response.code()}"))
             }
         } catch (e: Exception) {
             Result.Error(e)

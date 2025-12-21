@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <eightbitlab.com.blurview.BlurView
+        <com.eightbitlab.com.blurview.BlurView
             android:id="@+id/cart_item_blur"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />

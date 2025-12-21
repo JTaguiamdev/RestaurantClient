@@ -88,7 +88,8 @@ class LoginActivity : AppCompatActivity() {
                 }
                 is Result.Error -> {
                     binding.progressBar.visibility = View.GONE
-                    Toast.makeText(this, "Login Failed: ${result.exception.message}", Toast.LENGTH_LONG).show()
+                    val message = com.restaurantclient.util.ErrorUtils.getHumanFriendlyErrorMessage(result.exception)
+                    Toast.makeText(this, "Login Failed: $message", Toast.LENGTH_LONG).show()
                 }
             }
         }
@@ -103,12 +104,13 @@ class LoginActivity : AppCompatActivity() {
                 }
                 is Result.Error -> {
                     binding.progressBar.visibility = View.GONE
-                    val errorMessage = if (result.exception.message?.contains("403") == true) {
+                    val message = com.restaurantclient.util.ErrorUtils.getHumanFriendlyErrorMessage(result.exception)
+                    val finalMessage = if (result.exception.message?.contains("403") == true) {
                         "Registration closed. First user already exists. Please login instead."
                     } else {
-                        "Registration Failed: ${result.exception.message}"
+                        "Registration Failed: $message"
                     }
-                    Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show()
+                    Toast.makeText(this, finalMessage, Toast.LENGTH_LONG).show()
                 }
             }
         }

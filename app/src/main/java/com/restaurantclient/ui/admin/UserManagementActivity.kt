@@ -51,6 +51,16 @@ class UserManagementActivity : BaseAdminActivity() {
         userManagementViewModel.loadUsers()
     }
 
+    override fun onResume() {
+        super.onResume()
+        userManagementViewModel.startPollingUsers()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        userManagementViewModel.stopPollingUsers()
+    }
+
     private fun setupToolbar() {
         setupAdminToolbar(
             binding.adminToolbar.toolbar,
@@ -72,9 +82,6 @@ class UserManagementActivity : BaseAdminActivity() {
                 showDeleteConfirmationDialog(user.username) {
                     userManagementViewModel.deleteUser(user.userId ?: 0)
                 }
-            },
-            onManagePermissions = { user ->
-                showManagePermissionsDialog(user)
             }
         )
 
@@ -113,7 +120,8 @@ class UserManagementActivity : BaseAdminActivity() {
                 is Result.Error -> {
                     binding.progressBar.visibility = View.GONE
                     binding.swipeRefreshLayout.isRefreshing = false
-                    Toast.makeText(this, "Failed to load users: ${result.exception.message}", Toast.LENGTH_LONG).show()
+                    val message = com.restaurantclient.util.ErrorUtils.getHumanFriendlyErrorMessage(result.exception)
+                    Toast.makeText(this, "Failed to load users: $message", Toast.LENGTH_LONG).show()
                 }
             }
         }
@@ -125,7 +133,8 @@ class UserManagementActivity : BaseAdminActivity() {
                     userManagementViewModel.loadUsers(true) // Refresh list
                 }
                 is Result.Error -> {
-                    Toast.makeText(this, "Failed to delete user: ${result.exception.message}", Toast.LENGTH_LONG).show()
+                    val message = com.restaurantclient.util.ErrorUtils.getHumanFriendlyErrorMessage(result.exception)
+                    Toast.makeText(this, "Failed to delete user: $message", Toast.LENGTH_LONG).show()
                 }
             }
         }
@@ -137,7 +146,8 @@ class UserManagementActivity : BaseAdminActivity() {
                     userManagementViewModel.loadUsers(true)
                 }
                 is Result.Error -> {
-                    Toast.makeText(this, getString(R.string.edit_user_error, result.exception.message), Toast.LENGTH_LONG).show()
+                    val message = com.restaurantclient.util.ErrorUtils.getHumanFriendlyErrorMessage(result.exception)
+                    Toast.makeText(this, getString(R.string.edit_user_error, message), Toast.LENGTH_LONG).show()
                 }
             }
         }
@@ -149,7 +159,8 @@ class UserManagementActivity : BaseAdminActivity() {
                     userManagementViewModel.loadUsers(true)
                 }
                 is Result.Error -> {
-                    Toast.makeText(this, "Failed to update roles: ${result.exception.message}", Toast.LENGTH_LONG).show()
+                    val message = com.restaurantclient.util.ErrorUtils.getHumanFriendlyErrorMessage(result.exception)
+                    Toast.makeText(this, "Failed to update roles: $message", Toast.LENGTH_LONG).show()
                 }
             }
         }
@@ -174,27 +185,6 @@ class UserManagementActivity : BaseAdminActivity() {
                 userManagementViewModel.updateUserRole(user.username, selectedRole)
             }
             .setNegativeButton(android.R.string.cancel, null)
-            .show()
-    }
-
-    private fun showManagePermissionsDialog(user: UserDTO) {
-        val currentPermissions = user.roleDetails?.permissions ?: emptyList()
-        val permissionsText = if (currentPermissions.isEmpty()) {
-            "No permissions assigned"
-        } else {
-            currentPermissions.joinToString("\n• ", "Current permissions:\n• ")
-        }
-
-        MaterialAlertDialogBuilder(this)
-            .setTitle("User Permissions: ${user.username}")
-            .setMessage(
-                "Role: ${user.roleDetails?.name ?: "None"}\n\n$permissionsText\n\n" +
-                "To change permissions, assign a different role to this user."
-            )
-            .setPositiveButton("Change Role") { _, _ ->
-                showAssignRoleDialog(user)
-            }
-            .setNegativeButton("Close", null)
             .show()
     }
 

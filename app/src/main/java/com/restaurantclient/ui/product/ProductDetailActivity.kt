@@ -121,7 +121,8 @@ class ProductDetailActivity : AppCompatActivity() {
                     binding.timeText.text = getString(R.string.estimated_time, time)
                 }
                 is Result.Error -> {
-                    Toast.makeText(this, "Failed to fetch product details: ${result.exception.message}", Toast.LENGTH_LONG).show()
+                    val message = com.restaurantclient.util.ErrorUtils.getHumanFriendlyErrorMessage(result.exception)
+                    Toast.makeText(this, "Failed to fetch product details: $message", Toast.LENGTH_LONG).show()
                 }
             }
         }

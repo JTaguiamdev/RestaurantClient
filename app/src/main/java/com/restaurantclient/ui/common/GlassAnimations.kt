@@ -10,7 +10,7 @@ import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.DecelerateInterpolator
 import android.view.animation.OvershootInterpolator
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
-import eightbitlab.com.blurview.BlurView
+import com.eightbitlab.com.blurview.BlurView
 
 /**
  * Enhanced animation utilities for glassmorphic UI elements
@@ -300,3 +300,4 @@ object GlassAnimations {
         }
     }
 }
+

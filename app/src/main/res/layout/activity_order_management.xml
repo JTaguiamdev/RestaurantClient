@@ -4,11 +4,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.admin.OrderManagementActivity">
+    tools:context=".ui.admin.OrderManagementActivity"
+    android:background="@drawable/bg_admin_glass_gradient">
 
-    <include
-        android:id="@+id/admin_toolbar"
-        layout="@layout/admin_toolbar" />
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:fitsSystemWindows="true"
+        app:elevation="0dp"
+        app:liftOnScroll="false">
+
+        <include
+            android:id="@+id/admin_toolbar"
+            layout="@layout/admin_toolbar" />
+
+    </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipe_refresh"
@@ -25,7 +36,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:padding="16dp"
-                tools:listitem="@layout/item_admin_order" />
+                tools:listitem="@layout/item_admin_order"
+                android:layout_marginBottom="50dp"/>
 
             <LinearLayout
                 android:id="@+id/empty_state"

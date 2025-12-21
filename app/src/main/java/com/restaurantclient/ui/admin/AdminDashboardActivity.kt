@@ -8,15 +8,13 @@ import android.view.MenuItem
 import android.view.ViewGroup
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
-import androidx.core.graphics.ColorUtils
-import com.eightbitlab.com.blurview.BlurView
-import com.eightbitlab.com.blurview.RenderScriptBlur
 import com.google.android.material.chip.Chip
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.restaurantclient.MainActivity
 import com.restaurantclient.R
 import com.restaurantclient.data.dto.RoleDTO
 import com.restaurantclient.databinding.ActivityAdminDashboardBinding
+import com.restaurantclient.ui.common.setupGlassEffect
 import com.restaurantclient.ui.product.ProductListActivity
 import com.restaurantclient.ui.user.UserProfileActivity
 import dagger.hilt.android.AndroidEntryPoint
@@ -86,7 +84,7 @@ class AdminDashboardActivity : BaseAdminActivity() {
             binding.totalUsersText.text = stats.totalUsers.toString()
             binding.totalOrdersText.text = stats.totalOrders.toString()
             binding.totalProductsText.text = stats.totalProducts.toString()
-            binding.newUsersText.text = stats.newUsersToday.toString()
+            binding.totalRolesText.text = stats.totalRoles.toString()
         }
         
         adminViewModel.dashboardSummary.observe(this) { summary ->
@@ -128,7 +126,7 @@ class AdminDashboardActivity : BaseAdminActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.action_profile -> {
-                startActivity(Intent(this, UserProfileActivity::class.java))
+                startActivity(Intent(this, AdminProfileActivity::class.java))
                 true
             }
             R.id.action_user_management -> {
@@ -163,66 +161,25 @@ class AdminDashboardActivity : BaseAdminActivity() {
         super.onResume()
         // Refresh dashboard data when returning to screen
         adminViewModel.loadDashboardData()
+        adminViewModel.startPollingStats()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        adminViewModel.stopPollingStats()
     }
 
     private fun setupGlassEffects() {
-        val radius = 25f
-        val decorView = window.decorView
-        val rootView = decorView.findViewById<ViewGroup>(android.R.id.content)
-        val windowBackground = decorView.background
-        
-
-        
-        // White glassmorphism overlay for statistics cards
-
-        
-        binding.totalUsersBlur.setupWith(rootView)
-            .setFrameClearDrawable(windowBackground)
-            .setBlurAlgorithm(RenderScriptBlur(this))
-            .setBlurRadius(20f)
-        binding.totalUsersBlur.setOverlayColor(ContextCompat.getColor(this, R.color.white_glass_overlay))
-        
-        binding.totalOrdersBlur.setupWith(rootView)
-            .setFrameClearDrawable(windowBackground)
-            .setBlurAlgorithm(RenderScriptBlur(this))
-            .setBlurRadius(20f)
-        binding.totalOrdersBlur.setOverlayColor(ContextCompat.getColor(this, R.color.white_glass_overlay))
-        
-        binding.totalProductsBlur.setupWith(rootView)
-            .setFrameClearDrawable(windowBackground)
-            .setBlurAlgorithm(RenderScriptBlur(this))
-            .setBlurRadius(20f)
-        binding.totalProductsBlur.setOverlayColor(ContextCompat.getColor(this, R.color.white_glass_overlay))
-        
-        binding.newUsersBlur.setupWith(rootView)
-            .setFrameClearDrawable(windowBackground)
-            .setBlurAlgorithm(RenderScriptBlur(this))
-            .setBlurRadius(20f)
-        binding.newUsersBlur.setOverlayColor(ContextCompat.getColor(this, R.color.white_glass_overlay))
+        // Statistics cards
+        binding.totalUsersBlur.setupGlassEffect(20f)
+        binding.totalOrdersBlur.setupGlassEffect(20f)
+        binding.totalProductsBlur.setupGlassEffect(20f)
+        binding.totalRolesBlur.setupGlassEffect(20f)
         
         // Management cards
-        binding.userManagementBlur.setupWith(rootView)
-            .setFrameClearDrawable(windowBackground)
-            .setBlurAlgorithm(RenderScriptBlur(this))
-            .setBlurRadius(20f)
-        binding.userManagementBlur.setOverlayColor(ContextCompat.getColor(this, R.color.white_glass_overlay))
-        
-        binding.productManagementBlur.setupWith(rootView)
-            .setFrameClearDrawable(windowBackground)
-            .setBlurAlgorithm(RenderScriptBlur(this))
-            .setBlurRadius(20f)
-        binding.productManagementBlur.setOverlayColor(ContextCompat.getColor(this, R.color.white_glass_overlay))
-        
-        binding.orderManagementBlur.setupWith(rootView)
-            .setFrameClearDrawable(windowBackground)
-            .setBlurAlgorithm(RenderScriptBlur(this))
-            .setBlurRadius(20f)
-        binding.orderManagementBlur.setOverlayColor(ContextCompat.getColor(this, R.color.white_glass_overlay))
-        
-        binding.roleManagementBlur.setupWith(rootView)
-            .setFrameClearDrawable(windowBackground)
-            .setBlurAlgorithm(RenderScriptBlur(this))
-            .setBlurRadius(20f)
-        binding.roleManagementBlur.setOverlayColor(ContextCompat.getColor(this, R.color.white_glass_overlay))
+        binding.userManagementBlur.setupGlassEffect(20f)
+        binding.productManagementBlur.setupGlassEffect(20f)
+        binding.orderManagementBlur.setupGlassEffect(20f)
+        binding.roleManagementBlur.setupGlassEffect(20f)
     }
 }

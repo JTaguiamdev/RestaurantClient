@@ -16,7 +16,7 @@
             android:layout_height="wrap_content">
 
             <!-- Blur Target for Product Image -->
-            <eightbitlab.com.blurview.BlurTarget
+            <FrameLayout
                 android:id="@+id/product_blur_target"
                 android:layout_width="0dp"
                 android:layout_height="443dp"
@@ -32,19 +32,24 @@
                     android:scaleType="centerCrop"
                     android:background="@color/food_light_gray"
                     tools:src="@drawable/tonkotsu_ramen" />
-            </eightbitlab.com.blurview.BlurTarget>
+            </FrameLayout>
 
             <!-- Glass Info Card Overlay on Image -->
-            <eightbitlab.com.blurview.BlurView
-                android:id="@+id/product_info_glass"
+            <FrameLayout
+                android:id="@+id/product_info_glass_container"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="300dp"
                 android:elevation="8dp"
-                app:blurOverlayColor="#00FFFFFF"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
+
+                <com.eightbitlab.com.blurview.BlurView
+                    android:id="@+id/product_info_glass"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:blurOverlayColor="#15FFFFFF" />
 
                 <!-- Glass Border -->
                 <View
@@ -121,7 +126,7 @@
                         android:textStyle="bold"
                         tools:text="$19.99" />
                 </LinearLayout>
-            </eightbitlab.com.blurview.BlurView>
+            </FrameLayout>
 
             <!-- Description -->
             <TextView
@@ -136,7 +141,7 @@
                 android:lineSpacingExtra="4dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/product_info_glass"
+                app:layout_constraintTop_toBottomOf="@id/product_info_glass_container"
                 tools:text="@string/rich_pork_bone_broth_chashu_pork_bamboo_shoots_and_a_soft_boiled_egg" />
 
             <!-- Portion Control Section -->
