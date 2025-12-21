@@ -21,6 +21,16 @@
 
 **Itadaki** (頂 - "to receive") - A comprehensive mobile application for restaurant order management with stunning UI/UX. Built with Kotlin and Material Design 3, featuring glassmorphism effects and optimized performance.
 
+### 📸 Screenshots
+
+<p align="center">
+  <img src="screenshots/login.png" width="30%" alt="Login Screen" />
+  <img src="screenshots/dashboard.png" width="30%" alt="Admin Dashboard" />
+  <img src="screenshots/menu.png" width="30%" alt="Menu Screen" />
+</p>
+
+---
+
 ### ✨ Key Features
 - 🎨 **Itadaki Brand Identity** - Warm cream backgrounds with deep red accents
 - 💎 **Glassmorphism UI** - Modern blur effects and frosted glass design
