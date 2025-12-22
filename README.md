@@ -128,10 +128,10 @@ API_BASE_URL=http://your-backend-server.com/api/
 ## 📚 Documentation
 
 Comprehensive guides available in the project root:
-- **UI_MODERNIZATION_PLAN.md** - Complete UI roadmap
-- **GLASS_COMPONENTS.md** - Glass component library (25+ components)
-- **PHASE_5_POLISH_OPTIMIZATION.md** - Performance & optimization
-- **THEME_SELECTION_GUIDE.md** - Complete theming guide
+- [**UI_MODERNIZATION_PLAN.md**](UI_MODERNIZATION_PLAN.md) - Complete UI roadmap
+- [**GLASS_COMPONENTS.md**](GLASS_COMPONENTS.md) - Glass component library (25+ components)
+- [**PHASE_5_POLISH_OPTIMIZATION.md**](PHASE_5_POLISH_OPTIMIZATION.md) - Performance & optimization
+- [**THEME_SELECTION_GUIDE.md**](THEME_SELECTION_GUIDE.md) - Complete theming guide
 
 ---
 
