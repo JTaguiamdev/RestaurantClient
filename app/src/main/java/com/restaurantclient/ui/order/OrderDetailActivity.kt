@@ -4,20 +4,26 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import com.google.android.material.appbar.MaterialToolbar
 import com.restaurantclient.R
+import com.restaurantclient.data.Result
 import com.restaurantclient.data.dto.OrderResponse
 import com.restaurantclient.databinding.ActivityOrderDetailBinding
+import com.restaurantclient.util.ErrorUtils
+import dagger.hilt.android.AndroidEntryPoint
 import java.math.BigDecimal
 import java.text.NumberFormat
 import java.time.OffsetDateTime
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 
+@AndroidEntryPoint
 class OrderDetailActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityOrderDetailBinding
+    private val viewModel: OrderDetailViewModel by viewModels()
+    private var orderId: Int = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,14 +32,28 @@ class OrderDetailActivity : AppCompatActivity() {
 
         setupToolbar()
 
-        val order = intent.getSerializableExtra(EXTRA_ORDER, OrderResponse::class.java)
-        if (order == null) {
+        val initialOrder = intent.getSerializableExtra(EXTRA_ORDER, OrderResponse::class.java)
+        if (initialOrder == null) {
             Toast.makeText(this, R.string.order_detail_error_missing, Toast.LENGTH_LONG).show()
             finish()
             return
         }
 
-        renderOrder(order)
+        orderId = initialOrder.order_id
+        renderOrder(initialOrder)
+        setupObservers()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (orderId != -1) {
+            viewModel.startPolling(orderId)
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        viewModel.stopPolling()
     }
 
     private fun setupToolbar() {
@@ -47,6 +67,22 @@ class OrderDetailActivity : AppCompatActivity() {
         }
     }
 
+    private fun setupObservers() {
+        viewModel.order.observe(this) { result ->
+            when (result) {
+                is Result.Success -> {
+                    renderOrder(result.data)
+                }
+                is Result.Error -> {
+                    // Don't show toast for every polling failure to avoid spam
+                    // but log it or show a small indicator if needed
+                    val message = ErrorUtils.getHumanFriendlyErrorMessage(result.exception)
+                    android.util.Log.e("OrderDetail", "Failed to update order status: $message")
+                }
+            }
+        }
+    }
+
     private fun renderOrder(order: OrderResponse) {
         binding.orderNumberValue.text = "#${order.order_id}"
         binding.orderStatusChip.text = order.status ?: getString(R.string.order_detail_unknown_value)
@@ -54,6 +90,13 @@ class OrderDetailActivity : AppCompatActivity() {
         binding.orderTotalValue.text = formatCurrency(order.total_amount)
         binding.orderPlacedValue.text = formatTimestamp(order.created_at)
         binding.orderUpdatedValue.text = formatTimestamp(order.updated_at)
+        
+        // Update chip style based on status if needed
+        updateStatusChipStyle(order.status)
+    }
+
+    private fun updateStatusChipStyle(status: String?) {
+        // Optional: color coding based on status
     }
 
     private fun formatCurrency(value: String?): String {
