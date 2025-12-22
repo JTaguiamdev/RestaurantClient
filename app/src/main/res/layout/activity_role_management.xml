@@ -73,13 +73,15 @@
 
             </LinearLayout>
 
-            <!-- Progress Bar -->
-            <ProgressBar
+            <com.airbnb.lottie.LottieAnimationView
                 android:id="@+id/progress_bar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
                 android:layout_gravity="center"
-                android:visibility="gone" />
+                android:visibility="gone"
+                app:lottie_rawRes="@raw/japanese_noodles_loading"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true" />
 
         </FrameLayout>
 

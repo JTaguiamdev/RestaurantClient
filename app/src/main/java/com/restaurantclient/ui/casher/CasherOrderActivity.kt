@@ -71,6 +71,7 @@ class CasherOrderActivity : BaseCasherActivity() {
                 R.id.filter_accepted -> "Accepted"
                 R.id.filter_ready -> "Ready"
                 R.id.filter_completed -> "Completed"
+                R.id.filter_cancelled -> "Cancelled"
                 else -> "ALL"
             }
             viewModel.setFilter(filter)

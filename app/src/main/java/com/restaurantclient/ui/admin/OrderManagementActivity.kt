@@ -24,6 +24,7 @@ class OrderManagementActivity : BaseAdminActivity() {
 
         setupToolbar()
         setupRecyclerView()
+        setupFilters()
         setupObservers()
         setupRefresh()
 
@@ -54,6 +55,21 @@ class OrderManagementActivity : BaseAdminActivity() {
         }
         binding.ordersRecyclerView.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this)
         binding.ordersRecyclerView.adapter = adapter
+    }
+
+    private fun setupFilters() {
+        binding.filterChipGroup.setOnCheckedStateChangeListener { _, checkedIds ->
+            val selectedId = checkedIds.firstOrNull() ?: return@setOnCheckedStateChangeListener
+            val filter = when (selectedId) {
+                R.id.filter_pending -> "Pending"
+                R.id.filter_accepted -> "Accepted"
+                R.id.filter_ready -> "Ready"
+                R.id.filter_completed -> "Completed"
+                R.id.filter_cancelled -> "Cancelled"
+                else -> "ALL"
+            }
+            viewModel.setFilter(filter)
+        }
     }
 
     private fun setupRefresh() {

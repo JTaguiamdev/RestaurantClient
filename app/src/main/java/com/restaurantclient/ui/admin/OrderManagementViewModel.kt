@@ -21,8 +21,10 @@ class OrderManagementViewModel @Inject constructor(
     private val userRepository: UserRepository
 ) : ViewModel() {
 
-    private val _orders = MutableLiveData<Result<List<AdminOrderUIModel>>>()
-    val orders: LiveData<Result<List<AdminOrderUIModel>>> = _orders
+    private val _allOrders = MutableLiveData<List<AdminOrderUIModel>>()
+    
+    private val _filteredOrders = MutableLiveData<Result<List<AdminOrderUIModel>>>()
+    val orders: LiveData<Result<List<AdminOrderUIModel>>> = _filteredOrders
 
     private val _updateResult = MutableLiveData<Result<OrderResponse>>()
     val updateResult: LiveData<Result<OrderResponse>> = _updateResult
@@ -30,6 +32,7 @@ class OrderManagementViewModel @Inject constructor(
     private val _loading = MutableLiveData<Boolean>()
     val loading: LiveData<Boolean> = _loading
 
+    private var currentFilter: String = "ALL"
     private var pollingJob: Job? = null
 
     fun loadOrders(forceRefresh: Boolean = false, showLoading: Boolean = true) {
@@ -56,16 +59,38 @@ class OrderManagementViewModel @Inject constructor(
                             username = userMap[order.user_id]?.username ?: "User #${order.user_id}"
                         )
                     }
-                    _orders.value = Result.Success(uiModels)
+                    _allOrders.value = uiModels
+                    applyFilter()
                 } else if (ordersResult is Result.Error) {
-                    _orders.value = Result.Error(ordersResult.exception)
+                    _filteredOrders.value = Result.Error(ordersResult.exception)
                 }
             } catch (e: Exception) {
-                _orders.value = Result.Error(e)
+                _filteredOrders.value = Result.Error(e)
             } finally {
                 if (showLoading) _loading.value = false
             }
         }
+    }
+
+    fun setFilter(filter: String) {
+        currentFilter = filter
+        _allOrders.value?.let { uiModels ->
+            _filteredOrders.value = Result.Success(filterOrders(uiModels, filter))
+        }
+    }
+
+    private fun applyFilter() {
+        _allOrders.value?.let { uiModels ->
+            _filteredOrders.value = Result.Success(filterOrders(uiModels, currentFilter))
+        }
+    }
+
+    private fun filterOrders(uiModels: List<AdminOrderUIModel>, filter: String): List<AdminOrderUIModel> {
+        if (filter == "ALL") return uiModels.sortedByDescending { it.order.created_at }
+        
+        return uiModels.filter { model ->
+            model.order.status?.equals(filter, ignoreCase = true) == true
+        }.sortedByDescending { it.order.created_at }
     }
 
     fun updateOrderStatus(orderId: Int, newStatus: String) {
