@@ -14,14 +14,9 @@ class AuthInterceptor @Inject constructor(private val tokenManager: TokenManager
         
         tokenManager.getToken()?.let { token ->
             requestBuilder.addHeader("Authorization", "Bearer $token")
-            Log.d("AuthInterceptor", "Added auth header to ${request.url}")
-            Log.d("AuthInterceptor", "Token (first 20 chars): ${token.take(20)}...")
-        } ?: run {
-            Log.w("AuthInterceptor", "No token available for ${request.url}")
         }
         
         val response = chain.proceed(requestBuilder.build())
-        Log.d("AuthInterceptor", "Response: ${response.code} for ${request.url}")
         
         // Handle 401 Unauthorized - token might be expired
         if (response.code == 401) {
