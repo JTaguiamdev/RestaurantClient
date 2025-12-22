@@ -14,7 +14,10 @@ object ErrorUtils {
                     400 -> "Invalid request. Please check your information and try again."
                     401 -> "Authentication failed. Please check your credentials."
                     403 -> "You don't have permission to perform this action."
-                    404 -> "The requested resource was not found. It might have been moved or deleted."
+                    404 -> {
+                        val url = exception.response()?.raw()?.request?.url
+                        "Resource not found at: $url. Please check your API_BASE_URL configuration."
+                    }
                     409 -> "There's a conflict with the current state of the resource. It might already exist."
                     500 -> "The server is having some trouble. Please try again later."
                     503 -> "Service is temporarily unavailable. Our team is working on it."
