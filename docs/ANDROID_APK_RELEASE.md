@@ -1,4 +1,4 @@
-# 📱 Auto-Release Android APK - Simple Guide
+#  Auto-Release Android APK - Simple Guide
 
 ## What This Does
 
@@ -124,4 +124,4 @@ See **GITHUB_RELEASE_GUIDE.md** for detailed documentation.
 
 ---
 
-**Made with ❤️ for easy Android app releases**
+**Made with  for easy Android app releases**

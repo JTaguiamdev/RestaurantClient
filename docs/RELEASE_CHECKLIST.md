@@ -61,26 +61,26 @@ Type of release:
 ```markdown
 ## What's New in v1.0.0
 
-### ✨ New Features
+###  New Features
 - Feature 1
 - Feature 2
 
-### 🐛 Bug Fixes
+###  Bug Fixes
 - Fixed bug 1
 - Fixed bug 2
 
-### 🔧 Improvements
+###  Improvements
 - Improvement 1
 - Improvement 2
 
-### 📝 Changes
+###  Changes
 - Change 1
 - Change 2
 
-### ⚠️ Breaking Changes (if any)
+###  Breaking Changes (if any)
 - Breaking change 1
 
-### 📦 Downloads
+###  Downloads
 - Debug APK: For testing
 - Release APK: For production
 ```

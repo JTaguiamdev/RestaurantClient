@@ -6,7 +6,7 @@
 
 ---
 
-## 📋 Table of Contents
+##  Table of Contents
 1. [Available Themes](#available-themes)
 2. [Theme Selection by Screen Type](#theme-selection-by-screen-type)
 3. [Activity-Specific Themes](#activity-specific-themes)
@@ -17,7 +17,7 @@
 
 ---
 
-## 🎨 Available Themes
+##  Available Themes
 
 ### 1. **Theme.RestaurantClient** (Default)
 - **Parent:** `Base.Theme.RestaurantClient`
@@ -33,13 +33,13 @@
   - Food delivery branding
 
 **When to Use:**
-- ✅ All customer screens (default)
-- ✅ Product browsing
-- ✅ Shopping cart
-- ✅ Checkout
-- ✅ User profile (customer view)
-- ✅ Login/Authentication
-- ✅ Order history
+-  All customer screens (default)
+-  Product browsing
+-  Shopping cart
+-  Checkout
+-  User profile (customer view)
+-  Login/Authentication
+-  Order history
 
 ### 2. **Theme.RestaurantClient.Admin**
 - **Parent:** `Theme.RestaurantClient`
@@ -53,12 +53,12 @@
   - Management-focused design
 
 **When to Use:**
-- ✅ Admin Dashboard
-- ✅ User Management
-- ✅ Product Management
-- ✅ Order Management
-- ✅ Create/Edit Admin screens
-- ✅ Any admin-only functionality
+-  Admin Dashboard
+-  User Management
+-  Product Management
+-  Order Management
+-  Create/Edit Admin screens
+-  Any admin-only functionality
 
 ### 3. **GlassDialogTheme**
 - **Parent:** `Theme.Material3.DayNight.Dialog`
@@ -70,10 +70,10 @@
   - Glass effects
 
 **When to Use:**
-- ✅ Custom confirmation dialogs
-- ✅ Input dialogs
-- ✅ Glass effect dialogs
-- ✅ Any dialog using glass components
+-  Custom confirmation dialogs
+-  Input dialogs
+-  Glass effect dialogs
+-  Any dialog using glass components
 
 ### 4. **Base.Theme.RestaurantClient**
 - **Primary Use:** Internal theme base (DO NOT USE DIRECTLY)
@@ -81,12 +81,12 @@
 - **Note:** Only used as parent for Theme.RestaurantClient
 
 **When to Use:**
-- ❌ NEVER use directly in activities/layouts
-- ✅ Only use as parent when creating new theme variants
+-  NEVER use directly in activities/layouts
+-  Only use as parent when creating new theme variants
 
 ---
 
-## 🎯 Theme Selection by Screen Type
+##  Theme Selection by Screen Type
 
 ### Customer Screens (Use: `Theme.RestaurantClient`)
 
@@ -163,11 +163,11 @@
 
 ---
 
-## 📱 Activity-Specific Themes
+##  Activity-Specific Themes
 
 ### In AndroidManifest.xml
 
-#### ✅ Correct Theme Assignment
+####  Correct Theme Assignment
 
 ```xml
 <application
@@ -191,28 +191,28 @@
 </application>
 ```
 
-#### ❌ Wrong Theme Assignment
+####  Wrong Theme Assignment
 
 ```xml
 <!-- DON'T DO THIS -->
 <activity
     android:name=".ui.product.ProductListActivity"
-    android:theme="@style/Theme.RestaurantClient.Admin" />  <!-- ❌ Wrong! -->
+    android:theme="@style/Theme.RestaurantClient.Admin" />  <!--  Wrong! -->
 
 <!-- DON'T DO THIS -->
 <activity
     android:name=".ui.admin.AdminDashboardActivity"
-    android:theme="@style/Theme.RestaurantClient" />  <!-- ❌ Wrong! -->
+    android:theme="@style/Theme.RestaurantClient" />  <!--  Wrong! -->
 
 <!-- DON'T DO THIS -->
 <activity
     android:name=".MainActivity"
-    android:theme="@style/Base.Theme.RestaurantClient" />  <!-- ❌ Wrong! -->
+    android:theme="@style/Base.Theme.RestaurantClient" />  <!--  Wrong! -->
 ```
 
 ---
 
-## 💬 Dialog Themes
+##  Dialog Themes
 
 ### Custom Glass Dialogs
 
@@ -231,7 +231,7 @@ context.showGlassConfirmDialog(
 )
 ```
 
-#### ✅ Correct Usage
+####  Correct Usage
 ```kotlin
 // Glass dialogs
 AlertDialog.Builder(context, R.style.GlassDialogTheme)
@@ -239,17 +239,17 @@ AlertDialog.Builder(context, R.style.GlassDialogTheme)
     .create()
 ```
 
-#### ❌ Wrong Usage
+####  Wrong Usage
 ```kotlin
 // DON'T use Theme.RestaurantClient for dialogs
-AlertDialog.Builder(context, R.style.Theme.RestaurantClient)  // ❌ Wrong!
+AlertDialog.Builder(context, R.style.Theme.RestaurantClient)  //  Wrong!
     .setView(dialogLayout)
     .create()
 ```
 
 ---
 
-## 🎨 Widget Styles
+##  Widget Styles
 
 ### Glass Components
 
@@ -323,7 +323,7 @@ AlertDialog.Builder(context, R.style.Theme.RestaurantClient)  // ❌ Wrong!
 
 ---
 
-## 📊 Quick Reference Table
+##  Quick Reference Table
 
 | Screen/Component | Theme to Use | Reason |
 |-----------------|--------------|---------|
@@ -345,21 +345,21 @@ AlertDialog.Builder(context, R.style.Theme.RestaurantClient)  // ❌ Wrong!
 | Glass Input | `GlassDialogTheme` | Custom glass dialog |
 | Standard AlertDialog | Default or GlassDialogTheme | Depends on design |
 | **DO NOT USE** | | |
-| Base.Theme.RestaurantClient | ❌ NEVER | Internal theme base only |
-| AppCompat.* themes | ❌ AVOID | Use Material3 instead |
+| Base.Theme.RestaurantClient |  NEVER | Internal theme base only |
+| AppCompat.* themes |  AVOID | Use Material3 instead |
 
 ---
 
-## ⚠️ Common Mistakes
+##  Common Mistakes
 
 ### 1. Using Base Theme Directly
 ```xml
-<!-- ❌ WRONG -->
+<!--  WRONG -->
 <activity
     android:name=".MainActivity"
     android:theme="@style/Base.Theme.RestaurantClient" />
 
-<!-- ✅ CORRECT -->
+<!--  CORRECT -->
 <activity
     android:name=".MainActivity"
     android:theme="@style/Theme.RestaurantClient" />
@@ -369,12 +369,12 @@ AlertDialog.Builder(context, R.style.Theme.RestaurantClient)  // ❌ Wrong!
 
 ### 2. Wrong Theme for Admin Screens
 ```xml
-<!-- ❌ WRONG -->
+<!--  WRONG -->
 <activity
     android:name=".ui.admin.AdminDashboardActivity" />
 <!-- Uses customer theme by default -->
 
-<!-- ✅ CORRECT -->
+<!--  CORRECT -->
 <activity
     android:name=".ui.admin.AdminDashboardActivity"
     android:theme="@style/Theme.RestaurantClient.Admin" />
@@ -382,12 +382,12 @@ AlertDialog.Builder(context, R.style.Theme.RestaurantClient)  // ❌ Wrong!
 
 ### 3. Using AppCompat Themes
 ```xml
-<!-- ❌ WRONG -->
+<!--  WRONG -->
 <activity
     android:name=".ui.product.ProductListActivity"
     android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
-<!-- ✅ CORRECT -->
+<!--  CORRECT -->
 <activity
     android:name=".ui.product.ProductListActivity" />
 <!-- Uses Theme.RestaurantClient by default -->
@@ -395,28 +395,28 @@ AlertDialog.Builder(context, R.style.Theme.RestaurantClient)  // ❌ Wrong!
 
 ### 4. Mixing Admin and Customer Themes
 ```xml
-<!-- ❌ WRONG - User profile with admin theme -->
+<!--  WRONG - User profile with admin theme -->
 <activity
     android:name=".ui.user.UserProfileActivity"
     android:theme="@style/Theme.RestaurantClient.Admin" />
 
-<!-- ✅ CORRECT -->
+<!--  CORRECT -->
 <activity android:name=".ui.user.UserProfileActivity" />
 ```
 
 ### 5. Not Using GlassDialogTheme for Glass Dialogs
 ```kotlin
-// ❌ WRONG
+//  WRONG
 val dialog = AlertDialog.Builder(context)
     .setView(glassDialogLayout)
     .create()
 
-// ✅ CORRECT
+//  CORRECT
 val dialog = AlertDialog.Builder(context, R.style.GlassDialogTheme)
     .setView(glassDialogLayout)
     .create()
 
-// ✅ BEST - Use helper
+//  BEST - Use helper
 context.showGlassConfirmDialog(
     title = "Confirm",
     message = "Are you sure?",
@@ -426,7 +426,7 @@ context.showGlassConfirmDialog(
 
 ---
 
-## 🔍 How to Identify Which Theme to Use
+##  How to Identify Which Theme to Use
 
 ### Step 1: Identify the Screen Type
 **Question:** Is this screen for admin or customer?
@@ -453,7 +453,7 @@ context.showGlassConfirmDialog(
 
 ---
 
-## 🎯 Decision Tree
+##  Decision Tree
 
 ```
 Is it a Dialog?
@@ -465,7 +465,7 @@ Is it a Dialog?
 
 ---
 
-## 📝 Implementation Checklist
+##  Implementation Checklist
 
 When adding a new screen:
 
@@ -479,7 +479,7 @@ When adding a new screen:
 
 ---
 
-## 🔗 Related Documentation
+##  Related Documentation
 
 - [GLASS_COMPONENTS.md](GLASS_COMPONENTS.md) - Glass component usage
 - [UI_MODERNIZATION_PLAN.md](UI_MODERNIZATION_PLAN.md) - UI modernization details
@@ -487,7 +487,7 @@ When adding a new screen:
 
 ---
 
-## 💡 Tips
+##  Tips
 
 1. **When in doubt, use the default theme** - `Theme.RestaurantClient` works for 90% of screens
 2. **Admin theme is ONLY for admin screens** - Don't mix with customer screens
@@ -497,7 +497,7 @@ When adding a new screen:
 
 ---
 
-## 🚨 Emergency Reference
+##  Emergency Reference
 
 **"I don't know which theme to use!"**
 

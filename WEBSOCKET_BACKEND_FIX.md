@@ -13,11 +13,11 @@ func main() {
     // ... setup router (e.g., Gin, Chi, or standard mux) ...
     r := gin.Default() // or mux.NewRouter()
 
-    // ❌ WRONG: If you put it inside a group without matching the client URL
+    //  WRONG: If you put it inside a group without matching the client URL
     // v1 := r.Group("/api/v1")
     // v1.GET("/ws", wsHandler) // This would make the URL /api/v1/ws
 
-    // ✅ CORRECT: The client connects to root /ws
+    //  CORRECT: The client connects to root /ws
     r.GET("/ws", wsHandler.HandleConnections) 
     
     // ...

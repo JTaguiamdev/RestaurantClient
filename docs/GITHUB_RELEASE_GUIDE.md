@@ -1,12 +1,12 @@
 # GitHub Releases Setup Guide
 
-## 📦 Automatic APK Build & Release with GitHub Actions
+##  Automatic APK Build & Release with GitHub Actions
 
 This guide explains how to automatically build and release APK files when you create a new version tag.
 
 ---
 
-## 🚀 Quick Start
+##  Quick Start
 
 ### Creating a Release (Simple Method)
 
@@ -36,7 +36,7 @@ This guide explains how to automatically build and release APK files when you cr
 
 ---
 
-## 📋 Setup Instructions
+##  Setup Instructions
 
 ### Step 1: Configure GitHub Secrets
 
@@ -63,19 +63,19 @@ Your workflow needs environment variables. Set these up in GitHub:
 The workflow triggers on tags matching the pattern `v*.*.*`
 
 **Valid tag formats:**
-- ✅ `v1.0.0` - Major release
-- ✅ `v1.2.3` - Standard version
-- ✅ `v2.0.0-beta` - Beta release
-- ✅ `v1.5.1-rc1` - Release candidate
+-  `v1.0.0` - Major release
+-  `v1.2.3` - Standard version
+-  `v2.0.0-beta` - Beta release
+-  `v1.5.1-rc1` - Release candidate
 
 **Invalid formats:**
-- ❌ `1.0.0` - Missing 'v' prefix
-- ❌ `version-1.0` - Wrong format
-- ❌ `release-1` - Wrong format
+-  `1.0.0` - Missing 'v' prefix
+-  `version-1.0` - Wrong format
+-  `release-1` - Wrong format
 
 ---
 
-## 🏷️ Version Tag Naming Guide
+##  Version Tag Naming Guide
 
 ### Semantic Versioning (Recommended)
 
@@ -109,7 +109,7 @@ For testing versions before official release:
 
 ---
 
-## 📝 Complete Release Workflow
+##  Complete Release Workflow
 
 ### Method 1: Command Line
 
@@ -138,7 +138,7 @@ GitHub Actions will automatically build and attach APK files.
 
 ---
 
-## 📂 Generated Files
+##  Generated Files
 
 When the workflow completes, these files will be attached to your release:
 
@@ -153,7 +153,7 @@ RestaurantClient-v1.0.0-release.apk     (Release build - for production)
 
 ---
 
-## 🔄 What Happens Automatically
+##  What Happens Automatically
 
 1. **Trigger**: You push a tag like `v1.0.0`
 2. **GitHub Actions starts**:
@@ -172,7 +172,7 @@ RestaurantClient-v1.0.0-release.apk     (Release build - for production)
 
 ---
 
-## 📱 Testing the APK
+##  Testing the APK
 
 ### Debug APK (For Developers)
 ```bash
@@ -192,7 +192,7 @@ Same as debug, but optimized for production use.
 
 ---
 
-## 🔍 Monitoring the Build
+##  Monitoring the Build
 
 ### View Build Status
 
@@ -204,13 +204,13 @@ Same as debug, but optimized for production use.
 ### Build Logs
 
 Each step shows:
-- ✅ Success (green checkmark)
-- ❌ Failure (red X)
-- 📝 Detailed logs
+-  Success (green checkmark)
+-  Failure (red X)
+-  Detailed logs
 
 ---
 
-## 🛠️ Troubleshooting
+##  Troubleshooting
 
 ### Build Fails
 
@@ -255,7 +255,7 @@ git push origin v1.0.0
 
 ---
 
-## 📖 Example Release Workflow
+##  Example Release Workflow
 
 ### First Release (v1.0.0)
 
@@ -321,7 +321,7 @@ git push origin v1.1.0
 
 ---
 
-## 🎯 Best Practices
+##  Best Practices
 
 ### 1. Always Test Before Tagging
 ```bash
@@ -356,7 +356,7 @@ Document all changes in a changelog file
 
 ---
 
-## 📋 Checklist Before Release
+##  Checklist Before Release
 
 - [ ] All tests pass locally
 - [ ] Code is committed and pushed
@@ -368,7 +368,7 @@ Document all changes in a changelog file
 
 ---
 
-## 🔗 Quick Commands Cheat Sheet
+##  Quick Commands Cheat Sheet
 
 ```bash
 # Create and push tag
@@ -397,7 +397,7 @@ git ls-remote --tags origin
 
 ---
 
-## 📞 Need Help?
+##  Need Help?
 
 If you encounter issues:
 1. Check the Actions tab for error logs
@@ -408,19 +408,19 @@ If you encounter issues:
 
 ---
 
-## 🎉 Success!
+##  Success!
 
 Once setup, every time you push a version tag, you'll automatically get:
-- ✅ APK files built and tested
-- ✅ Release created on GitHub
-- ✅ APK files attached to release
-- ✅ Version history tracked
+-  APK files built and tested
+-  Release created on GitHub
+-  APK files attached to release
+-  Version history tracked
 
-**Your release is ready to download and distribute!** 🚀
+**Your release is ready to download and distribute!** 
 
 ---
 
-## 📅 Version History Example
+##  Version History Example
 
 ```
 v1.0.0 - 2025-01-15 - Initial release
@@ -432,4 +432,4 @@ v2.0.0 - 2025-03-01 - Major update
 
 ---
 
-Made with ❤️ for easy releases!
+Made with  for easy releases!
