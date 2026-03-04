@@ -20,6 +20,17 @@ A modern restaurant ordering system featuring real-time synchronization via WebS
 - **Networking**: Retrofit, OkHttp, WebSocket
 - **Architecture**: MVVM with Hilt dependency injection
 
+## Screenshots
+
+|   |   |   |
+|:---:|:---:|:---:|
+| <img src="screenshots/Screenshot_20251222_100529.png" width="200"> | <img src="screenshots/Screenshot_20251222_100647.png" width="200"> | <img src="screenshots/Screenshot_20251222_100928.png" width="200"> |
+| <img src="screenshots/Screenshot_20251222_100955.png" width="200"> | <img src="screenshots/Screenshot_20251222_101007.png" width="200"> | <img src="screenshots/Screenshot_20251222_101021.png" width="200"> |
+| <img src="screenshots/Screenshot_20251222_101033.png" width="200"> | <img src="screenshots/Screenshot_20251222_101050.png" width="200"> | <img src="screenshots/Screenshot_20251222_101107.png" width="200"> |
+| <img src="screenshots/Screenshot_20251222_101255.png" width="200"> | <img src="screenshots/Screenshot_20251222_101334.png" width="200"> | <img src="screenshots/Screenshot_20251222_101529.png" width="200"> |
+| <img src="screenshots/Screenshot_20251222_101548.png" width="200"> | <img src="screenshots/Screenshot_20251222_101847.png" width="200"> | <img src="screenshots/Screenshot_20251222_102020.png" width="200"> |
+| <img src="screenshots/Screenshot_20251222_102056.png" width="200"> | <img src="screenshots/Screenshot_20251222_102106.png" width="200"> | |
+
 ## License
 
 This project is licensed under the BSD 3-Clause License - see the LICENSE file for details.
